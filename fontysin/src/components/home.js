@@ -1,5 +1,6 @@
 import React from "react";
 import { Navbar } from "../App";
+import CreateUser from "../demo-components/CreateUser"
 
 class home extends React.Component {
   render() {
@@ -7,7 +8,8 @@ class home extends React.Component {
       <div>
         <Navbar />
         <br></br>
-        <h1>Home</h1>
+        <h1>Demo Requests:</h1>
+        <CreateUser />
       </div>
     );
   }
