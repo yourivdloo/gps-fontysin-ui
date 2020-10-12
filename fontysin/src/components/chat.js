@@ -6,7 +6,6 @@ class chat extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
         <br></br>
         <h1>Chat</h1>
         <Button variant="contained" color="secondary">

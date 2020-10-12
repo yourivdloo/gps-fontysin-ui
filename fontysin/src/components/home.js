@@ -1,12 +1,10 @@
 import React from "react";
-import { Navbar } from "../App";
 import CreateUser from "../demo-components/CreateUser"
 
 class home extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
         <br></br>
         <h1>Demo Requests:</h1>
         <CreateUser />

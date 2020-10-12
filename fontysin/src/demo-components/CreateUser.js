@@ -45,6 +45,34 @@ class CreateUser extends React.Component {
               Last Name:<br />
               <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
             </label><br /><br />
+            <label>
+              Email address:<br />
+              <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
+            </label><br />
+            <label>
+              Nationality:<br />
+              <input type="text" name="nationality" value={this.state.nationality} onChange={this.handleChange} />
+            </label><br />
+            <label>
+              Birthday:<br />
+              <input type="date" name="birtday" value={this.state.birthday} onChange={this.handleChange} />
+            </label><br />
+            <label>
+              Phone number:<br />
+              <input type="text" name="phoneNumber" value={this.state.phoneNumber} onChange={this.handleChange} />
+            </label><br />
+            <label>
+              Address:<br />
+              <input type="text" name="address" value={this.state.address} onChange={this.handleChange} />
+            </label><br />
+            <label>
+              Zip code:<br />
+              <input type="text" name="zipCode" value={this.state.zipCode} onChange={this.handleChange} />
+            </label><br />
+            <label>
+              City:<br />
+              <input type="text" name="city" value={this.state.city} onChange={this.handleChange} />
+            </label><br />
             <input type="submit" value="Submit" />
           </form>
         );
