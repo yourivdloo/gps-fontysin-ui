@@ -18,8 +18,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        FontysIn
+      <Link color="inherit" href="https://fontys.nl/">
+        FontysIn 
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ['Personal details', 'Work or study details', 'Interests and hobbies'];
+const steps = ['Personal details', 'Study / work details', 'Interests and hobbies'];
 
 function getStepContent(step) { 
   switch (step) {
@@ -121,17 +121,17 @@ export default function ProfileSetup() {
                 {getStepContent(activeStep)}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
+                    <Button variant="outlined" onClick={handleBack} className={classes.button}>
                       Back
                     </Button>
                   )}
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? 'Complete registration' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Complete setup' : 'Next'}
                   </Button>
                 </div>
               </React.Fragment>

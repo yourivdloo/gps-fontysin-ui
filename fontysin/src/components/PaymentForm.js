@@ -8,40 +8,42 @@ import Checkbox from '@material-ui/core/Checkbox';
 export default function PaymentForm() {
   return (
     <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Payment method
+    <Typography variant="h6"  gutterBottom>
+        Study and work details
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
-          <TextField required id="cardName" label="Name on card" fullWidth autoComplete="cc-name" />
+          <TextField required id="study" label="Current study" fullWidth autoComplete="study" />
+        </Grid>
+        
+        <Grid item xs={12} md={6}>
+        <TextField
+          id="studyStartDate"
+          label="Start date"
+          type="date"
+          defaultValue="YYYY/MM/DD"
+          InputLabelProps={{
+          shrink: true,
+          }}
+        />
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <TextField id="job" label="Current job" fullWidth autoComplete="job" />
         </Grid>
         <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cardNumber"
-            label="Card number"
-            fullWidth
-            autoComplete="cc-number"
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField required id="expDate" label="Expiry date" fullWidth autoComplete="cc-exp" />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            id="cvv"
-            label="CVV"
-            helperText="Last three digits on signature strip"
-            fullWidth
-            autoComplete="cc-csc"
-          />
+        <TextField
+          id="jobStartDate"
+          label="Start date"
+          type="date"
+          defaultValue="YYYY/MM/DD"
+          InputLabelProps={{
+          shrink: true,
+          }}
+        />
         </Grid>
         <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
-          />
+          <p>You can always add more of your study and job history later on your profile page!</p>
         </Grid>
       </Grid>
     </React.Fragment>
