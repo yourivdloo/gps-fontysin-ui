@@ -11,7 +11,7 @@ const InputField = (props) => {
     props.fieldList.map((val, idx) => {
       return (
         <Grid key={val.index} item md={12}>
-            <TextField name={val.name} label={val.label} autoComplete={val.label} />
+            <TextField name={val.name} label={val.label} data-tpye={val.label} autoComplete={val.label} />
             {
                 idx===0? ""
                 : <button style={{padding: "1px 6px", verticalAlign: "bottom", marginLeft: "5px"}} className="field_manipulation_btn btn btn-danger" onClick={(() => props.delete(val))} ><i className="fa fa-trash"></i></button>

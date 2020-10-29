@@ -9,7 +9,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 import { render } from '@testing-library/react';
-import $ from 'jquery'; 
 
 class Review extends React.Component{
 
@@ -19,9 +18,6 @@ class Review extends React.Component{
   }
   
   addNewIntrest = (e) => {
-    var type = $(e.target).parent().data("type");
-
-    console.log(type);
     this.setState((prevState) => ({
       intrestList: [...prevState.intrestList, { index: Math.random(), name: "interests[]", label: "intrest"  }],
     }));
@@ -33,28 +29,20 @@ class Review extends React.Component{
     }));
   }
 
-  deteteIntrest = (index) => {
-      this.setState({
-          intrestList: this.state.intrestList.filter((s, sindex) => index !== sindex),
-      });
-  }
+  clickOnDelete(record) {
+    var type = record.label;
 
-  deteteHobby = (index) => {
-      this.setState({
-        hobbyList: this.state.hobbyList.filter((s, sindex) => index !== sindex),
-      });
-  }
+    if(type == "intrest"){
+        this.setState({
+          intrestList: this.state.intrestList.filter(r => r !== record)
+        });
 
-  clickOnDeleteIntrest(record) {
-    this.setState({
-        intrestList: this.state.intrestList.filter(r => r !== record)
-    });
-  }
+    }else if(type == "hobby"){
+        this.setState({
+          hobbyList: this.state.hobbyList.filter(r => r !== record)
+        });
 
-  clickOnDeleteHobby(record) {
-    this.setState({
-      hobbyList: this.state.hobbyList.filter(r => r !== record)
-    });
+    }
   }
 
   render() {
@@ -69,7 +57,7 @@ class Review extends React.Component{
         <Grid container spacing={3}>
 
           <Grid item xs={12} md={6}>
-            <InputField add={this.addNewIntrest} delete={this.clickOnDeleteIntrest.bind(this)} fieldList={intrestList} />
+            <InputField add={this.addNewIntrest} delete={this.clickOnDelete.bind(this)} fieldList={intrestList} />
             <br/>
             <Grid item md={12}>
               <Button onClick={this.addNewIntrest} data-type="intrest" variant="outlined" color="primary">Add interest</Button>
@@ -77,7 +65,7 @@ class Review extends React.Component{
           </Grid>
 
           <Grid item xs={12} md={6}>
-            <InputField add={this.addNewHobby} delete={this.clickOnDeleteHobby.bind(this)} fieldList={hobbyList}  />
+            <InputField add={this.addNewHobby} delete={this.clickOnDelete.bind(this)} fieldList={hobbyList}  />
             <br/>
             <Grid item md={12}>
               <Button onClick={this.addNewHobby} variant="outlined" color="primary">Add hobby</Button>
