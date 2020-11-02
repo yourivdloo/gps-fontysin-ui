@@ -19,6 +19,9 @@ function Navbar() {
           <Button href="/profileSetup" color="inherit">
             Profile setup
           </Button>
+          <Button href="/profile" color="inherit">
+            Profile
+          </Button>
         </Toolbar>
       </AppBar>
     );

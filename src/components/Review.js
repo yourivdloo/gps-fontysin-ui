@@ -1,14 +1,8 @@
 import React from 'react';
 import InputField from "./inputField"
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import TextField from '@material-ui/core/TextField';
-import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
-import { render } from '@testing-library/react';
 
 class Review extends React.Component{
 
