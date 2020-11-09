@@ -26,12 +26,12 @@ class Review extends React.Component{
   clickOnDelete(record) {
     var type = record.label;
 
-    if(type == "intrest"){
+    if(type === "intrest"){
         this.setState({
           intrestList: this.state.intrestList.filter(r => r !== record)
         });
 
-    }else if(type == "hobby"){
+    }else if(type === "hobby"){
         this.setState({
           hobbyList: this.state.hobbyList.filter(r => r !== record)
         });

@@ -3,7 +3,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 
-function Navbar() {
+class Navbar extends React.Component {
+  render(){
     return (
       <AppBar position="static" style={{ background: "#663366" }}>
         <Toolbar>
@@ -25,6 +26,7 @@ function Navbar() {
         </Toolbar>
       </AppBar>
     );
+  }
 }
 
 export default Navbar;
