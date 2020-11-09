@@ -1,22 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
+import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,7 +56,7 @@ function LinkTab(props) {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
+const styles = theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
@@ -100,65 +94,75 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(6),
     }  
-}));
+});
 
-export default function NavTabs() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+class NavTabs extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 0
+    };
+  }
   
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  handleChange = (event, newValue) => {
+    this.state.setState("value",  newValue);
   };
 
-  return (
+  render() {
+    const { classes } = this.props;
+
+    return (
       <Grid container style={{maxWidth: '1100px', margin: '15px auto'}}>
-          <Grid item xs={12} md={5} style={{marginRight: "25px"}}>
-           <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image= "https://yt3.ggpht.com/a/AATXAJwht8OvVO9HMRD7PFE4F6WczDX814Sxwswxuo2m0w=s900-c-k-c0x00ffffff-no-rj"
-                    title="profile"
-                  />
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Username
-                    </Typography>
-                    <Typography>
-                      Information about the user
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small" color="primary">
-                      View
-                    </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
-                  </CardActions>
-                </Card>
-          </Grid>
+        <Grid item xs={12} md={5} style={{marginRight: "25px"}}>
+          <Card className={classes.card}>
+            <CardMedia
+              className={classes.cardMedia}
+              image= "https://yt3.ggpht.com/a/AATXAJwht8OvVO9HMRD7PFE4F6WczDX814Sxwswxuo2m0w=s900-c-k-c0x00ffffff-no-rj"
+              title="profile"
+            />
+            <CardContent className={classes.cardContent}>
+              <Typography gutterBottom variant="h5" component="h2">
+                Username
+              </Typography>
+              <Typography>
+                Information about the user
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                View
+              </Button>
+              <Button size="small" color="primary">
+                Edit
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
 
         <Grid item xs={12} md={5} style={{marginLeft: "25px"}}>
-      
+        
           <Tabs
-            value={value}
-            onChange={handleChange}
+            value={this.state.value}
+            onChange={this.handleChange}
             aria-label="nav tabs example"
           >
             <LinkTab label="Skills" href="/drafts" {...a11yProps(0)} />
             <LinkTab label="Hobbies" href="/trash" {...a11yProps(1)} />
             <LinkTab label="Interests" href="/spam" {...a11yProps(2)} />
           </Tabs>
-          <TabPanel value={value} index={0}>
+          <TabPanel value={this.state.value} index={0}>
             Skills user.skills
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          <TabPanel value={this.state.value} index={1}>
             Hobbies user.hobbies
           </TabPanel>
-          <TabPanel value={value} index={2}>
+          <TabPanel value={this.state.value} index={2}>
             Interests user.interests
           </TabPanel>
         </Grid>
-     </Grid>
-  );
+      </Grid>
+    );
+  }
 }
+
+export default withStyles(styles)(NavTabs);
