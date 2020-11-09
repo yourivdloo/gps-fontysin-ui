@@ -20,6 +20,7 @@ export default function AddressForm() {
             label="PCN"
             fullWidth
             autoComplete="given-name"
+            onChange={() => this.handleChange()}
           />
         </Grid>
         <Grid item xs={12} sm={5}>
