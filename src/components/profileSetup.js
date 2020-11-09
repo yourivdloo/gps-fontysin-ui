@@ -62,7 +62,7 @@ const styles = theme => ({
   },
 });
 
-const initialFormData = Object.freeze({
+const initialFormData = Object({
   pcn: "",
   firstname: "",
   prefix: "",
@@ -74,6 +74,8 @@ const initialFormData = Object.freeze({
   zipcode: "",
   birthday: "",
   phonenumber: "",
+  study: { name: "", date: "" },
+  job: { name: "", date: "" },
   hobby: [],
   intrest: []
 });
@@ -81,19 +83,29 @@ const initialFormData = Object.freeze({
 class ProfileSetup extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
     this.state = {
       activeStep: 0,
       formData: initialFormData
     };
   }
 
-  handleChange = (e) => {
-    this.state.setState("formData", {[e.target.name]: e.target.value.trim()});
+  handleChange = (id, category) => {
+    var e = document.getElementById(id);
+    var formdata = this.state.formData;
+
+    if(category != null && category != undefined){
+      formdata[category][e.name] = e.value.trim();
+    }else{
+      formdata[e.name] = e.value.trim();
+    }
+    
+    console.log(formdata);
+    this.setState({formData: formdata});
   };
 
   handleSubmit = (e) => {
-    e.preventDefault()
+    console.log(e);
     console.log(this.state.formData);
     // ... submit to API or something
   };
@@ -114,11 +126,11 @@ class ProfileSetup extends React.Component {
     function getStepContent(step, context) { 
       switch (step) {
         case 0:
-          return <AddressForm onClick={context.handleChange} />;
+          return <AddressForm onChange={context.handleChange.bind(this)} />;
         case 1:
-          return <PaymentForm />;
+          return <PaymentForm onChange={context.handleChange.bind(this)} />;
         case 2:
-          return <Review />;
+          return <Review onChange={context.handleChange.bind(this)} />;
         default:
           throw new Error('Unknown step');
       }
@@ -161,7 +173,7 @@ class ProfileSetup extends React.Component {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={this.state.activeStep === steps.length - 1 ? this.handleSubmit : this.handleNext}
+                      onClick={this.state.activeStep === steps.length - 1 ? this.handleSubmit: this.handleNext}
                       className={classes.button}
                     >
                       {this.state.activeStep === steps.length - 1 ? 'Complete setup' : 'Next'}
