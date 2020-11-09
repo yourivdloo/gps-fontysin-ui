@@ -11,7 +11,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-
+//todo fix the panels so that they do not return a 404 but rather bring up the details of the card
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -68,7 +68,7 @@ const styles = theme => ({
   icon: {
       marginRight: theme.spacing(2),
     },
-  heroContent: { 
+  heroContent: {
       backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(8, 0, 6),
     },
@@ -93,7 +93,7 @@ const styles = theme => ({
     footer: {
       backgroundColor: theme.palette.background.paper,
       padding: theme.spacing(6),
-    }  
+    }
 });
 
 class NavTabs extends React.Component {
@@ -112,7 +112,7 @@ class NavTabs extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Grid container style={{maxWidth: '1100px', margin: '15px auto'}}>
+      <Grid container style={{maxWidth: '75%', margin: '15px auto'}}>
         <Grid item xs={12} md={5} style={{marginRight: "25px"}}>
           <Card className={classes.card}>
             <CardMedia
@@ -139,7 +139,7 @@ class NavTabs extends React.Component {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={5} style={{marginLeft: "25px"}}>
+        <Grid item xs={12} sm={6} style={{marginLeft: "20px"}}>
         
           <Tabs
             value={this.state.value}
@@ -147,16 +147,20 @@ class NavTabs extends React.Component {
             aria-label="nav tabs example"
           >
             <LinkTab label="Skills" href="/drafts" {...a11yProps(0)} />
-            <LinkTab label="Hobbies" href="/trash" {...a11yProps(1)} />
-            <LinkTab label="Interests" href="/spam" {...a11yProps(2)} />
+            <LinkTab label="Competencies" href="/drafts" {...a11yProps(1)} />
+            <LinkTab label="Hobbies" href="/trash" {...a11yProps(2)} />
+            <LinkTab label="Interests" href="/spam" {...a11yProps(3)} />
           </Tabs>
           <TabPanel value={this.state.value} index={0}>
             Skills user.skills
           </TabPanel>
           <TabPanel value={this.state.value} index={1}>
-            Hobbies user.hobbies
+            Competencies user.competencies
           </TabPanel>
           <TabPanel value={this.state.value} index={2}>
+            Hobbies user.hobbies
+          </TabPanel>
+          <TabPanel value={this.state.value} index={3}>
             Interests user.interests
           </TabPanel>
         </Grid>
