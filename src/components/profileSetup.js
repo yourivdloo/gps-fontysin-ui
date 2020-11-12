@@ -76,32 +76,89 @@ const initialFormData = Object({
   phonenumber: "",
   study: { name: "", date: "" },
   job: { name: "", date: "" },
-  hobby: [],
-  intrest: []
+  hobbies: [],
+  interests: []
 });
 
 class ProfileSetup extends React.Component {
   constructor(props) {
     super(props);
-    // this.handleChange = this.handleChange.bind(this);
+    this.addNewHobby = this.addNewHobby.bind(this);
+    this.addNewinterest = this.addNewinterest.bind(this);
+    this.clickOnDelete = this.clickOnDelete.bind(this);
     this.state = {
       activeStep: 0,
-      formData: initialFormData
+      formData: initialFormData,
+      interestList: [{ index: Math.random(), name: "interests", label: "interest" }],
+      hobbyList: [{ index: Math.random(), name: "hobbies", label: "hobby" }]
     };
   }
 
-  handleChange = (id, category) => {
-    var e = document.getElementById(id);
-    var formdata = this.state.formData;
+  addNewinterest = (e) => {
+    this.setState((prevState) => ({
+      interestList: [...prevState.interestList, { index: Math.random(), name: "interests", label: "interest"  }]
+    }));
+  }
+  
+  addNewHobby = (e) => {
+    this.setState((prevState) => ({
+      hobbyList: [...prevState.hobbyList, { index: Math.random(), name: "hobbies", label: "hobby" }]
+    }));
+  }
 
-    if(category != null && category != undefined){
-      formdata[category][e.name] = e.value.trim();
-    }else{
-      formdata[e.name] = e.value.trim();
+  clickOnDelete = (record) => {
+    var type = record.label;
+
+    if(type === "interest"){
+      var list = this.state.interestList;
+      var index = list.map(function(e) { return e.index; }).indexOf(record.index);
+
+      var array = this.state.formData;
+      array["interests"].splice(index, 1);
+
+      this.setState({
+        interestList: this.state.interestList.filter(r => r !== record),
+        formData: array
+      });
+
+    }else if(type === "hobby"){
+      var list = this.state.hobbyList;
+      var index = list.map(function(e) { return e.index; }).indexOf(record.index);
+
+      var array = this.state.formData;
+      array["hobbies"].splice(index, 1);
+
+      this.setState({
+        hobbyList: this.state.hobbyList.filter(r => r !== record)
+      });
+
     }
+  }
+
+  handleChange = (id, category, type) => {
+    var e = document.getElementById(id);
+    if(e != null){
+      var formdata = this.state.formData;
+      var value = e.value.trim();
+      
+      if(type == "array"){
+        var array = formdata[e.name];
+        var number = id.slice(id.length - 2, id.length - 1);
     
-    console.log(formdata);
-    this.setState({formData: formdata});
+        array[number] = value;
+        
+        formdata[e.name] = array;
+
+      }else if(category == null || category == undefined){
+        formdata[e.name] = value;
+
+      }else{
+        formdata[category][e.name] = value;
+      }
+      
+      // console.log(formdata);
+      this.setState({formData: formdata});
+    }
   };
 
   handleSubmit = (e) => {
@@ -130,7 +187,7 @@ class ProfileSetup extends React.Component {
         case 1:
           return <PaymentForm onChange={context.handleChange.bind(this)} />;
         case 2:
-          return <Review onChange={context.handleChange.bind(this)} />;
+          return <Review handleChange={context.handleChange.bind(this)} clickOnDelete={context.clickOnDelete} addNewHobby={context.addNewHobby} addNewinterest={context.addNewinterest} interestList={context.state.interestList} hobbyList={context.state.hobbyList}  />;
         default:
           throw new Error('Unknown step');
       }
