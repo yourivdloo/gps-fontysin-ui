@@ -28,7 +28,7 @@ const AddressForm = (props) => {
           <TextField
             required
             id="firstname"
-            name="firstName"
+            name="firstname"
             label="First name"
             fullWidth
             autoComplete="given-name"

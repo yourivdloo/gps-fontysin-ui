@@ -162,7 +162,7 @@ class ProfileSetup extends React.Component {
   };
 
   handleSubmit = (e) => {
-    console.log(e);
+    // console.log(e);
     console.log(this.state.formData);
     // ... submit to API or something
   };
