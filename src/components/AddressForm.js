@@ -27,12 +27,12 @@ const AddressForm = (props) => {
         <Grid item xs={12} sm={5}>
           <TextField
             required
-            id="firstname"
-            name="firstname"
+            id="firstName"
+            name="firstName"
             label="First name"
             fullWidth
             autoComplete="given-name"
-            onChange={() => props.onChange("firstname")}
+            onChange={() => props.onChange("firstName")}
           />
         </Grid>
         <Grid item xs={12} sm={2}>
@@ -48,23 +48,23 @@ const AddressForm = (props) => {
         <Grid item xs={12} sm={5}>
           <TextField
             required
-            id="lastname"
-            name="lastname"
+            id="lastName"
+            name="lastName"
             label="Last name"
             fullWidth
             autoComplete="family-name"
-            onChange={() => props.onChange("lastname")}
+            onChange={() => props.onChange("lastName")}
           />
         </Grid>
         <Grid item xs={12} sm={8}>
           <TextField
             required
-            id="address"
-            name="address"
-            label="Address"
+            id="street"
+            name="street"
+            label="street"
             fullWidth
             autoComplete="street name"
-            onChange={() => props.onChange("address")}
+            onChange={() => props.onChange("street")}
           />
         </Grid>
         <Grid item xs={12} sm={2}>
@@ -103,12 +103,12 @@ const AddressForm = (props) => {
         <Grid item xs={6} sm={6}>
           <TextField
             required
-            id="zipcode"
-            name="zipcode"
+            id="zipCode"
+            name="zipCode"
             label="Zip / Postal code"
             fullWidth
             autoComplete="zipcode"
-            onChange={() => props.onChange("zipcode")}
+            onChange={() => props.onChange("zipCode")}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -126,12 +126,12 @@ const AddressForm = (props) => {
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="phonenumber"
-            name="phonenumber"
+            id="phoneNumber"
+            name="phoneNumber"
             label="Phone number"
             fullWidth
-            autoComplete="phonenumber"
-            onChange={() => props.onChange("phonenumber")}
+            autoComplete="phoneNumber"
+            onChange={() => props.onChange("phoneNumber")}
           />
         </Grid>
         <Grid item xs={12}>

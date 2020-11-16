@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
-const PaymentForm = (props) => {
+const WorkForm = (props) => {
 
   return (
     <React.Fragment>
@@ -19,7 +19,7 @@ const PaymentForm = (props) => {
             label="Current study" 
             fullWidth 
             autoComplete="study" 
-            onChange={() => props.onChange("studyname", "study")}
+            onChange={() => props.onChange("studyname", "studies")}
           />
         </Grid>
         
@@ -29,7 +29,7 @@ const PaymentForm = (props) => {
           name="date"
           label="Start date"
           type="date"
-          onChange={() => props.onChange("studydate", "study")}
+          onChange={() => props.onChange("studydate", "studies")}
           InputLabelProps={{
           shrink: true,
           }}
@@ -43,7 +43,7 @@ const PaymentForm = (props) => {
             label="Current job" 
             fullWidth 
             autoComplete="job" 
-            onChange={() => props.onChange("jobname", "job")}
+            onChange={() => props.onChange("jobname", "jobs")}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -52,7 +52,7 @@ const PaymentForm = (props) => {
           name="date"
           label="Start date"
           type="date"
-          onChange={() => props.onChange("jobdate", "job")}
+          onChange={() => props.onChange("jobdate", "jobs")}
           InputLabelProps={{
           shrink: true,
           }}
@@ -66,4 +66,4 @@ const PaymentForm = (props) => {
   );
 }
 
-export default PaymentForm;
+export default WorkForm;

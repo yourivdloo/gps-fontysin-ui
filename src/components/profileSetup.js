@@ -8,9 +8,10 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
+import WorkForm from './WorkForm';
 import { withStyles } from '@material-ui/core/styles';
 import Review from './Review';
+import UserProfileService from '../services/UserProfileService';
 
 function Copyright() {
   return (
@@ -64,18 +65,23 @@ const styles = theme => ({
 
 const initialFormData = Object({
   pcn: "",
-  firstname: "",
+  firstName: "",
   prefix: "",
-  lastname: "",
+  lastName: "",
+  emailAddress: "",
+  privacySettings: 0,
+  nationality: "",
   address: "",
-  addressnumber: "",
-  addressaddition: "",
+  street: "",
+  addressnumber: "",   ///
+  addressaddition: "", ///
   city: "",
-  zipcode: "",
+  zipCode: "",
   birthday: "",
-  phonenumber: "",
-  study: { name: "", date: "" },
-  job: { name: "", date: "" },
+  birthPlace: "",
+  phoneNumber: "",
+  studies: [{ name: "", date: "" }],
+  jobs: [{ name: "", date: "" }],
   hobbies: [],
   interests: []
 });
@@ -145,15 +151,14 @@ class ProfileSetup extends React.Component {
         var array = formdata[e.name];
         var number = id.slice(id.length - 2, id.length - 1);
     
-        array[number] = value;
+        array[number] = {name: value};
         
         formdata[e.name] = array;
 
-      }else if(category == null || category == undefined){
-        formdata[e.name] = value;
-
+      }else if(category != null && category != undefined && category != ""){
+        formdata[category][0][e.name] = value;
       }else{
-        formdata[category][e.name] = value;
+        formdata[e.name] = value;
       }
       
       // console.log(formdata);
@@ -163,8 +168,19 @@ class ProfileSetup extends React.Component {
 
   handleSubmit = (e) => {
     // console.log(e);
-    console.log(this.state.formData);
     // ... submit to API or something
+    
+    var formdata = this.state.formData;
+    console.log(formdata);
+
+    formdata.address = formdata.street + " " + formdata.addressnumber;
+
+    if(formdata.addressaddition != null && formdata.addressaddition != ""){
+      formdata.address = formdata.address + formdata.addressaddition;
+    }
+
+    var result = UserProfileService.addNewProfile(formdata);
+    console.log(result);
   };
 
   handleNext = () => {
@@ -185,7 +201,7 @@ class ProfileSetup extends React.Component {
         case 0:
           return <AddressForm onChange={context.handleChange.bind(this)} />;
         case 1:
-          return <PaymentForm onChange={context.handleChange.bind(this)} />;
+          return <WorkForm onChange={context.handleChange.bind(this)} />;
         case 2:
           return <Review handleChange={context.handleChange.bind(this)} clickOnDelete={context.clickOnDelete} addNewHobby={context.addNewHobby} addNewinterest={context.addNewinterest} interestList={context.state.interestList} hobbyList={context.state.hobbyList}  />;
         default:
