@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 
 const Review = (props) => {
+  const handleChange = e => props.onChange(e.target, null, "array");
   
   return (
     <React.Fragment>
@@ -16,12 +17,32 @@ const Review = (props) => {
         <Grid item xs={12} md={6}>
           {
             props.interestList.map((val, idx) => {
+              var value = props.form.interests[idx];
               return(
                 <Grid key={val.index} item md={12}>
-                    <TextField name={val.name} id={val.name + "["+ idx +"]"} label={val.label} data-tpye={val.label} autoComplete={val.label} onChange={(() => props.handleChange(val.name + "["+ idx +"]", null, "array"))} />
+                    <TextField 
+                      name={val.name} 
+                      id={val.name + "["+ idx +"]"} 
+                      label={val.label} 
+                      data-tpye={val.label} 
+                      autoComplete={val.label} 
+                      value={value.name}
+                      onChange={handleChange} 
+                    />
+
                     {
                         idx===0? ""
-                        : <button style={{padding: "1px 6px", verticalAlign: "bottom", marginLeft: "5px"}} className="field_manipulation_btn btn btn-danger" onClick={(() => props.clickOnDelete(val))} ><i className="fa fa-trash"></i></button>
+                        : <button 
+                            style={{
+                              padding: "1px 6px", 
+                              verticalAlign: "bottom", 
+                              marginLeft: "5px"
+                            }} 
+                            className="field_manipulation_btn btn btn-danger" 
+                            onClick={(() => props.clickOnDelete(val))} 
+                          >
+                            <i className="fa fa-trash"></i>
+                          </button>
                     }
                 </Grid>
               )
@@ -36,12 +57,32 @@ const Review = (props) => {
         <Grid item xs={12} md={6}>
           {
             props.hobbyList.map((val, idx) => {
+              var value = props.form.hobbies[idx];
               return(
                 <Grid key={val.index} item md={12}>
-                    <TextField name={val.name} id={val.name + "["+ idx +"]"} label={val.label} data-tpye={val.label} autoComplete={val.label} onChange={(() => props.handleChange(val.name + "["+ idx +"]", null, "array"))} />
+                    <TextField 
+                      name={val.name} 
+                      id={val.name + "["+ idx +"]"} 
+                      label={val.label} 
+                      data-tpye={val.label} 
+                      autoComplete={val.label} 
+                      value={value.name}
+                      onChange={handleChange} 
+                    />
+
                     {
                         idx===0? ""
-                        : <button style={{padding: "1px 6px", verticalAlign: "bottom", marginLeft: "5px"}} className="field_manipulation_btn btn btn-danger" onClick={(() => props.clickOnDelete(val))} ><i className="fa fa-trash"></i></button>
+                        : <button 
+                            style={{
+                              padding: "1px 6px", 
+                              verticalAlign: "bottom", 
+                              marginLeft: "5px"
+                            }} 
+                            className="field_manipulation_btn btn btn-danger" 
+                            onClick={(() => props.clickOnDelete(val))} 
+                          >
+                            <i className="fa fa-trash"></i>
+                          </button>
                     }
                 </Grid>
               )

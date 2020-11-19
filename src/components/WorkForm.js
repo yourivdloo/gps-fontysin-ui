@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
 const WorkForm = (props) => {
+  const handleChange = e => props.onChange(e.target, e.target.dataset.category);
 
   return (
     <React.Fragment>
@@ -18,8 +19,12 @@ const WorkForm = (props) => {
             name="name"
             label="Current study" 
             fullWidth 
+            value={props.form.studies[0].name}
             autoComplete="study" 
-            onChange={() => props.onChange("studyname", "studies")}
+            onChange={handleChange}
+            inputProps={{
+              'data-category':'studies'
+            }}
           />
         </Grid>
         
@@ -29,9 +34,13 @@ const WorkForm = (props) => {
           name="date"
           label="Start date"
           type="date"
-          onChange={() => props.onChange("studydate", "studies")}
+          value={props.form.studies[0].date}
+          onChange={handleChange}
           InputLabelProps={{
           shrink: true,
+          }}
+          inputProps={{
+            'data-category':'studies'
           }}
         />
         </Grid>
@@ -42,8 +51,12 @@ const WorkForm = (props) => {
             name="name"
             label="Current job" 
             fullWidth 
+            value={props.form.jobs[0].name}
             autoComplete="job" 
-            onChange={() => props.onChange("jobname", "jobs")}
+            onChange={handleChange}
+            inputProps={{
+              'data-category':'jobs'
+            }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -52,14 +65,18 @@ const WorkForm = (props) => {
           name="date"
           label="Start date"
           type="date"
-          onChange={() => props.onChange("jobdate", "jobs")}
+          value={props.form.jobs[0].date}
+          onChange={handleChange}
+          inputProps={{
+            'data-category':'jobs'
+          }}
           InputLabelProps={{
           shrink: true,
           }}
         />
         </Grid>
         <Grid item xs={12}>
-          <p>You can always add more of your study and job history later on your profile page!</p>
+          <p>You can always add your study and job history later on your profile page!</p>
         </Grid>
       </Grid>
     </React.Fragment>

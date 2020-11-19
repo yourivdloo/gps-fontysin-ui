@@ -68,22 +68,34 @@ const initialFormData = Object({
   firstName: "",
   prefix: "",
   lastName: "",
-  emailAddress: "",
-  privacySettings: 0,
-  nationality: "",
+  emailAddress: "",     ///
+  privacySettings: 0,   ///
+  nationality: "NL",    ///
   address: "",
   street: "",
-  addressnumber: "",   ///
-  addressaddition: "", ///
+  addressnumber: "",
+  addressaddition: "",
   city: "",
   zipCode: "",
   birthday: "",
-  birthPlace: "",
+  birthPlace: "",       ///
   phoneNumber: "",
   studies: [{ name: "", date: "" }],
   jobs: [{ name: "", date: "" }],
-  hobbies: [],
-  interests: []
+  hobbies: [{ name: ""}],
+  interests: [{ name: ""}],
+  languages: []         ///
+
+
+  /*
+    // these will be added inside the profile page
+
+    licenses: [],
+    participations: [],
+    personalityTraits: [],
+    references: [],
+    skills: []
+  */
 });
 
 class ProfileSetup extends React.Component {
@@ -104,12 +116,16 @@ class ProfileSetup extends React.Component {
     this.setState((prevState) => ({
       interestList: [...prevState.interestList, { index: Math.random(), name: "interests", label: "interest"  }]
     }));
+
+    this.state.formData.interests.push({"name": ""});
   }
   
   addNewHobby = (e) => {
     this.setState((prevState) => ({
       hobbyList: [...prevState.hobbyList, { index: Math.random(), name: "hobbies", label: "hobby" }]
     }));
+
+    this.state.formData.hobbies.push({"name": ""});
   }
 
   clickOnDelete = (record) => {
@@ -141,19 +157,37 @@ class ProfileSetup extends React.Component {
     }
   }
 
-  handleChange = (id, category, type) => {
-    var e = document.getElementById(id);
+  handleChange = (e, category, type) => {
+    console.log(e);
+    // var e = document.getElementById(id);
+
+    // if(type == "select"){
+    //   e = document.getElementsByName(id).target;
+    // }
+
     if(e != null){
       var formdata = this.state.formData;
-      var value = e.value.trim();
+
+      var value = e.value;
+
+      if(type != "language_array"){
+        var value = value.trim();
+      }
       
+      // console.log(value)
       if(type == "array"){
         var array = formdata[e.name];
+        var id = e.id;
         var number = id.slice(id.length - 2, id.length - 1);
     
         array[number] = {name: value};
         
         formdata[e.name] = array;
+
+      }else if(type == "language_array"){
+
+        formdata[e.name] = value;
+
 
       }else if(category != null && category != undefined && category != ""){
         formdata[category][0][e.name] = value;
@@ -161,8 +195,8 @@ class ProfileSetup extends React.Component {
         formdata[e.name] = value;
       }
       
-      // console.log(formdata);
       this.setState({formData: formdata});
+      console.log(this.state.formData);
     }
   };
 
@@ -178,6 +212,10 @@ class ProfileSetup extends React.Component {
     if(formdata.addressaddition != null && formdata.addressaddition != ""){
       formdata.address = formdata.address + formdata.addressaddition;
     }
+
+    /******************************************************
+     *     implement a form validation function here      *
+     ******************************************************/
 
     var result = UserProfileService.addNewProfile(formdata);
     console.log(result);
@@ -199,11 +237,11 @@ class ProfileSetup extends React.Component {
     function getStepContent(step, context) { 
       switch (step) {
         case 0:
-          return <AddressForm onChange={context.handleChange.bind(this)} />;
+          return <AddressForm form={context.state.formData} onChange={context.handleChange.bind(this)} />;
         case 1:
-          return <WorkForm onChange={context.handleChange.bind(this)} />;
+          return <WorkForm form={context.state.formData} onChange={context.handleChange.bind(this)} />;
         case 2:
-          return <Review handleChange={context.handleChange.bind(this)} clickOnDelete={context.clickOnDelete} addNewHobby={context.addNewHobby} addNewinterest={context.addNewinterest} interestList={context.state.interestList} hobbyList={context.state.hobbyList}  />;
+          return <Review form={context.state.formData} onChange={context.handleChange.bind(this)} clickOnDelete={context.clickOnDelete} addNewHobby={context.addNewHobby} addNewinterest={context.addNewinterest} interestList={context.state.interestList} hobbyList={context.state.hobbyList}  />;
         default:
           throw new Error('Unknown step');
       }
