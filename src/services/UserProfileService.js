@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const REST_API_URL = "http://127.0.0.1:8080/";
+const REST_API_URL = "http://127.0.0.1:8080/api/";
 
 class UserProfileService{
 
     findAll(){
-        return axios.get(REST_API_URL + "users"); // returns UserProfile list
+        return axios.get(REST_API_URL + "user/all"); // returns UserProfile list
     }
 
     findByPcn(pcn){
@@ -13,7 +13,7 @@ class UserProfileService{
     }
 
     addNewProfile(userProfile){
-        return axios.post(REST_API_URL + "user", userProfile); // returns string
+        return axios.post(REST_API_URL + "user/new", userProfile); // returns string
     }
 
     updateProfile(userProfile){

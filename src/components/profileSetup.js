@@ -8,9 +8,10 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
+import WorkForm from './WorkForm';
 import { withStyles } from '@material-ui/core/styles';
 import Review from './Review';
+import UserProfileService from '../services/UserProfileService';
 
 function Copyright() {
   return (
@@ -62,40 +63,162 @@ const styles = theme => ({
   },
 });
 
-const initialFormData = Object.freeze({
+const initialFormData = Object({
   pcn: "",
-  firstname: "",
+  firstName: "",
   prefix: "",
-  lastname: "",
+  lastName: "",
+  emailAddress: "",     ///
+  privacySettings: 0,   ///
+  nationality: "NL",    ///
   address: "",
+  street: "",
   addressnumber: "",
   addressaddition: "",
   city: "",
-  zipcode: "",
+  zipCode: "",
   birthday: "",
-  phonenumber: "",
-  hobby: [],
-  intrest: []
+  birthPlace: "",       ///
+  phoneNumber: "",
+  studies: [{ name: "", date: "" }],
+  jobs: [{ name: "", date: "" }],
+  hobbies: [{ name: ""}],
+  interests: [{ name: ""}],
+  languages: []         ///
+
+
+  /*
+    // these will be added inside the profile page
+
+    licenses: [],
+    participations: [],
+    personalityTraits: [],
+    references: [],
+    skills: []
+  */
 });
 
 class ProfileSetup extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    this.addNewHobby = this.addNewHobby.bind(this);
+    this.addNewinterest = this.addNewinterest.bind(this);
+    this.clickOnDelete = this.clickOnDelete.bind(this);
     this.state = {
       activeStep: 0,
-      formData: initialFormData
+      formData: initialFormData,
+      interestList: [{ index: Math.random(), name: "interests", label: "interest" }],
+      hobbyList: [{ index: Math.random(), name: "hobbies", label: "hobby" }]
     };
   }
 
-  handleChange = (e) => {
-    this.state.setState("formData", {[e.target.name]: e.target.value.trim()});
+  addNewinterest = (e) => {
+    this.setState((prevState) => ({
+      interestList: [...prevState.interestList, { index: Math.random(), name: "interests", label: "interest"  }]
+    }));
+
+    this.state.formData.interests.push({"name": ""});
+  }
+  
+  addNewHobby = (e) => {
+    this.setState((prevState) => ({
+      hobbyList: [...prevState.hobbyList, { index: Math.random(), name: "hobbies", label: "hobby" }]
+    }));
+
+    this.state.formData.hobbies.push({"name": ""});
+  }
+
+  clickOnDelete = (record) => {
+    var type = record.label;
+
+    if(type === "interest"){
+      var list = this.state.interestList;
+      var index = list.map(function(e) { return e.index; }).indexOf(record.index);
+
+      var array = this.state.formData;
+      array["interests"].splice(index, 1);
+
+      this.setState({
+        interestList: this.state.interestList.filter(r => r !== record),
+        formData: array
+      });
+
+    }else if(type === "hobby"){
+      var list = this.state.hobbyList;
+      var index = list.map(function(e) { return e.index; }).indexOf(record.index);
+
+      var array = this.state.formData;
+      array["hobbies"].splice(index, 1);
+
+      this.setState({
+        hobbyList: this.state.hobbyList.filter(r => r !== record)
+      });
+
+    }
+  }
+
+  handleChange = (e, category, type) => {
+    console.log(e);
+    // var e = document.getElementById(id);
+
+    // if(type == "select"){
+    //   e = document.getElementsByName(id).target;
+    // }
+
+    if(e != null){
+      var formdata = this.state.formData;
+
+      var value = e.value;
+
+      if(type != "language_array"){
+        var value = value.trim();
+      }
+      
+      // console.log(value)
+      if(type == "array"){
+        var array = formdata[e.name];
+        var id = e.id;
+        var number = id.slice(id.length - 2, id.length - 1);
+    
+        array[number] = {name: value};
+        
+        formdata[e.name] = array;
+
+      }else if(type == "language_array"){
+
+        formdata[e.name] = value;
+
+
+      }else if(category != null && category != undefined && category != ""){
+        formdata[category][0][e.name] = value;
+      }else{
+        formdata[e.name] = value;
+      }
+      
+      this.setState({formData: formdata});
+      console.log(this.state.formData);
+    }
   };
 
   handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(this.state.formData);
+    // console.log(e);
     // ... submit to API or something
+    
+    var formdata = this.state.formData;
+    console.log(formdata);
+
+    formdata.address = formdata.street + " " + formdata.addressnumber;
+
+    if(formdata.addressaddition != null && formdata.addressaddition != ""){
+      formdata.address = formdata.address + formdata.addressaddition;
+    }
+
+    /******************************************************
+     *     implement a form validation function here      *
+     ******************************************************/
+
+    var result = UserProfileService.addNewProfile(formdata);
+    console.log(result);
   };
 
   handleNext = () => {
@@ -114,11 +237,11 @@ class ProfileSetup extends React.Component {
     function getStepContent(step, context) { 
       switch (step) {
         case 0:
-          return <AddressForm onClick={context.handleChange} />;
+          return <AddressForm form={context.state.formData} onChange={context.handleChange.bind(this)} />;
         case 1:
-          return <PaymentForm />;
+          return <WorkForm form={context.state.formData} onChange={context.handleChange.bind(this)} />;
         case 2:
-          return <Review />;
+          return <Review form={context.state.formData} onChange={context.handleChange.bind(this)} clickOnDelete={context.clickOnDelete} addNewHobby={context.addNewHobby} addNewinterest={context.addNewinterest} interestList={context.state.interestList} hobbyList={context.state.hobbyList}  />;
         default:
           throw new Error('Unknown step');
       }
@@ -161,7 +284,7 @@ class ProfileSetup extends React.Component {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={this.state.activeStep === steps.length - 1 ? this.handleSubmit : this.handleNext}
+                      onClick={this.state.activeStep === steps.length - 1 ? this.handleSubmit: this.handleNext}
                       className={classes.button}
                     >
                       {this.state.activeStep === steps.length - 1 ? 'Complete setup' : 'Next'}
