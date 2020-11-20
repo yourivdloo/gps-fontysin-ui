@@ -16,6 +16,7 @@ import {useMediaQuery} from "@material-ui/core";
 import Review from './Review';
 import InputField from "./inputField";
 import UserProfileService from "../services/UserProfileService";
+import TextField from '@material-ui/core/TextField';
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -204,6 +205,11 @@ class profile extends React.Component {
                 intrestList: this.state.intrestList.filter(r => r !== record)
             });
 
+        }else if(type === "skill"){
+            this.setState({
+                skillList: this.state.skillList.filter(r => r !== record)
+            });
+
         }else if(type === "hobby"){
             this.setState({
                 hobbyList: this.state.hobbyList.filter(r => r !== record)
@@ -257,9 +263,6 @@ class profile extends React.Component {
     render() {
         const steps = ['Skills', 'Hobbies', 'Interests'];
         const {classes} = this.props;
-        let { skillList } = this.state;
-        let { hobbyList } = this.state;
-        let { intrestList } = this.state;
         return (
             <Grid container style={{maxWidth: '75%', margin: '15px auto'}}>
                 <Grid item xs={12} md={5} style={{marginRight: "25px"}}>
@@ -302,11 +305,42 @@ class profile extends React.Component {
                     <TabPanel value={this.state.value} index={0}>
                         Skills user.skills
                         <Grid item xs={12} md={6}>
-                            <InputField add={this.addNewSkill} delete={this.clickOnDelete.bind(this)} fieldList={skillList} />
+                            {
+                                this.state.skillList.map((val, idx) => {
+                                var value = this.state.formData.skills[idx];
+                                return(
+                                    <Grid key={val.index} item md={12}>
+                                        <TextField 
+                                        name={val.name} 
+                                        id={val.name + "["+ idx +"]"} 
+                                        label={val.label} 
+                                        data-tpye={val.label} 
+                                        autoComplete={val.label} 
+                                        value={value.name}
+                                        onChange={this.handleChange} 
+                                        />
+
+                                        {
+                                            idx===0? ""
+                                            : <button 
+                                                style={{
+                                                padding: "1px 6px", 
+                                                verticalAlign: "bottom", 
+                                                marginLeft: "5px"
+                                                }} 
+                                                className="field_manipulation_btn btn btn-danger" 
+                                                onClick={(() => this.clickOnDelete(val))} 
+                                            >
+                                                <i className="fa fa-trash"></i>
+                                            </button>
+                                        }
+                                    </Grid>
+                                )
+                                })
+                            }
                             <br/>
                             <Grid item md={12}>
-                                <Button onClick={this.addNewSkill} variant="outlined" color="primary">Add skill</Button>
-
+                                <Button onClick={this.addNewSkill} data-type="skill" variant="outlined" color="primary">Add interest</Button>
                             </Grid>
                         </Grid>
                         {/*<Review form={this.state.formData} onChange={this.handleChange.bind(this)}*/}
