@@ -340,7 +340,7 @@ class profile extends React.Component {
                             }
                             <br/>
                             <Grid item md={12}>
-                                <Button onClick={this.addNewSkill} data-type="skill" variant="outlined" color="primary">Add interest</Button>
+                                <Button onClick={this.addNewSkill} data-type="skill" variant="outlined" color="primary">Add skill</Button>
                             </Grid>
                         </Grid>
                         {/*<Review form={this.state.formData} onChange={this.handleChange.bind(this)}*/}
@@ -351,17 +351,87 @@ class profile extends React.Component {
                     </TabPanel>
                     <TabPanel value={this.state.value} index={1}>
                         Hobbies user.hobbies
-                        <Review form={this.state.formData} onChange={this.handleChange.bind(this)}
-                                clickOnDelete={this.clickOnDelete}
-                                addNewHobby={this.addNewHobby}
-                                hobbyList={this.state.hobbyList}/>
+                        <Grid item xs={12} md={6}>
+                            {
+                                this.state.hobbyList.map((val, idx) => {
+                                    var value = this.state.formData.hobbies[idx];
+                                    return(
+                                        <Grid key={val.index} item md={12}>
+                                            <TextField
+                                                name={val.name}
+                                                id={val.name + "["+ idx +"]"}
+                                                label={val.label}
+                                                data-tpye={val.label}
+                                                autoComplete={val.label}
+                                                value={value.name}
+                                                onChange={this.handleChange}
+                                            />
+
+                                            {
+                                                idx===0? ""
+                                                    : <button
+                                                        style={{
+                                                            padding: "1px 6px",
+                                                            verticalAlign: "bottom",
+                                                            marginLeft: "5px"
+                                                        }}
+                                                        className="field_manipulation_btn btn btn-danger"
+                                                        onClick={(() => this.clickOnDelete(val))}
+                                                    >
+                                                        <i className="fa fa-trash"></i>
+                                                    </button>
+                                            }
+                                        </Grid>
+                                    )
+                                })
+                            }
+                            <br/>
+                            <Grid item md={12}>
+                                <Button onClick={this.addNewHobby} data-type="hobby" variant="outlined" color="primary">Add hobby</Button>
+                            </Grid>
+                        </Grid>
                     </TabPanel>
                     <TabPanel value={this.state.value} index={2}>
                         Interests user.interests
-                        <Review form={this.state.formData} onChange={this.handleChange.bind(this)}
-                                clickOnDelete={this.clickOnDelete}
-                                addNewiIntrest={this.addNewIntrest}
-                                intrestList={this.state.intrestList}/>
+                        <Grid item xs={12} md={6}>
+                            {
+                                this.state.intrestList.map((val, idx) => {
+                                    var value = this.state.formData.interests[idx];
+                                    return(
+                                        <Grid key={val.index} item md={12}>
+                                            <TextField
+                                                name={val.name}
+                                                id={val.name + "["+ idx +"]"}
+                                                label={val.label}
+                                                data-tpye={val.label}
+                                                autoComplete={val.label}
+                                                value={value.name}
+                                                onChange={this.handleChange}
+                                            />
+
+                                            {
+                                                idx===0? ""
+                                                    : <button
+                                                        style={{
+                                                            padding: "1px 6px",
+                                                            verticalAlign: "bottom",
+                                                            marginLeft: "5px"
+                                                        }}
+                                                        className="field_manipulation_btn btn btn-danger"
+                                                        onClick={(() => this.clickOnDelete(val))}
+                                                    >
+                                                        <i className="fa fa-trash"></i>
+                                                    </button>
+                                            }
+                                        </Grid>
+                                    )
+                                })
+                            }
+                            <br/>
+                            <Grid item md={12}>
+                                <Button onClick={this.addNewIntrest} data-type="interest" variant="outlined" color="primary">Add interest</Button>
+                            </Grid>
+                        </Grid>
                     </TabPanel>
                 </Grid>
             </Grid>
