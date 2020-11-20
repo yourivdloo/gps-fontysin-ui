@@ -15,8 +15,10 @@ import CardMedia from '@material-ui/core/CardMedia';
 import {useMediaQuery} from "@material-ui/core";
 import Review from './Review';
 import InputField from "./inputField";
+import UserProfileService from "../services/UserProfileService";
+
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
     return (
         <div
             role="tabpanel"
@@ -99,18 +101,54 @@ const styles = theme => ({
     }
 });
 
+const personalData = Object({
+    pcn: "",
+    firstName: "",
+    prefix: "",
+    lastName: "",
+    emailAddress: "",     ///
+    privacySettings: 0,   ///
+    nationality: "NL",    ///
+    address: "",
+    street: "",
+    addressnumber: "",
+    addressaddition: "",
+    city: "",
+    zipCode: "",
+    birthday: "",
+    birthPlace: "",       ///
+    phoneNumber: "",
+    studies: [{name: "", date: ""}],
+    jobs: [{name: "", date: ""}],
+    skills: [{name: ""}],
+    hobbies: [{name: ""}],
+    interests: [{name: ""}],
+    languages: []         ///
+
+});
 
 class profile extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {values: [], value: 0};
+        this.state = {
+            values: [], value: 0,
+            activeStep: 0,
+            formData: personalData,
+            skillList: [{index: Math.random(), name: "skills[]", label: "skill"}],
+            intrestList: [{index: Math.random(), name: "interests[]", label: "intrest"}],
+            hobbyList: [{index: Math.random(), name: "hobbies[]", label: "hobby"}],
+        };
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.addNewSkill = this.addNewSkill.bind(this);
+        this.addNewHobby = this.addNewHobby.bind(this);
+        this.addNewIntrest = this.addNewIntrest.bind(this);
+        this.clickOnDelete = this.clickOnDelete.bind(this);
     }
 
-    createUI(){
+    createUI() {
         return this.state.values.map((el, i) =>
             <div key={i}>
-                <input type="text" value={el||''} onChange={this.handleChange.bind(this, i)} />
+                <input type="text" value={el || ''} onChange={this.handleChange.bind(this, i)}/>
                 <input type='button' value='remove' onClick={this.removeClick.bind(this, i)}/>
             </div>
         )
@@ -119,39 +157,116 @@ class profile extends React.Component {
     handleChange(i, event) {
         let values = [...this.state.values];
         values[i] = event.target.value;
-        this.setState({ values });
+        this.setState({values});
     }
 
-    addClick(){
-        this.setState(prevState => ({ values: [...prevState.values, '']}))
+    addClick() {
+        this.setState(prevState => ({values: [...prevState.values, '']}))
     }
 
-    removeClick(i){
+    addNewSkill = (e) => {
+        this.setState((prevState) => ({
+            skillList: [...prevState.skillList, {index: Math.random(), name: "skills[]", label: "skill"}],
+        }));
+        this
+            .state
+            .formData
+            .skills
+            .push({"name": ""});
+    }
+    addNewHobby = (e) => {
+        this.setState((prevState) => ({
+            hobbyList: [...prevState.hobbyList, {index: Math.random(), name: "hobbies[]", label: "hobby"}],
+        }));
+        this
+            .state
+            .formData
+            .hobbies
+            .push({"name": ""});
+    }
+    addNewIntrest = (e) => {
+        this.setState((prevState) => ({
+            intrestList: [...prevState.intrestList, {index: Math.random(), name: "interests[]", label: "intrest"}],
+        }));
+
+        this
+            .state
+            .formData
+            .interests
+            .push({"name": ""});
+    }
+
+    clickOnDelete(record) {
+        var type = record.label;
+
+        if(type === "intrest"){
+            this.setState({
+                intrestList: this.state.intrestList.filter(r => r !== record)
+            });
+
+        }else if(type === "hobby"){
+            this.setState({
+                hobbyList: this.state.hobbyList.filter(r => r !== record)
+            });
+
+        }
+    }
+
+
+    removeClick(i) {
         let values = [...this.state.values];
-        values.splice(i,1);
-        this.setState({ values });
+        values.splice(i, 1);
+        this.setState({values});
     }
 
-    handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.values.join(', '));
-        event.preventDefault();
-    }
+    handleSubmit = (e) => {
+        // console.log(e);
+        // ... submit to API or something
+
+        var personalData = this.state.personalData;
+        console.log(personalData);
+
+        personalData.address = personalData.street + " " + personalData.addressnumber;
+
+        if (personalData.addressaddition != null && personalData.addressaddition != "") {
+            personalData.address = personalData.address + personalData.addressaddition;
+        }
+
+        /******************************************************
+         *     implement a form validation function here      *
+         ******************************************************/
+
+        var result = UserProfileService.addNewProfile(personalData);
+        console.log(result);
+    };
+// handleSubmit(event) {
+//     alert('A name was submitted: ' + this.state.values.join(', '));
+//     event.preventDefault();
+// }
 
 
-    // handleChange = (event, newValue) => {
-    //     this.state.setState("value",  newValue);
-    // };
+// handleChange = (event, newValue) => {
+//     this.state.setState("value",  newValue);
+// };
+    handleTabsDisplay = () => {
+        this.setState({activeStep: this.state.activeStep + 1})
+
+    };
+
 
     render() {
-        const { classes } = this.props;
-
+        const steps = ['Skills', 'Hobbies', 'Interests'];
+        const {classes} = this.props;
+        let { skillList } = this.state;
+        let { hobbyList } = this.state;
+        let { intrestList } = this.state;
         return (
             <Grid container style={{maxWidth: '75%', margin: '15px auto'}}>
                 <Grid item xs={12} md={5} style={{marginRight: "25px"}}>
                     <Card className={classes.card}>
                         <CardMedia
                             className={classes.cardMedia}
-                            image= "https://yt3.ggpht.com/a/AATXAJwht8OvVO9HMRD7PFE4F6WczDX814Sxwswxuo2m0w=s900-c-k-c0x00ffffff-no-rj"
+                            image="https://yt3.ggpht.com/a/AATXAJwht8OvVO9HMRD7PFE4F6WczDX814Sxwswxuo2m0w=s900-c-k-c0x00ffffff-no-rj"
                             title="profile"
                         />
                         <CardContent className={classes.cardContent}>
@@ -180,30 +295,44 @@ class profile extends React.Component {
                         onChange={this.handleChange}
                         aria-label="nav tabs example"
                     >
-                        <LinkTab label="Skills" href="/drafts" {...a11yProps(0)} />
-                        <LinkTab label="Hobbies" href="/trash" {...a11yProps(1)} />
-                        <LinkTab label="Interests" href="/spam" {...a11yProps(2)} />
+                        <LinkTab label="Skills" href="/skills" {...a11yProps(0)} />
+                        <LinkTab label="Hobbies" href="/hobbies" {...a11yProps(1)} />
+                        <LinkTab label="Interests" href="/interests" {...a11yProps(2)} />
                     </Tabs>
                     <TabPanel value={this.state.value} index={0}>
                         Skills user.skills
-                        <form onSubmit={this.handleSubmit}>
-                            <div id="container">
-                                {/*This element's contents will be replaced with your component. -->*/}
-                            </div>
-                            {this.createUI()}
-                            <input type='button' value='add more' onClick={this.addClick.bind(this)}/>
-                            <input type="submit" value="Submit" />
-                        </form>
+                        <Grid item xs={12} md={6}>
+                            <InputField add={this.addNewSkill} delete={this.clickOnDelete.bind(this)} fieldList={skillList} />
+                            <br/>
+                            <Grid item md={12}>
+                                <Button onClick={this.addNewSkill} variant="outlined" color="primary">Add skill</Button>
+
+                            </Grid>
+                        </Grid>
+                        {/*<Review form={this.state.formData} onChange={this.handleChange.bind(this)}*/}
+                        {/*        clickOnDelete={this.clickOnDelete}*/}
+                        {/*        addNewSkill={this.addNewSkill}*/}
+                        {/*        skillList={this.state.skillList}/>*/}
+
                     </TabPanel>
                     <TabPanel value={this.state.value} index={1}>
                         Hobbies user.hobbies
+                        <Review form={this.state.formData} onChange={this.handleChange.bind(this)}
+                                clickOnDelete={this.clickOnDelete}
+                                addNewHobby={this.addNewHobby}
+                                hobbyList={this.state.hobbyList}/>
                     </TabPanel>
                     <TabPanel value={this.state.value} index={2}>
                         Interests user.interests
+                        <Review form={this.state.formData} onChange={this.handleChange.bind(this)}
+                                clickOnDelete={this.clickOnDelete}
+                                addNewiIntrest={this.addNewIntrest}
+                                intrestList={this.state.intrestList}/>
                     </TabPanel>
                 </Grid>
             </Grid>
-        );
+        )
     }
 }
+
 export default withStyles(styles)(profile)
