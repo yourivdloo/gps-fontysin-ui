@@ -170,10 +170,9 @@ const AddressForm = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={3}>
+        <Grid item xs={12} sm={4}>
           <InputLabel shrink id="birthday-label">Birthday</InputLabel>
           <TextField
-            labelId="birthday-label"
             id="birthday"
             name="birthday"
             type="date"
@@ -184,7 +183,6 @@ const AddressForm = (props) => {
         <Grid item xs={12} sm={4}>
             <InputLabel shrink id="nationality-label">Nationality</InputLabel>
             <Select
-              labelId="nationality-label"
               required
               id="nationality"
               name="nationality"
@@ -194,25 +192,20 @@ const AddressForm = (props) => {
               displayEmpty
               className={styles.selectEmpty}
             >
-              <MenuItem value="NL">Netherlands</MenuItem>
-              <MenuItem value="GB">Great Britain</MenuItem>
-              <MenuItem value="US">United States</MenuItem>
-              <MenuItem value="DE">Germany</MenuItem>
-              <MenuItem value="BE">Belgium</MenuItem>
-              <MenuItem value="PL">Poland</MenuItem>
-              <MenuItem value="CH">Switzerland</MenuItem>
-              <MenuItem value="IT">Italy</MenuItem>
-              <MenuItem value="IE">Ireland</MenuItem>
-              <MenuItem value="ES">Spain</MenuItem>
-
+            {
+              props.nationalities.map((val, idx) => {
+                return (
+                  <MenuItem key={val.code} value={val.code} data={val.language}>{val.language}</MenuItem>
+                )
+              })
+            }
             </Select>
         </Grid>
-        <Grid item xs={12} sm={5}>
+        <Grid item xs={12} sm={4}>
             <InputLabel shrink id="languages-label">Languages</InputLabel>
             <Select
               required
               multiple
-              labelId="languages-label"
               id="languages"
               name="languages"
               value={props.form.languages}
@@ -229,15 +222,13 @@ const AddressForm = (props) => {
                 return selected.join(', ');
               }}
             >
-              <MenuItem value="NL">Dutch</MenuItem>
-              <MenuItem value="EN">English</MenuItem>
-              <MenuItem value="DE">Deutsch</MenuItem>
-              <MenuItem value="FR">French</MenuItem>
-              <MenuItem value="IT">Ítalian</MenuItem>
-              <MenuItem value="PL">Polish</MenuItem>
-              <MenuItem value="SW">Swiss</MenuItem>
-              <MenuItem value="SP">Spanish</MenuItem>
-
+              {
+                props.languages.map((val, idx) => {
+                  return (
+                    <MenuItem key={val.code} value={val.code} data={val.language}>{val.language}</MenuItem>
+                  )
+                })
+              }
             </Select>
         </Grid>
 
