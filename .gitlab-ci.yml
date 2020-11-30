@@ -17,8 +17,8 @@ test:
   stage: test
   script:
     - npm ci
-    # print CI environment variables for reference
-    - $(npm bin)/print-env CI
+    # # print CI environment variables for reference
+    # - $(npm bin)/print-env CI
     # make sure Cypress can run
     - npm run cy:verify
     # start the server in the background
