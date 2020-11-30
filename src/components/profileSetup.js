@@ -98,6 +98,30 @@ const initialFormData = Object({
   */
 });
 
+const languages = Object([
+  { code: "NL", language: "Dutch" },
+  { code: "EN", language: "English" },
+  { code: "DE", language: "Deutsch" },
+  { code: "FR", language: "French" },
+  { code: "IT", language: "Ítalian" },
+  { code: "PL", language: "Polish" },
+  { code: "SW", language: "Swiss" },
+  { code: "SP", language: "Spanish" }
+]);
+
+const nationalities = Object([
+  { code: "NL", language: "Netherlands" },
+  { code: "GB", language: "Great Britain" },
+  { code: "US", language: "United States" },
+  { code: "DE", language: "Germany" },
+  { code: "BE", language: "Belgium" },
+  { code: "PL", language: "Poland" },
+  { code: "CH", language: "Switzerland" },
+  { code: "IT", language: "Italy" },
+  { code: "IE", language: "Ireland" },
+  { code: "ES", language: "Spain" }
+]);
+
 class ProfileSetup extends React.Component {
   constructor(props) {
     super(props);
@@ -106,6 +130,8 @@ class ProfileSetup extends React.Component {
     this.clickOnDelete = this.clickOnDelete.bind(this);
     this.state = {
       activeStep: 0,
+      languageList: languages,
+      nationalityList: nationalities,
       formData: initialFormData,
       interestList: [{ index: Math.random(), name: "interests", label: "interest" }],
       hobbyList: [{ index: Math.random(), name: "hobbies", label: "hobby" }]
@@ -169,10 +195,6 @@ class ProfileSetup extends React.Component {
       var formdata = this.state.formData;
 
       var value = e.value;
-
-      if(type != "language_array"){
-        var value = value.trim();
-      }
       
       // console.log(value)
       if(type == "array"){
@@ -186,6 +208,7 @@ class ProfileSetup extends React.Component {
 
       }else if(type == "language_array"){
 
+        console.log(e);
         formdata[e.name] = value;
 
 
@@ -237,7 +260,7 @@ class ProfileSetup extends React.Component {
     function getStepContent(step, context) { 
       switch (step) {
         case 0:
-          return <AddressForm form={context.state.formData} onChange={context.handleChange.bind(this)} />;
+          return <AddressForm nationalities={context.state.nationalityList} languages={context.state.languageList} form={context.state.formData} onChange={context.handleChange.bind(this)} />;
         case 1:
           return <WorkForm form={context.state.formData} onChange={context.handleChange.bind(this)} />;
         case 2:
