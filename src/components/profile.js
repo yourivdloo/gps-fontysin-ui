@@ -119,8 +119,8 @@ const personalData = Object({
     birthday: "",
     birthPlace: "",       ///
     phoneNumber: "",
-    studies: [{name: "", date: ""}],
-    jobs: [{name: "", date: ""}],
+    studies: [{name: "", startDate: new Date(), endDate: new Date(), school: ""}],
+    jobs: [{name: "", startDate: new Date(), endDate: new Date(), city:""}],
     skills: [{name: ""}],
     hobbies: [{name: ""}],
     interests: [{name: ""}],
@@ -132,38 +132,50 @@ class profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            values: [], value: 0,
-            activeStep: 0,
+            shiValue: 0,
+            sjValue: 0,
+            shiActiveStep: 0,
+            sjActiveStep: 0,
             formData: personalData,
             skillList: [{index: Math.random(), name: "skills[]", label: "skill"}],
-            intrestList: [{index: Math.random(), name: "interests[]", label: "intrest"}],
+            intrestList: [{index: Math.random(), name: "interests[]", label: "interest"}],
             hobbyList: [{index: Math.random(), name: "hobbies[]", label: "hobby"}],
+            studyList: [{index: Math.random(), name: "studies[]", school: "school", startDate: new Date(), endDate: new Date(), label: "study"}],
+            jobList: [{index: Math.random(), name: "jobs[]", city: "city", startDate: new Date(), endDate: new Date(), label: "job"}]
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.addNewSkill = this.addNewSkill.bind(this);
         this.addNewHobby = this.addNewHobby.bind(this);
         this.addNewIntrest = this.addNewIntrest.bind(this);
+        this.addNewStudy = this.addNewStudy.bind(this);
+        this.addNewJob = this.addNewJob.bind(this);
         this.clickOnDelete = this.clickOnDelete.bind(this);
     }
 
-    createUI() {
-        return this.state.values.map((el, i) =>
-            <div key={i}>
-                <input type="text" value={el || ''} onChange={this.handleChange.bind(this, i)}/>
-                <input type='button' value='remove' onClick={this.removeClick.bind(this, i)}/>
-            </div>
-        )
+    // createUI() {
+    //     return this.state.values.map((el, i) =>
+    //         <div key={i}>
+    //             <input type="text" value={el || ''} onChange={this.handleChange.bind(this, i)}/>
+    //             <input type='button' value='remove' onClick={this.removeClick.bind(this, i)}/>
+    //         </div>
+    //     )
+    // }
+
+    shiHandleChange = (event, newValue) => {
+        // console.log(event);
+        // let values = [...this.state.values];
+        // values[0] = event.target.value;
+        // this.setState({values});
+        this.setState({shiValue:newValue});
     }
 
-    handleChange(i, event) {
-        let values = [...this.state.values];
-        values[i] = event.target.value;
-        this.setState({values});
+    sjHandleChange = (event, newValue) => {
+        this.setState({sjValue:newValue});
     }
 
-    addClick() {
-        this.setState(prevState => ({values: [...prevState.values, '']}))
-    }
+    // addClick() {
+    //     this.setState(prevState => ({values: [...prevState.values, '']}))
+    // }
 
     addNewSkill = (e) => {
         this.setState((prevState) => ({
@@ -175,6 +187,7 @@ class profile extends React.Component {
             .skills
             .push({"name": ""});
     }
+
     addNewHobby = (e) => {
         this.setState((prevState) => ({
             hobbyList: [...prevState.hobbyList, {index: Math.random(), name: "hobbies[]", label: "hobby"}],
@@ -185,9 +198,10 @@ class profile extends React.Component {
             .hobbies
             .push({"name": ""});
     }
+
     addNewIntrest = (e) => {
         this.setState((prevState) => ({
-            intrestList: [...prevState.intrestList, {index: Math.random(), name: "interests[]", label: "intrest"}],
+            intrestList: [...prevState.intrestList, {index: Math.random(), name: "interests[]", label: "interest"}],
         }));
 
         this
@@ -197,10 +211,34 @@ class profile extends React.Component {
             .push({"name": ""});
     }
 
+    addNewStudy = (e) => {
+        this.setState((prevState) => ({
+            studyList: [...prevState.studyList, {index: Math.random(), name: "studies[]", startDate: new Date(), endDate: new Date(), label: "study"}],
+        }));
+
+        this
+            .state
+            .formData
+            .interests
+            .push({"name": "", "school": "", "startDate": new Date(), "endDate": new Date()});
+    }
+
+    addNewJob = (e) => {
+        this.setState((prevState) => ({
+            jobList: [...prevState.studyList, {index: Math.random(), name: "jobs[]", startDate: new Date(), endDate: new Date(), label: "job"}],
+        }));
+
+        this
+            .state
+            .formData
+            .interests
+            .push({"name": "", "city": "", "startDate": new Date(), "endDate": new Date()});
+    }
+
     clickOnDelete(record) {
         var type = record.label;
 
-        if(type === "intrest"){
+        if(type === "interest"){
             this.setState({
                 intrestList: this.state.intrestList.filter(r => r !== record)
             });
@@ -214,16 +252,23 @@ class profile extends React.Component {
             this.setState({
                 hobbyList: this.state.hobbyList.filter(r => r !== record)
             });
-
+        }else if(type === "study"){
+            this.setState({
+                studyList: this.state.studyList.filter(r => r !== record)
+            });
+        }else if(type === "job"){
+            this.setState({
+                jobList: this.state.jobList.filter(r => r !== record)
+            });
         }
     }
 
 
-    removeClick(i) {
-        let values = [...this.state.values];
-        values.splice(i, 1);
-        this.setState({values});
-    }
+    // removeClick(i) {
+    //     let values = [...this.state.values];
+    //     values.splice(i, 1);
+    //     this.setState({values});
+    // }
 
     handleSubmit = (e) => {
         // console.log(e);
@@ -242,7 +287,7 @@ class profile extends React.Component {
          *     implement a form validation function here      *
          ******************************************************/
 
-        var result = UserProfileService.addNewProfile(personalData);
+        var result = UserProfileService.updateProfile(personalData);
         console.log(result);
     };
 // handleSubmit(event) {
@@ -254,19 +299,23 @@ class profile extends React.Component {
 // handleChange = (event, newValue) => {
 //     this.state.setState("value",  newValue);
 // };
-    handleTabsDisplay = () => {
-        this.setState({activeStep: this.state.activeStep + 1})
+    shiHandleTabsDisplay = () => {
+        this.setState({shiActiveStep: this.state.shiActiveStep + 1})
+    };
 
+    sjHandleTabsDisplay = () => {
+        this.setState({sjActiveStep: this.state.sjActiveStep + 1})
     };
 
 
     render() {
-        const steps = ['Skills', 'Hobbies', 'Interests'];
+        const shiSteps = ['Skills', 'Hobbies', 'Interests'];
+        const sjSteps = ['Studies', 'Jobs'];
         const {classes} = this.props;
         return (
             <Grid container style={{maxWidth: '75%', margin: '15px auto'}}>
-                <Grid item xs={12} md={5} style={{marginRight: "25px"}}>
-                    <Card className={classes.card}>
+                <Grid item xs={12} md={12}>
+                    <Card className={classes.card} style={{marginLeft: '25%', marginRight: '25%'}}>
                         <CardMedia
                             className={classes.cardMedia}
                             image="https://yt3.ggpht.com/a/AATXAJwht8OvVO9HMRD7PFE4F6WczDX814Sxwswxuo2m0w=s900-c-k-c0x00ffffff-no-rj"
@@ -291,20 +340,18 @@ class profile extends React.Component {
                     </Card>
                 </Grid>
 
-                <Grid item xs={12} sm={6} style={{marginLeft: "20px"}}>
-
+                <Grid item xs={12} sm={6}>
                     <Tabs
-                        value={this.state.value}
-                        onChange={this.handleChange}
+                        value={this.state.shiValue}
+                        onChange={this.shiHandleChange}
                         aria-label="nav tabs example"
                     >
-                        <LinkTab label="Skills" href="/skills" {...a11yProps(0)} />
-                        <LinkTab label="Hobbies" href="/hobbies" {...a11yProps(1)} />
-                        <LinkTab label="Interests" href="/interests" {...a11yProps(2)} />
+                        <LinkTab label={shiSteps[0]} {...a11yProps(0)} />
+                        <LinkTab label={shiSteps[1]} {...a11yProps(1)} />
+                        <LinkTab label={shiSteps[2]} {...a11yProps(2)} />
                     </Tabs>
-                    <TabPanel value={this.state.value} index={0}>
-                        Skills user.skills
-                        <Grid item xs={12} md={6}>
+                    <TabPanel value={this.state.shiValue} index={0}>
+                        <Grid item xs={12} md={6} style={{textAlign : 'center'}}>
                             {
                                 this.state.skillList.map((val, idx) => {
                                 var value = this.state.formData.skills[idx];
@@ -317,7 +364,7 @@ class profile extends React.Component {
                                         data-tpye={val.label} 
                                         autoComplete={val.label} 
                                         value={value.name}
-                                        onChange={this.handleChange} 
+                                        onChange={this.shiHandleChange} 
                                         />
 
                                         {
@@ -343,15 +390,14 @@ class profile extends React.Component {
                                 <Button onClick={this.addNewSkill} data-type="skill" variant="outlined" color="primary">Add skill</Button>
                             </Grid>
                         </Grid>
-                        {/*<Review form={this.state.formData} onChange={this.handleChange.bind(this)}*/}
+                        {/*<Review form={this.state.formData} onChange={this.handleChange.bind(this)}></Review>*/}
                         {/*        clickOnDelete={this.clickOnDelete}*/}
                         {/*        addNewSkill={this.addNewSkill}*/}
                         {/*        skillList={this.state.skillList}/>*/}
 
                     </TabPanel>
-                    <TabPanel value={this.state.value} index={1}>
-                        Hobbies user.hobbies
-                        <Grid item xs={12} md={6}>
+                    <TabPanel value={this.state.shiValue} index={1}>
+                        <Grid item xs={12} md={6} style={{textAlign : 'center'}}>
                             {
                                 this.state.hobbyList.map((val, idx) => {
                                     var value = this.state.formData.hobbies[idx];
@@ -364,7 +410,7 @@ class profile extends React.Component {
                                                 data-tpye={val.label}
                                                 autoComplete={val.label}
                                                 value={value.name}
-                                                onChange={this.handleChange}
+                                                onChange={this.shiHandleChange}
                                             />
 
                                             {
@@ -391,9 +437,8 @@ class profile extends React.Component {
                             </Grid>
                         </Grid>
                     </TabPanel>
-                    <TabPanel value={this.state.value} index={2}>
-                        Interests user.interests
-                        <Grid item xs={12} md={6}>
+                    <TabPanel value={this.state.shiValue} index={2}>
+                        <Grid item xs={12} md={6} style={{textAlign : 'center'}}>
                             {
                                 this.state.intrestList.map((val, idx) => {
                                     var value = this.state.formData.interests[idx];
@@ -403,12 +448,11 @@ class profile extends React.Component {
                                                 name={val.name}
                                                 id={val.name + "["+ idx +"]"}
                                                 label={val.label}
-                                                data-tpye={val.label}
+                                                data-type={val.label}
                                                 autoComplete={val.label}
                                                 value={value.name}
-                                                onChange={this.handleChange}
+                                                onChange={this.shiHandleChange}
                                             />
-
                                             {
                                                 idx===0? ""
                                                     : <button
@@ -434,6 +478,104 @@ class profile extends React.Component {
                         </Grid>
                     </TabPanel>
                 </Grid>
+
+                <Grid item xs={12} sm={6}>
+                <Tabs
+                        value={this.state.sjValue}
+                        onChange={this.sjHandleChange}
+                        aria-label="nav tabs example"
+                    >
+                        <LinkTab label={sjSteps[0]} {...a11yProps(0)} />
+                        <LinkTab label={sjSteps[1]} {...a11yProps(1)} />
+                    </Tabs>
+                    <TabPanel value={this.state.sjValue} index={0}>
+                        <Grid item xs={12} md={6} style={{textAlign : 'center'}}>
+                            {
+                                this.state.studyList.map((val, idx) => {
+                                var value = this.state.formData.studies[idx];
+                                return(
+                                    <Grid key={val.index} item md={12}>
+                                        <TextField 
+                                        name={val.name} 
+                                        id={val.name + "["+ idx +"]"} 
+                                        label={val.label} 
+                                        data-tpye={val.label} 
+                                        autoComplete={val.label} 
+                                        value={value.name}
+                                        onChange={this.sjHandleChange} 
+                                        />
+
+                                        {
+                                            idx===0? ""
+                                            : <button 
+                                                style={{
+                                                padding: "1px 6px", 
+                                                verticalAlign: "bottom", 
+                                                marginLeft: "5px"
+                                                }} 
+                                                className="field_manipulation_btn btn btn-danger" 
+                                                onClick={(() => this.clickOnDelete(val))} 
+                                            >
+                                                <i className="fa fa-trash"></i>
+                                            </button>
+                                        }
+                                    </Grid>
+                                )
+                                })
+                            }
+                            <br/>
+                            <Grid item md={12}>
+                                <Button onClick={this.addNewStudy} data-type="study" variant="outlined" color="primary">Add study</Button>
+                            </Grid>
+                        </Grid>
+                        {/*<Review form={this.state.formData} onChange={this.handleChange.bind(this)}*/}
+                        {/*        clickOnDelete={this.clickOnDelete}*/}
+                        {/*        addNewSkill={this.addNewSkill}*/}
+                        {/*        skillList={this.state.skillList}/>*/}
+
+                    </TabPanel>
+                    <TabPanel value={this.state.sjValue} index={1}>
+                        <Grid item xs={12} md={6} style={{textAlign : 'center'}}>
+                            {
+                                this.state.jobList.map((val, idx) => {
+                                    var value = this.state.formData.jobs[idx];
+                                    return(
+                                        <Grid key={val.index} item md={12}>
+                                            <TextField
+                                                name={val.name}
+                                                id={val.name + "["+ idx +"]"}
+                                                label={val.label}
+                                                data-tpye={val.label}
+                                                autoComplete={val.label}
+                                                value={value.name}
+                                                onChange={this.sjHandleChange}
+                                            />
+
+                                            {
+                                                idx===0? ""
+                                                    : <button
+                                                        style={{
+                                                            padding: "1px 6px",
+                                                            verticalAlign: "bottom",
+                                                            marginLeft: "5px"
+                                                        }}
+                                                        className="field_manipulation_btn btn btn-danger"
+                                                        onClick={(() => this.clickOnDelete(val))}
+                                                    >
+                                                        <i className="fa fa-trash"></i>
+                                                    </button>
+                                            }
+                                        </Grid>
+                                    )
+                                })
+                            }
+                            <br/>
+                            <Grid item md={12}>
+                                <Button onClick={this.addNewJob} data-type="job" variant="outlined" color="primary">Add job</Button>
+                            </Grid>
+                        </Grid>
+                    </TabPanel>
+                    </Grid>
             </Grid>
         )
     }
