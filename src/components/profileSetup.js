@@ -12,6 +12,7 @@ import WorkForm from './WorkForm';
 import { withStyles } from '@material-ui/core/styles';
 import Review from './Review';
 import UserProfileService from '../services/UserProfileService';
+import $ from 'jquery'
 
 function Copyright() {
   return (
@@ -184,7 +185,6 @@ class ProfileSetup extends React.Component {
   }
 
   handleChange = (e, category, type) => {
-    console.log(e);
     // var e = document.getElementById(id);
 
     // if(type == "select"){
@@ -208,7 +208,6 @@ class ProfileSetup extends React.Component {
 
       }else if(type == "language_array"){
 
-        console.log(e);
         formdata[e.name] = value;
 
 
@@ -219,7 +218,6 @@ class ProfileSetup extends React.Component {
       }
       
       this.setState({formData: formdata});
-      console.log(this.state.formData);
     }
   };
 
@@ -228,7 +226,6 @@ class ProfileSetup extends React.Component {
     // ... submit to API or something
     
     var formdata = this.state.formData;
-    console.log(formdata);
 
     formdata.address = formdata.street + " " + formdata.addressnumber;
 
@@ -236,10 +233,30 @@ class ProfileSetup extends React.Component {
       formdata.address = formdata.address + formdata.addressaddition;
     }
 
+    var languages = [];
+    $.each(formdata.languages, function(key, val){
+      languages.push({name: val});
+    });
+
+    var userProperties = {
+      hobbies: formdata.hobbies,
+      interests: formdata.interests,
+      jobs: formdata.jobs,
+      languages: languages,
+      // licenses: formdata.licenses,
+      // participations: formdata.participations,
+      // personalityTraits: formdata.personalityTraits,
+      // references: formdata.references,
+      // skills: formdata.skills,
+      studies: formdata.studies
+    }
+
+    formdata.userProperties = userProperties;
     /******************************************************
      *     implement a form validation function here      *
      ******************************************************/
 
+    console.log(formdata);
     var result = UserProfileService.addNewProfile(formdata);
     console.log(result);
   };
