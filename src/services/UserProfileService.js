@@ -17,7 +17,7 @@ class UserProfileService{
             'x-ms-client-principal-name': '410078@student.fontys.nl'
         }
 
-        return axios.post(REST_API_URL + "/new", userProfile, headers); // returns string
+        return axios.post(REST_API_URL + "/new", userProfile, { headers: headers }); // returns string
     }
 
     updateProfile(userProfile){
