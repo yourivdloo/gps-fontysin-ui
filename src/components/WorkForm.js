@@ -31,10 +31,10 @@ const WorkForm = (props) => {
         <Grid item xs={12} md={6}>
         <TextField
           id="studydate"
-          name="date"
+          name="startDate"
           label="Start date"
           type="date"
-          value={props.form.studies[0].date}
+          value={props.form.studies[0].startDate}
           onChange={handleChange}
           InputLabelProps={{
           shrink: true,
@@ -62,10 +62,10 @@ const WorkForm = (props) => {
         <Grid item xs={12} md={6}>
         <TextField
           id="jobdate"
-          name="date"
+          name="startDate"
           label="Start date"
           type="date"
-          value={props.form.jobs[0].date}
+          value={props.form.jobs[0].startDate}
           onChange={handleChange}
           inputProps={{
             'data-category':'jobs'

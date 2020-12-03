@@ -81,8 +81,8 @@ const initialFormData = Object({
   birthday: "",
   birthPlace: "",       ///
   phoneNumber: "",
-  studies: [{ name: "", date: "" }],
-  jobs: [{ name: "", date: "" }],
+  studies: [{ name: "", startDate: "" }],
+  jobs: [{ name: "", startDate: "" }],
   hobbies: [{ name: ""}],
   interests: [{ name: ""}],
   languages: []         ///
