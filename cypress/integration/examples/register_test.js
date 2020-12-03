@@ -8,11 +8,11 @@ describe('Profile setup', function(){
     });
 
     it('Fills in pcn', ()=>{
-        cy.get('#pcn').type('123456').should('have.value', '123456');
+        cy.get('#pcn').type('410078').should('have.value', '410078');
     });
 
     it('Fills in firstname', ()=>{
-        cy.get('#firstName').type('Jack').should('have.value', 'Jack');
+        cy.get('#firstName').type('Nynke').should('have.value', 'Nynke');
     });
 
     it('Fills in prefix', ()=>{
@@ -20,31 +20,31 @@ describe('Profile setup', function(){
     });
 
     it('Fills in lastname', ()=>{
-        cy.get('#lastName').type('Mutsers').should('have.value', 'Mutsers');
+        cy.get('#lastName').type('Schuppen').should('have.value', 'Schuppen');
     });
 
     it('Fills in street', ()=>{
-        cy.get('#street').type('street').should('have.value', 'street');
+        cy.get('#street').type('Kuilenhurk').should('have.value', 'Kuilenhurk');
     });
 
     it('Fills in addressnumber', ()=>{
-        cy.get('#addressnumber').type('addressnr').should('have.value', 'addressnr');
+        cy.get('#addressnumber').type('6').should('have.value', '6');
     });
 
     it('Fills in addressaddition', ()=>{
-        cy.get('#addressaddition').type('addressadd').should('have.value', 'addressadd');
+        cy.get('#addressaddition').type('b').should('have.value', 'b');
     });
 
     it('Fills in City', ()=>{
-        cy.get('#city').type('city').should('have.value', 'city');
+        cy.get('#city').type('Vessem').should('have.value', 'Vessem');
     });
    
     it('Fills in zipcode', ()=>{
-        cy.get('#zipCode').type('zipCode').should('have.value', 'zipCode');
+        cy.get('#zipCode').type('5512CB').should('have.value', '5512CB');
     });
     
     it('Fills in emailaddress', ()=>{
-        cy.get('#emailAddress').type('email').should('have.value', 'email');
+        cy.get('#emailAddress').type('410078@student.fontys.nl').should('have.value', '410078@student.fontys.nl');
     });
 
     it('Fills in phonenumber', ()=>{
@@ -54,12 +54,17 @@ describe('Profile setup', function(){
     it('Fills in birthday', ()=>{
         cy.get('#birthday').type('1998-12-12').should('have.value', '1998-12-12');
     });
-  
-    // it('select nationality', ()=>{
-    //     cy.get('#nationality').click();
-    //     cy.get().should('have.value', 'Netherlands');
-    // });
-   
-    // cy.get('#languages').type('NL').should('have.value', 'NL');
-    // cy.get('.PrivateSwitchBase-input-12')
+    
+    it('select nationality', ()=>{
+        cy.get('#nationality').click();
+        cy.get('#menu-nationality').click().get('li').contains('Netherlands').click();
+    });
+
+    it('select nationality', ()=>{
+        cy.get('#languages').click();
+        cy.get('#menu-languages').click().get('li').contains('Dutch').click();
+        cy.get('#languages').click();
+        cy.get('#menu-languages').click().get('li').contains('English').click();
+    });
+
 });

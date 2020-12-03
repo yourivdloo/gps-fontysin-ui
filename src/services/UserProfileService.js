@@ -1,23 +1,27 @@
 import axios from 'axios';
 
-const REST_API_URL = "http://127.0.0.1:8080/api/";
+const REST_API_URL = "http://localhost:8080/api/user";
 
 class UserProfileService{
 
     findAll(){
-        return axios.get(REST_API_URL + "user/all"); // returns UserProfile list
+        return axios.get(REST_API_URL + "/all"); // returns UserProfile list
     }
 
     findByPcn(pcn){
-        return axios.get(REST_API_URL + "user/" + pcn); // returns UserProfile
+        return axios.get(REST_API_URL + "/" + pcn); // returns UserProfile
     }
 
     addNewProfile(userProfile){
-        return axios.post(REST_API_URL + "user/new", userProfile); // returns string
+        var headers = {
+            'x-ms-client-principal-name': '410078@student.fontys.nl'
+        }
+
+        return axios.post(REST_API_URL + "/new", userProfile, headers); // returns string
     }
 
     updateProfile(userProfile){
-        return axios.put(REST_API_URL + "user", userProfile); // retruns string
+        return axios.put(REST_API_URL, userProfile); // retruns string
     }
 }
 
