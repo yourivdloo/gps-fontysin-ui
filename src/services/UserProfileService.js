@@ -14,7 +14,7 @@ class UserProfileService{
 
     addNewProfile(userProfile){
         var headers = {
-            'x-ms-client-principal-name': '410078@student.fontys.nl'
+            'x-ms-client-principal-name': userProfile.pcn + '@student.fontys.nl'
         }
 
         return axios.post(REST_API_URL + "/new", userProfile, { headers: headers }); // returns string
