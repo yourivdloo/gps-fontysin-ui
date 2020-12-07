@@ -22,7 +22,7 @@ const Review = (props) => {
                 <Grid key={val.index} item md={12}>
                     <TextField 
                       name={val.name} 
-                      id={val.name + "["+ idx +"]"} 
+                      id={val.name + idx} 
                       label={val.label} 
                       data-tpye={val.label} 
                       autoComplete={val.label} 
@@ -62,7 +62,7 @@ const Review = (props) => {
                 <Grid key={val.index} item md={12}>
                     <TextField 
                       name={val.name} 
-                      id={val.name + "["+ idx +"]"} 
+                      id={val.name + idx} 
                       label={val.label} 
                       data-tpye={val.label} 
                       autoComplete={val.label} 

@@ -200,7 +200,7 @@ class ProfileSetup extends React.Component {
       if(type == "array"){
         var array = formdata[e.name];
         var id = e.id;
-        var number = id.slice(id.length - 2, id.length - 1);
+        var number = id.slice(id.length - 1, id.length);
     
         array[number] = {name: value};
         
