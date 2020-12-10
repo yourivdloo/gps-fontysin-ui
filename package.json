@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.21.0",
     "jquery": "^3.5.1",
+    "material-ui-phone-number": "^2.2.6",
     "model-react": "^3.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -36,5 +37,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "object-assign": "^4.1.1"
   }
 }
