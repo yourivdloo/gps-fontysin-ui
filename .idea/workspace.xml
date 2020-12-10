@@ -26,12 +26,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ede3fab-7c29-448c-9690-22b40ec4e4fe" name="Default Changelist" comment="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
-      <change afterPath="$PROJECT_DIR$/src/components/Settings.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/navBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/navBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Settings.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +93,7 @@
       <workItem from="1606643706683" duration="1329000" />
       <workItem from="1607329387369" duration="5522000" />
       <workItem from="1607421628668" duration="67000" />
-      <workItem from="1607589517812" duration="8279000" />
+      <workItem from="1607589517812" duration="11923000" />
     </task>
     <task id="LOCAL-00001" summary="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
       <created>1605703648342</created>

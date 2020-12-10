@@ -9,6 +9,11 @@ import Grid from '@material-ui/core/Grid';
 import MuiPhoneNumber from "material-ui-phone-number";
 import Button from '@material-ui/core/Button';
 import {TextField} from '@material-ui/core';
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -54,12 +59,19 @@ function LinkTab(props) {
     );
 }
 
+function RadioButtonsGroup() {
+
+}
+
 const styles = (theme) => ({
     root: {
         flexGrow: 2,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
         height: 224,
+        // color: green[400], //radio button
+        // '&$checked': {
+        //     color: green[600],
     },
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
@@ -83,8 +95,18 @@ const styles = (theme) => ({
 //     const handleChange = (event, newValue) => {
 //         setValue(newValue);
 //     };
+const personalData = Object({
+        description: "",
+        address: "",
+        zipCode: "",
+        phoneNumber: "",
+        city: "",
+    }
+);
+
 
 class Settings extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -92,10 +114,13 @@ class Settings extends React.Component {
                 value: 0,
                 tabValue: 0, //TODO issue with the first load of the page, page is blank and the tab has to be selected
                 phone: "",
+
             }
         };
         this.handlePhoneChange = this.handlePhoneChange.bind(this);
         this.tabHandleChange = this.tabHandleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+
     }
 
     // const classes = useStyles();
@@ -104,16 +129,19 @@ class Settings extends React.Component {
     tabHandleChange = (event, newValue) => {
         this.setState({tabValue: newValue});
     };
-    handlePhoneChange(value){
+    handlePhoneChange = (value) => {
         if (value) {
-            this.setState({ phone: value });
+            this.setState({phone: value});
         }
     }
+
+    handleChange = (value) => {
+        this.setState({setValue: value});
+    };
 
     render() {
         const {classes} = this.props;
         const tabSteps = ["Account Preferences", "Permissions", "Visibility", "Appearance"];
-        const CHARACTER_LIMIT = 20;
         // const classes = styles();
         // const [value, setValue] = React.useState(0);
         return (
@@ -135,9 +163,8 @@ class Settings extends React.Component {
                 <TabPanel value={this.state.tabValue} index={0}> {/* Account preferences tab*/}
                     <Grid item xs={12} md={12} style={{textAlign: "left"}}>
                         <h2>Edit your profile description</h2>
-                        <TextField  id ="descriptionField" placeholder={"Write a description"} variant="filled"  multiline rowsMax={15}/> {/*Description*/}
-                        {/*, phone number, address, ZipCode, City,  */}
-
+                        <TextField id="descriptionField" placeholder={"Write a description"} variant="filled"
+                                   multiline inputProps={{rowsMax: 15, maxLength: 200}}/> {/*Description*/}
                         <p>Edit phone number</p>
                         <MuiPhoneNumber
                             name="phone"
@@ -153,7 +180,9 @@ class Settings extends React.Component {
 
 
                         <p>Edit ZipCode</p>
-                        <TextField placeholder={"12345 AB"}/>
+                        <TextField placeholder=
+
+                                       {"12345 AB"} inputProps={{maxLength: 8}}/>
 
 
                         <p>Change your city</p>
@@ -167,8 +196,14 @@ class Settings extends React.Component {
                 </TabPanel>
 
                 <TabPanel value={this.state.tabValue} index={2}>{/*Visibility*/}
-                    <p>Change profile visibility</p>
-                    <TextField placeholder={""}/>
+                    <FormControl component="fieldset">
+                        <FormLabel component="legend">Change profile visibility</FormLabel>
+                        <RadioGroup aria-label="visibility" name="visibility" value={this.state.value}
+                                    onChange={this.handleChange}>
+                            <FormControlLabel value="public" control={<Radio/>} label="Public"/>
+                            <FormControlLabel value="private" control={<Radio/>} label="Private"/>
+                        </RadioGroup>
+                    </FormControl>
                 </TabPanel>
 
                 <TabPanel value={this.state.tabValue} index={3}>{/*Appearance*/}
@@ -178,4 +213,5 @@ class Settings extends React.Component {
         );
     }
 }
+
 export default withStyles(styles)(Settings);
