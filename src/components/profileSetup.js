@@ -289,7 +289,6 @@ class ProfileSetup extends React.Component {
     
     return (
       <React.Fragment>
-        <CssBaseline />
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Typography component="h1" variant="h4" align="center">
