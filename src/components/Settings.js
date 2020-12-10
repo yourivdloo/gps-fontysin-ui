@@ -58,11 +58,6 @@ function LinkTab(props) {
         />
     );
 }
-
-function RadioButtonsGroup() {
-
-}
-
 const styles = (theme) => ({
     root: {
         flexGrow: 2,
