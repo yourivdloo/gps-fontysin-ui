@@ -14,12 +14,13 @@ function App() {
     <main>
       <Navbar/>
       <Switch>
-        <Route path="/" component={home} exact />
-        <Route path="/profile" component={profile} />
-        <Route path="/chat" component={chat} />
-        <Route path="/profileSetup" component={profileSetup} />
+        <Route path="/" component={home} exact/>
+        <Route path="/profile" component={profile}/>
+        <Route path="/chat" component={chat}/>
+        <Route path="/profileSetup" component={profileSetup}/>
         <Route path="/guestprofile" component={guestprofile}/>
-        <Route component={page404} />
+        <Route path="/settings" component={Settings}/>
+        <Route component={page404}/>
       </Switch>
     </main>
   );
