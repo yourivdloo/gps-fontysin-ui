@@ -7,7 +7,7 @@ import profileSetup from "./components/profileSetup"
 import page404 from "./components/page404";
 import Settings from './components/Settings';
 import guestprofile from "./components/guestProfile/GuestProfile";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 function App() {
   return (

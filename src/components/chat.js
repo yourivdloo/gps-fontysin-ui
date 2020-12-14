@@ -1,5 +1,4 @@
 import React from "react";
-import { Navbar } from "../App";
 import Button from "@material-ui/core/Button";
 
 class chat extends React.Component {

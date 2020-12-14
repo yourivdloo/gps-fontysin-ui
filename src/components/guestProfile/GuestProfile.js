@@ -1,6 +1,4 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Link from '@material-ui/core/Link';
@@ -8,10 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
-import SettingsIcon from '@material-ui/icons/Settings';
-import $ from 'jquery'
-import { red } from '@material-ui/core/colors';
-import GitHubIcon from '@material-ui/icons/GitHub';
+import UserProfileService from '../../services/UserProfileService';
+import UserProfile from '../../entities/UserProfile';
 
 function Copyright() {
   return (
@@ -104,10 +100,11 @@ const styles = theme => ({
     padding: theme.spacing(0, 2),
   },
   proCardContent: {
-    border: "2px solid #8D5C97"
+    // border: "2px solid #8D5C97",
+    boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+    padding: "15px"
   }
 });
-
 
 const languages = Object([
   { code: "NL", language: "Dutch" },
@@ -136,12 +133,42 @@ const nationalities = Object([
 class GuestProfile extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
+      pcn: 410078,
+      userProfile: new UserProfile(),
+      username: ""
     };
+    
+    this.getUserData();
   }
+
+  getUserData(){
+    UserProfileService.findByPcn(this.state.pcn).then(response => {
+      var Profile = new UserProfile(); 
+      Profile.loadFromObject(response.data);
+
+      this.setState({userProfile: Profile});
+      console.log(Profile);
+
+      var name = "";
+      if(this.state.userProfile.prefix.trim() !== ""){
+        name = this.state.userProfile.firstName + " " + this.state.userProfile.prefix + " " + this.state.userProfile.lastName
+      }else{
+        name = this.state.userProfile.firstName + " " + this.state.userProfile.lastName
+      }
+
+      this.setState({username: name});
+    })
+    .catch((error) => {
+      console.log('error 3 ' + error);
+    });
+  }
+
 
   render(){
     const { classes } = this.props;
+    const { name } = this.state.userProfile.firstName + " " + this.state.userProfile.prefix == "" ? this.state.userProfile.lastName : this.state.userProfile.prefix + " " + this.state.userProfile.lastName
     
     return (
       <Grid container style={{maxWidth: '1100px', margin: '15px auto'}}>
@@ -149,21 +176,21 @@ class GuestProfile extends React.Component {
             
             {/* personal data */}
             <Card className={classes.card}>
-              <div class="row">
-                <div class="col-md-12">
+              <div className="row">
+                <div className="col-md-12">
                   <Card className={classes.banner}>
                     <CardContent className={classes.cardContent}>
                       <Avatar alt="User" src="https://yt3.ggpht.com/a/AATXAJwht8OvVO9HMRD7PFE4F6WczDX814Sxwswxuo2m0w=s900-c-k-c0x00ffffff-no-rj" className={classes.avatar}></Avatar>
                       <Typography gutterBottom variant="h5" component="h4">
-                        Username
+                        {this.state.username}
                       </Typography>
                       <Typography>Information about the user</Typography>
                     </CardContent>
                   </Card>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-6">
+              <div className="row">
+                <div className="col-md-6">
                   <Typography variant="h6" gutterBottom>
                     Personal information
                   </Typography>
@@ -171,22 +198,26 @@ class GuestProfile extends React.Component {
                     <tbody>
                       <tr>
                         <td>Nationality: </td>
-                        <td></td>
+                        <td style={{paddingLeft: "10px"}}>{this.state.userProfile.nationality}</td>
                       </tr>
                       <tr>
                         <td>Birthday: </td>
-                        <td></td>
+                        <td style={{paddingLeft: "10px"}}>{this.state.userProfile.birthday}</td>
                       </tr>
                       <tr>
                         <td>Languages: </td>
-                        <td>
-                          
+                        <td style={{paddingLeft: "10px"}}>
+                          {
+                            this.state.userProfile.languages.map(function(elem){
+                              return elem.name;
+                            }).join(", ")
+                          }
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div class="col-md-6">
+                <div className="col-md-6">
                   <Typography variant="h6" gutterBottom>
                     Contact information
                   </Typography>
@@ -195,11 +226,11 @@ class GuestProfile extends React.Component {
                     <tbody>
                       <tr>
                         <td>Phone number: </td>
-                        <td></td>
+                        <td style={{paddingLeft: "10px"}}>{this.state.userProfile.phoneNumber}</td>
                       </tr>
                       <tr>
                         <td>Email address: </td>
-                        <td></td>
+                        <td style={{paddingLeft: "10px"}}>{this.state.userProfile.emailAddress}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -209,8 +240,8 @@ class GuestProfile extends React.Component {
 
             {/* study + job history */}
             <Card className={classes.card}>
-              <div class="row">
-                <div class="col-md-6">
+              <div className="row">
+                <div className="col-md-6">
                   <Typography variant="h6" gutterBottom>
                     School history
                   </Typography>
@@ -245,7 +276,7 @@ class GuestProfile extends React.Component {
                   </table>
                 </div>
 
-                <div class="col-md-6">
+                <div className="col-md-6">
                   <Typography variant="h6" gutterBottom>
                     Job history
                   </Typography>
@@ -272,8 +303,8 @@ class GuestProfile extends React.Component {
                 About me
               </Typography>
 
-              <div class="row">
-                <div class="col-md-4">
+              <div className="row">
+                <div className="col-md-4">
                   <Typography gutterBottom>
                     Hobbies
                   </Typography>
@@ -289,7 +320,7 @@ class GuestProfile extends React.Component {
                     </li>
                   </ul>
                 </div>
-                <div class="col-md-4">
+                <div className="col-md-4">
                   <Typography gutterBottom>
                     Interests
                   </Typography>
@@ -306,7 +337,7 @@ class GuestProfile extends React.Component {
                   </ul>
 
                 </div>
-                <div class="col-md-4">
+                <div className="col-md-4">
                   <Typography gutterBottom>
                     Skills
                   </Typography>
@@ -337,13 +368,12 @@ class GuestProfile extends React.Component {
 
 
 
-              <div class="row">
+              <div className="row">
 
-
-                <div item md={6} class="col-md-6" className={classes.projectCard}> {/* add border */}
+                <div className="col-md-6" style={{padding: "15px"}}> {/* add border */}
                   <div className={classes.proCardContent}>
-                    <div class="row">
-                      <div class="col-md-6">
+                    <div className="row">
+                      <div className="col-md-6">
                         <a href="">
                           <table>
                             <thead>
@@ -362,8 +392,8 @@ class GuestProfile extends React.Component {
                         </a>
                       </div>
 
-                      <div class="col-md-6">
-                        <Grid md={12}>
+                      <div className="col-md-6">
+                        <Grid item md={12}>
                           Collaberators
                         </Grid>
                         <Grid>
@@ -378,12 +408,48 @@ class GuestProfile extends React.Component {
 
                     </div>
                   </div>
+                </div>
 
+                <div className="col-md-6" style={{padding: "15px"}}> {/* add border */}
+                  <div className={classes.proCardContent}>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <a href="">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>
+                                    project name
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td className={classes.imgContainer}><img src={process.env.PUBLIC_URL + '/assets/github-small.png'} className={classes.projectIcon} /></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </a>
+                      </div>
 
-                  <div class="col-md-6"> {/* add border */}
+                      <div className="col-md-6">
+                        <Grid item md={12}>
+                          Collaberators
+                        </Grid>
+                        <Grid>
+                          <ul>
+                            <li>colaberator 1</li>
+                            <li>colaberator 2</li>
+                            <li>colaberator 3</li>
+                            <li>colaberator 4</li>
+                          </ul>
+                        </Grid>
+                      </div>
 
+                    </div>
                   </div>
                 </div>
+
               </div>
 
             </Card>
