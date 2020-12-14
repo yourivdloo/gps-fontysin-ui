@@ -256,10 +256,6 @@ class profile extends React.Component {
 
     axios
       .get(baseUrl + "/api/user/410078", { headers: headers })
-      .catch((e) => {
-        console.log(e)
-        this.setState({disconnected: true})
-      })
       .then((result) => {
         this.setState({ formData: result.data });
         console.log(result.data);
@@ -274,7 +270,7 @@ class profile extends React.Component {
         })
         
         result.data.userProperties.hobbies.forEach(obj => {
-          newHobbies.push({index: newHobbyIndex, name: obj.name, label: "skill"})
+          newHobbies.push({index: newHobbyIndex, name: obj.name, label: "hobby"})
           newHobbyIndex++;
             // hobbyList: [...prevState.skillList, {index: this.state.hobbyIndex, name: value.name, label: "hobby"}]
             // hobbyIndex: this.state.hobbyList + 1
@@ -296,12 +292,15 @@ class profile extends React.Component {
         })
 
         result.data.userProperties.jobs.forEach(obj => {
-          newJobs.push({index: newJobIndex, name: obj.name, school: obj.school, city: obj.city, endDate: obj.endDate, startDate: obj.startDate, label: "study"})
+          newJobs.push({index: newJobIndex, name: obj.name, school: obj.school, city: obj.city, endDate: obj.endDate, startDate: obj.startDate, label: "job"})
           newJobIndex++;
             // jobList: [...prevState.jobsList, {index: this.state.jobIndex, name: value.name, companyName: value.companyName, startDate: value.startDate, endDate: value.endDate, label: "job"}]
             // jobIndex: this.state.jobIndex + 1})
-        })})
-        // })
+        })
+
+        newHobbies.forEach(obj => {
+          this.setState((prevState) => ({hobbyList: [...prevState.hobbyList, obj]}))
+        })
 
         newInterests.forEach(obj => {
           this.setState((prevState) => ({interestList: [...prevState.interestList, obj]}))
@@ -309,10 +308,6 @@ class profile extends React.Component {
 
         newSkills.forEach(obj => {
           this.setState((prevState) => ({skillList: [...prevState.skillList, obj]}))
-        })
-
-        newHobbies.forEach(obj => {
-          this.setState((prevState) => ({hobbyList: [...prevState.hobbyList, obj]}))
         })
 
         newStudies.forEach(obj => {
@@ -325,8 +320,11 @@ class profile extends React.Component {
 
         this.setState({interestIndex: newInterestIndex, skillIndex: newSkillIndex,
         hobbyIndex: newHobbyIndex, studyIndex: newStudyIndex, jobIndex: newJobIndex})
-
-        console.log(this.state.interestList)
+      
+      }).catch((e) => {
+          console.log(e)
+          this.setState({disconnected: true})
+        })
       }
 
   shiHandleChange = (event, newValue) => {
@@ -515,6 +513,7 @@ class profile extends React.Component {
         this.setState({ studyList });
         this.state.formData.userProperties.studies[index].startDate = value;
       }
+      console.log(this.state.formData.userProperties.studies[index])
     } else if (type === "job") {
       var jobList = this.state.jobList;
       var selectedJob = jobList.find((x) => x.index == index);
@@ -600,26 +599,29 @@ class profile extends React.Component {
   // }
 
   handleSubmit = (e) => {
-    var personalData = this.state.personalData;
+    if(!this.state.disconnected){
+    var personalData = this.state.formData;
     console.log(personalData);
 
-    personalData.address =
-      personalData.street + " " + personalData.addressnumber;
+    // personalData.address =
+    //   personalData.street + " " + personalData.addressnumber;
 
-    if (
-      personalData.addressaddition != null &&
-      personalData.addressaddition != ""
-    ) {
-      personalData.address =
-        personalData.address + personalData.addressaddition;
-    }
+    // if (
+    //   personalData.addressaddition != null &&
+    //   personalData.addressaddition != ""
+    // ) {
+    //   personalData.address =
+    //     personalData.address + personalData.addressaddition;
+    // }
 
     /******************************************************
      *     implement a form validation function here      *
      ******************************************************/
 
     var result = UserProfileService.updateProfile(personalData);
+    this.props.history.push("/guestprofile")
     console.log(result);
+    }
   };
   // handleSubmit(event) {
   //     alert('A name was submitted: ' + this.state.values.join(', '));
@@ -664,12 +666,14 @@ class profile extends React.Component {
             </CardContent>
             <div className={classes.cardActions}>
               <CheckIcon
-                style={{ color: "#74C365" }}
+                style={{ color: this.state.disconnected ? "white" : "#74C365" }}
                 className={classes.settings}
+                onClick={this.handleSubmit}
               ></CheckIcon>
               <CloseIcon
-                style={{ color: "#E23D28" }}
+                style={{ color: this.state.disconnected ? "white" : "#E23D28" }}
                 className={classes.settings}
+                onClick={() => this.props.history.push("/guestprofile")}
               ></CloseIcon>
               {/* <CancelIcon style={{ color: '#BEBEBE' }} className={classes.settings}></CancelIcon> */}
               {/* <SettingsIcon className={classes.settings} onClick={() => this.props.history.push("/settings")}>
