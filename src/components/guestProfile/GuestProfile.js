@@ -101,8 +101,10 @@ const styles = theme => ({
     textAlign: 'center',
   },
   projectCard: {
-    margin: theme.spacing(0, 2),
-    border: "1px solid #8D5C97"
+    padding: theme.spacing(0, 2),
+  },
+  proCardContent: {
+    border: "2px solid #8D5C97"
   }
 });
 
@@ -338,48 +340,49 @@ class GuestProfile extends React.Component {
               <div class="row">
 
 
-                <div class="col-md-6" > {/* add border */}
-                  
-                  <div class="row">
-                    <div class="col-md-6">
-                      <a href="">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>
-                                  project name
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className={classes.imgContainer}><img src={process.env.PUBLIC_URL + '/assets/github-small.png'} className={classes.projectIcon} /></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </a>
-                    </div>
+                <div item md={6} class="col-md-6" className={classes.projectCard}> {/* add border */}
+                  <div className={classes.proCardContent}>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <a href="">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>
+                                    project name
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td className={classes.imgContainer}><img src={process.env.PUBLIC_URL + '/assets/github-small.png'} className={classes.projectIcon} /></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </a>
+                      </div>
 
-                    <div class="col-md-6">
-                      <Grid md={12}>
-                        Collaberators
-                      </Grid>
-                      <Grid>
-                        <ul>
-                          <li>colaberator 1</li>
-                          <li>colaberator 2</li>
-                          <li>colaberator 3</li>
-                          <li>colaberator 4</li>
-                        </ul>
-                      </Grid>
+                      <div class="col-md-6">
+                        <Grid md={12}>
+                          Collaberators
+                        </Grid>
+                        <Grid>
+                          <ul>
+                            <li>colaberator 1</li>
+                            <li>colaberator 2</li>
+                            <li>colaberator 3</li>
+                            <li>colaberator 4</li>
+                          </ul>
+                        </Grid>
+                      </div>
+
                     </div>
+                  </div>
+
+
+                  <div class="col-md-6"> {/* add border */}
 
                   </div>
-                </div>
-
-
-                <div class="col-md-6"> {/* add border */}
-
                 </div>
               </div>
 
