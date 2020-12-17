@@ -135,7 +135,6 @@ class GuestProfile extends React.Component {
       Profile.loadFromObject(response.data);
 
       this.setState({userProfile: Profile});
-      console.log(Profile);
 
       var name = "";
       if(this.state.userProfile.prefix.trim() !== ""){
@@ -194,7 +193,12 @@ class GuestProfile extends React.Component {
     const { classes } = this.props;
     const userProfile = this.state.userProfile;
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    
+    var tempNationality = nationalities.filter(obj => {
+      return obj.code === userProfile.nationality
+    })[0];
+
+    const nationality = tempNationality == undefined ? "" : tempNationality.language;
+
     return (
       <Grid container style={{maxWidth: '1100px', margin: '15px auto'}}>
           <Grid item md={12} style={{marginRight: "25px"}}>
@@ -223,11 +227,15 @@ class GuestProfile extends React.Component {
                     <tbody>
                       <tr>
                         <td>Nationality: </td>
-                        <td style={{paddingLeft: "10px"}}>{this.state.userProfile.nationality}</td>
+                        <td style={{paddingLeft: "10px"}}>
+                          {
+                            nationality
+                          }
+                        </td>
                       </tr>
                       <tr>
                         <td>Birthday: </td>
-                        <td style={{paddingLeft: "10px"}}>{this.state.userProfile.birthday}</td>
+                        <td style={{paddingLeft: "10px"}}>{userProfile.birthday}</td>
                       </tr>
                       <tr>
                         <td>Languages: </td>
@@ -276,11 +284,12 @@ class GuestProfile extends React.Component {
 
                   {
                     userProfile.studies.map((val, idx) => {
+                      console.log(userProfile.studies);
                       var date1 = new Date(val.startDate);
-                      var date2 = new Date(val.endDate);
+                      var date2 = val.endDate == null? new Date() : new Date(val.endDate);
                       
                       var startdate = monthNames[date1.getMonth()] + " " + date1.getFullYear();
-                      var enddate = monthNames[date2.getMonth()] + " " + date2.getFullYear();
+                      var enddate = val.endDate == null? "heden" : monthNames[date2.getMonth()] + " " + date2.getFullYear();
                       
                       var duration = this.getDateDiference(date1, date2);
 
@@ -338,10 +347,10 @@ class GuestProfile extends React.Component {
                   {
                     userProfile.jobs.map((val, idx) => {
                       var date1 = new Date(val.startDate);
-                      var date2 = new Date(val.endDate);
+                      var date2 = val.endDate == null? new Date() : new Date(val.endDate);
                       
                       var startdate = monthNames[date1.getMonth()] + " " + date1.getFullYear();
-                      var enddate = monthNames[date2.getMonth()] + " " + date2.getFullYear();
+                      var enddate = val.endDate == null? "heden" : monthNames[date2.getMonth()] + " " + date2.getFullYear();
                       
                       var duration = this.getDateDiference(date1, date2);
 
