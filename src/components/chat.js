@@ -8,7 +8,7 @@ class chat extends React.Component {
       <div>
         <br></br>
         <h1>Chat</h1>
-        <Button variant="contained" color="secondary">
+        <Button variant="contained" color="secondary" name="helloBTN" href="/">
           Hello
         </Button>
       </div>
