@@ -80,8 +80,8 @@ const initialFormData = Object({
   birthday: "",
   birthPlace: "",       ///
   phoneNumber: "",
-  studies: [{ name: "", startDate: "" }],
-  jobs: [{ name: "", startDate: "" }],
+  studies: [{ name: "", school: "", city: "", startDate: "" }],
+  jobs: [{ name: "", companyName: "", startDate: "" }],
   hobbies: [{ name: ""}],
   interests: [{ name: ""}],
   languages: []         ///
@@ -192,7 +192,7 @@ class ProfileSetup extends React.Component {
     if(e != null){
       var formdata = this.state.formData;
 
-      var value = e.value.trim();
+      var value = e.value;
       
       // console.log(value)
       if(type === "array"){
