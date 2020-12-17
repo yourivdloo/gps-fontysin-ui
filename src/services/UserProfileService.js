@@ -24,7 +24,7 @@ class UserProfileService{
             'x-ms-client-principal-name': userProfile.pcn + '@student.fontys.nl'
         } 
 
-        return axios.put(REST_API_URL + "/" + userProfile.pcn, userProfile, { headers: headers }); // retruns string
+        return axios.put(REST_API_URL + "/" + userProfile.pcn + "/props", userProfile, { headers: headers }); // retruns string
     }
 }
 

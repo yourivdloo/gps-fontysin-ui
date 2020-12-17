@@ -543,7 +543,7 @@ class profile extends React.Component {
     var type = record.label;
 
     if (type === "interest") {
-      var interests = this.state.formData.userProperties.interests.filter((r) => r !== record);
+      var interests = this.state.formData.userProperties.interests.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
       formData.userProperties.interests = interests;
 
@@ -552,7 +552,7 @@ class profile extends React.Component {
         formData: formData,
       });
     } else if (type === "skill") {
-      var skills = this.state.formData.userProperties.skills.filter((r) => r !== record);
+      var skills = this.state.formData.userProperties.skills.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
       formData.userProperties.skills = skills;
 
@@ -563,7 +563,7 @@ class profile extends React.Component {
 
       console.log("Deleted skill " + record.name);
     } else if (type === "hobby") {
-      var hobbies = this.state.formData.userProperties.hobbies.filter((r) => r !== record);
+      var hobbies = this.state.formData.userProperties.hobbies.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
       formData.userProperties.hobbies = hobbies;
 
@@ -572,7 +572,7 @@ class profile extends React.Component {
         formData: formData,
       });
     } else if (type === "study") {
-      var studies = this.state.formData.userProperties.studies.filter((r) => r !== record);
+      var studies = this.state.formData.userProperties.studies.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
       formData.userProperties.studies = studies;
 
@@ -581,12 +581,12 @@ class profile extends React.Component {
         formData: formData,
       });
     } else if (type === "job") {
-      var jobs = this.state.formData.userProperties.jobs.filter((r) => r != record);
+      var jobs = this.state.formData.userProperties.jobs.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
       formData.userProperties.jobs = jobs;
 
       this.setState({
-        jobList: this.state.jobList.filter((r) => r !== record),
+        jobList: this.state.jobList.filter((r) => r.name !== record.name),
         formData: formData,
       });
     }
