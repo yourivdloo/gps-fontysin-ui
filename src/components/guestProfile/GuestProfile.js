@@ -1,26 +1,12 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import UserProfileService from '../../services/UserProfileService';
 import UserProfile from '../../entities/UserProfile';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://fontys.nl/">
-        FontysIn 
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const styles = theme => ({
   appBar: {
@@ -165,10 +151,49 @@ class GuestProfile extends React.Component {
     });
   }
 
+  getMonth(){
+  }
+
+  getDateDiference(startdate, enddate){
+    var diff = Math.floor(enddate.getTime() - startdate.getTime());
+    var day = 1000 * 60 * 60 * 24;
+    var month = day * 31;
+    var year = month * 12;
+
+    var yearcount = Math.floor(diff / year);
+    var yearsInMiliSeconds = yearcount * year;
+    
+    var remainingDiff = diff - yearsInMiliSeconds;
+
+    var monthcount = Math.floor(remainingDiff / month);
+    var monthsInMiliSeconds = monthcount * month;
+
+    var remainingDiff = remainingDiff - monthsInMiliSeconds;
+
+    var daycount = Math.floor(remainingDiff / day);
+    
+    var years = yearcount == 1 ? yearcount + " year ": yearcount + " years ";
+    var months = monthcount == 1 ? monthcount + " month ": monthcount + " months ";
+    var days = daycount == 1 ? daycount + " day ": daycount + " days ";
+
+
+    var response = "";
+    
+    if(yearcount > 0){
+      response = years + months;
+    } else if(monthcount > 0){
+      response = months + days;
+    }else{
+      response = days;
+    }
+
+    return response;
+  }
 
   render(){
     const { classes } = this.props;
-    const { name } = this.state.userProfile.firstName + " " + this.state.userProfile.prefix == "" ? this.state.userProfile.lastName : this.state.userProfile.prefix + " " + this.state.userProfile.lastName
+    const userProfile = this.state.userProfile;
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     
     return (
       <Grid container style={{maxWidth: '1100px', margin: '15px auto'}}>
@@ -208,8 +233,10 @@ class GuestProfile extends React.Component {
                         <td>Languages: </td>
                         <td style={{paddingLeft: "10px"}}>
                           {
-                            this.state.userProfile.languages.map(function(elem){
-                              return elem.name;
+                            userProfile.languages.map(function(elem){
+                              return languages.filter(obj => {
+                                return obj.code === elem.name
+                              })[0].language;
                             }).join(", ")
                           }
                         </td>
@@ -241,58 +268,125 @@ class GuestProfile extends React.Component {
             {/* study + job history */}
             <Card className={classes.card}>
               <div className="row">
+                {/* studies */}
                 <div className="col-md-6">
                   <Typography variant="h6" gutterBottom>
                     School history
                   </Typography>
-                  <table className={classes.collectionItem}>
-                    <tbody>
-                      <tr>
-                        <th className={classes.expHeader}>studyname</th>
-                      </tr>
-                      <tr>
-                        <td>schoolname - city</td>
-                      </tr>
-                      <tr>
-                        <td>start date - end date : duration</td>
-                      </tr>
-                    </tbody>
-                  </table>
 
-                  <hr className={classes.seperator} />
+                  {
+                    userProfile.studies.map((val, idx) => {
+                      var date1 = new Date(val.startDate);
+                      var date2 = new Date(val.endDate);
+                      
+                      var startdate = monthNames[date1.getMonth()] + " " + date1.getFullYear();
+                      var enddate = monthNames[date2.getMonth()] + " " + date2.getFullYear();
+                      
+                      var duration = this.getDateDiference(date1, date2);
 
-                  <table className={classes.collectionItem}>
-                    <tbody>
-                      <tr>
-                        <th className={classes.expHeader}>studyname</th>
-                      </tr>
-                      <tr>
-                        <td>schoolname - city</td>
-                      </tr>
-                      <tr>
-                        <td>start date - end date : duration</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      if(idx === 0){
+                        return(
+                          <Grid key={idx}>
+                            <table className={classes.collectionItem}>
+                              <tbody>
+                                <tr>
+                                  <th className={classes.expHeader}>{val.name}</th>
+                                </tr>
+                                <tr>
+                                  <td>{val.school} - {val.city}</td>
+                                </tr>
+                                <tr>
+                                  <td>{startdate} - {enddate} : {duration.toString()}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </Grid>
+                        )
+                      }
+
+                      return(
+                        <Grid key={idx}>
+                          <hr className={classes.seperator} />
+
+                          <table className={classes.collectionItem}>
+                            <tbody>
+                              <tr>
+                                <th className={classes.expHeader}>{val.name}</th>
+                              </tr>
+                              <tr>
+                                <td>{val.school} - {val.city}</td>
+                              </tr>
+                              <tr>
+                                <td>{startdate} - {enddate} : {duration.toString()}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </Grid>
+                      )
+
+                    })
+                  }
+
                 </div>
-
+                
+                {/* jobs */}
                 <div className="col-md-6">
                   <Typography variant="h6" gutterBottom>
                     Job history
                   </Typography>
-                  <table className={classes.collectionItem}>
-                    <tbody>
-                      <tr>
-                        <th className={classes.expHeader}>function name</th>
-                      </tr>
-                      <tr>
-                        <td>company name</td>
-                      </tr>
-                      <tr>
-                        <td>start date - end date : duration</td>
-                      </tr>
-                    </tbody>
-                  </table>
+
+                  {
+                    userProfile.jobs.map((val, idx) => {
+                      var date1 = new Date(val.startDate);
+                      var date2 = new Date(val.endDate);
+                      
+                      var startdate = monthNames[date1.getMonth()] + " " + date1.getFullYear();
+                      var enddate = monthNames[date2.getMonth()] + " " + date2.getFullYear();
+                      
+                      var duration = this.getDateDiference(date1, date2);
+
+                      if(idx === 0){
+                        return(
+                          <Grid key={idx}>
+                            <table className={classes.collectionItem}>
+                              <tbody>
+                                <tr>
+                                  <th className={classes.expHeader}>{val.name}</th>
+                                </tr>
+                                <tr>
+                                  <td>{val.companyName}</td>
+                                </tr>
+                                <tr>
+                                  <td>{startdate} - {enddate} : {duration.toString()}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </Grid>
+                        )
+                      }
+
+                      return(
+                        <Grid key={idx}>
+                          <hr className={classes.seperator} />
+
+                          <table className={classes.collectionItem}>
+                            <tbody>
+                              <tr>
+                                <th className={classes.expHeader}>{val.name}</th>
+                              </tr>
+                              <tr>
+                                <td>{val.companyName}</td>
+                              </tr>
+                              <tr>
+                                <td>{startdate} - {enddate} : {duration.toString()}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </Grid>
+                      )
+
+                    })
+                  }
                 </div>
               </div>
             </Card>
@@ -309,15 +403,15 @@ class GuestProfile extends React.Component {
                     Hobbies
                   </Typography>
                   <ul>
-                    <li>
-                      hobby 1
-                    </li>
-                    <li>
-                      hobby 2
-                    </li>
-                    <li>
-                      hobby 3
-                    </li>
+                    {
+                      userProfile.hobbies.map((val, idx) => {
+                        return(
+                          <li key={idx}>
+                            {val.name}
+                          </li>
+                        )
+                      })
+                    }
                   </ul>
                 </div>
                 <div className="col-md-4">
@@ -325,15 +419,15 @@ class GuestProfile extends React.Component {
                     Interests
                   </Typography>
                   <ul>
-                    <li>
-                      Interest 1
-                    </li>
-                    <li>
-                      Interest 2
-                    </li>
-                    <li>
-                      Interest 3
-                    </li>
+                    {
+                      userProfile.interests.map((val, idx) => {
+                        return(
+                          <li key={idx}>
+                            {val.name}
+                          </li>
+                        )
+                      })
+                    }
                   </ul>
 
                 </div>
@@ -342,15 +436,15 @@ class GuestProfile extends React.Component {
                     Skills
                   </Typography>
                   <ul>
-                    <li>
-                      Skill 1
-                    </li>
-                    <li>
-                      Skill 2
-                    </li>
-                    <li>
-                      Skill 3
-                    </li>
+                    {
+                      userProfile.skills.map((val, idx) => {
+                        return(
+                          <li key={idx}>
+                            {val.name}
+                          </li>
+                        )
+                      })
+                    }
                   </ul>
 
                 </div>
@@ -363,12 +457,11 @@ class GuestProfile extends React.Component {
                 Projects
               </Typography>
 
-              
-
-
-
-
               <div className="row">
+
+
+
+
 
                 <div className="col-md-6" style={{padding: "15px"}}> {/* add border */}
                   <div className={classes.proCardContent}>
@@ -409,6 +502,10 @@ class GuestProfile extends React.Component {
                     </div>
                   </div>
                 </div>
+
+
+
+
 
                 <div className="col-md-6" style={{padding: "15px"}}> {/* add border */}
                   <div className={classes.proCardContent}>
