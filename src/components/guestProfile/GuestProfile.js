@@ -12,6 +12,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import $ from 'jquery'
 import { red } from '@material-ui/core/colors';
 import GitHubIcon from '@material-ui/icons/GitHub';
+import EditIcon from '@material-ui/icons/Edit';
 
 function Copyright() {
   return (
@@ -105,16 +106,27 @@ const styles = theme => ({
   },
   proCardContent: {
     border: "2px solid #8D5C97"
-  }
+  },
+  cardActions: {
+    float: "left",
+    width: "10%",
+  },
+  settings: {
+    width: "50px",
+    height: "50px",
+    cursor: "pointer",
+    float: "left",
+    color: "#D0D0D0",
+  },
 });
 
 
 const languages = Object([
   { code: "NL", language: "Dutch" },
   { code: "EN", language: "English" },
-  { code: "DE", language: "Deutsch" },
+  { code: "DE", language: "German" },
   { code: "FR", language: "French" },
-  { code: "IT", language: "Ítalian" },
+  { code: "IT", language: "Italian" },
   { code: "PL", language: "Polish" },
   { code: "SW", language: "Swiss" },
   { code: "SP", language: "Spanish" }
@@ -159,6 +171,16 @@ class GuestProfile extends React.Component {
                       </Typography>
                       <Typography>Information about the user</Typography>
                     </CardContent>
+                    <div className={classes.cardActions}>
+              <SettingsIcon
+                className={classes.settings}
+                onClick={() => this.props.history.push("/settings")}
+              />
+              <EditIcon
+                className={classes.settings}
+                onClick={() => this.props.history.push("/profile")}
+              />
+            </div>
                   </Card>
                 </div>
               </div>

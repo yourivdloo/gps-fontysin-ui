@@ -195,8 +195,6 @@ class profile extends React.Component {
       projectIndex: 3,
       shiValue: 0,
       sjValue: 0,
-      shiActiveStep: 0,
-      sjActiveStep: 0,
       formData: personalData,
       skillList: [],
       interestList: [],
@@ -631,13 +629,13 @@ class profile extends React.Component {
   // handleChange = (event, newValue) => {
   //     this.state.setState("value",  newValue);
   // };
-  shiHandleTabsDisplay = () => {
-    this.setState({ shiActiveStep: this.state.shiActiveStep + 1 });
-  };
+  // shiHandleTabsDisplay = () => {
+  //   this.setState({ shiActiveStep: this.state.shiActiveStep + 1 });
+  // };
 
-  sjHandleTabsDisplay = () => {
-    this.setState({ sjActiveStep: this.state.sjActiveStep + 1 });
-  };
+  // sjHandleTabsDisplay = () => {
+  //   this.setState({ sjActiveStep: this.state.sjActiveStep + 1 });
+  // };
 
   render() {
     const shiSteps = ["Skills", "Hobbies", "Interests"];

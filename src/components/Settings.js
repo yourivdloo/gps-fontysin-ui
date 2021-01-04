@@ -1,19 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {withStyles, makeStyles} from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import MuiPhoneNumber from "material-ui-phone-number";
-import Button from '@material-ui/core/Button';
 import {TextField} from '@material-ui/core';
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
+import UserProfileService from "../services/UserProfileService";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+
+const baseUrl = "http://localhost:8080";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -99,7 +103,6 @@ const personalData = Object({
     }
 );
 
-
 class Settings extends React.Component {
 
     constructor(props) {
@@ -109,30 +112,75 @@ class Settings extends React.Component {
                 value: 0,
                 tabValue: 0, //TODO issue with the first load of the page, page is blank and the tab has to be selected
                 phone: "",
-
+                adress: "",
+                zipcode: "",
+                city: "",
+                disconnected: false
             }
         };
         this.handlePhoneChange = this.handlePhoneChange.bind(this);
+        this.handleAddressChange = this.handleAddressChange.bind(this);
+        this.handleZipCodeChange = this.handleZipCodeChange.bind(this);
+        this.handleCityChange = this.handleCityChange.bind(this);
         this.tabHandleChange = this.tabHandleChange.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    // const classes = useStyles();
-    // const [value, setValue] = React.useState(0);
+    componentDidMount() {
+        var headers = {
+          "x-ms-client-principal-name": "410078@student.fontys.nl",
+        };
+    
+        axios
+          .get(baseUrl + "/api/user/410078", { headers: headers })
+          .then((result) => {
+            this.setState({ formData: result.data, phone: result.data.phoneNumber, city: result.data.city, zipcode: result.data.zipCode, address: result.data.address });
+            console.log(result.data);
+          })
+          .catch((e) =>
+          {
+           console.log(e)
+           this.state.disconnected = true;
+          });
+      }
 
     tabHandleChange = (event, newValue) => {
         this.setState({tabValue: newValue});
     };
-    handlePhoneChange = (value) => {
-        if (value) {
-            this.setState({phone: value});
+
+    handleSubmit = (e) => {
+        if(!this.state.disconnected){
+        var personalData = this.state.formData;
+        console.log(personalData);
+    
+        var headers = {
+            'x-ms-client-principal-name': personalData.pcn + '@student.fontys.nl'
+        } 
+
+        axios.put(baseUrl + "/api/user/" + personalData.pcn, personalData, { headers: headers });
+        this.props.history.push("/guestprofile")
         }
     }
 
-    handleChange = (value) => {
-        this.setState({setValue: value});
-    };
+    handlePhoneChange = (value) => {
+        this.setState({phone: value});
+        this.state.formData.phoneNumber = value;
+    }
+
+    handleAddressChange = (e) => {
+        this.setState({address: e.target.value});
+        this.state.formData.address = e.target.value;
+    }
+
+    handleZipCodeChange = (e) => {
+        this.setState({zipcode: e.target.value});
+        this.state.formData.zipCode = e.target.value;
+    }
+
+    handleCityChange = (e) => {
+        this.setState({city: e.target.value});
+        this.state.formData.city = e.target.value;
+    }
 
     render() {
         const {classes} = this.props;
@@ -160,29 +208,37 @@ class Settings extends React.Component {
                         <h2>Edit your profile description</h2>
                         <TextField id="descriptionField" placeholder={"Write a description"} variant="filled"
                                    multiline inputProps={{rowsMax: 15, maxLength: 200}}/> {/*Description*/}
-                        <p>Edit phone number</p>
+                        <br/>
                         <MuiPhoneNumber
                             name="phone"
-                            label="Phone Number"
+                            label="Phone number"
                             data-cy="user-phone"
                             defaultCountry={"nl"}
                             value={this.state.phone}
                             onChange={this.handlePhoneChange}
                         />
-
-                        <p>Edit address</p>
-                        <TextField placeholder={"P Sherman, 42 Wallaby Way, Sydney "}/>
-
-
-                        <p>Edit ZipCode</p>
-                        <TextField placeholder=
-
-                                       {"12345 AB"} inputProps={{maxLength: 8}}/>
-
-
-                        <p>Change your city</p>
-                        <TextField placeholder={"Zurich, CH"}/>
-
+                        <br/>
+                        <TextField 
+                            label="Address"
+                            value={this.state.address}
+                            onChange={this.handleAddressChange}
+                        />
+                        <br/>
+                        <TextField 
+                            label="Zip code"
+                            value={this.state.zipcode} 
+                            inputProps={{maxLength: 8}}
+                            onChange={this.handleZipCodeChange}
+                        />
+                        <br/>
+                        <TextField 
+                            label="City"
+                            value={this.state.city}
+                            onChange={this.handleCityChange}
+                        />
+                        <br/>
+                        <Button variant="contained" color="primary" disabled={this.state.disconnected} onClick={this.handleSubmit}>Save changes</Button>
+                        <Button variant="contained" color="secondary" onClick={() => this.props.history.push("/guestProfile")}>Cancel</Button>
                     </Grid>
                 </TabPanel>
 
