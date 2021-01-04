@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
 
 const WorkForm = (props) => {
@@ -9,9 +10,10 @@ const WorkForm = (props) => {
   return (
     <React.Fragment>
       <Typography variant="h6"  gutterBottom>
-        Study and work details
+        Study details
       </Typography>
       <Grid container spacing={3}>
+        
         <Grid item xs={12} md={6}>
           <TextField 
             required 
@@ -27,14 +29,47 @@ const WorkForm = (props) => {
             }}
           />
         </Grid>
+        <Grid item xs={12} md={6}>
+          <TextField 
+            required 
+            id="studyschool" 
+            name="school"
+            label="School name" 
+            fullWidth 
+            value={props.form.studies[0].school}
+            autoComplete="study" 
+            onChange={handleChange}
+            inputProps={{
+              'data-category':'studies'
+            }}
+          />
+        </Grid>
         
+      </Grid>
+      <Grid container spacing={3}>
+        
+        <Grid item xs={12} md={6}>
+          <TextField 
+            required 
+            id="studycity" 
+            name="city"
+            label="City" 
+            fullWidth 
+            value={props.form.studies[0].city}
+            autoComplete="study" 
+            onChange={handleChange}
+            inputProps={{
+              'data-category':'studies'
+            }}
+          />
+        </Grid>
         <Grid item xs={12} md={6}>
         <TextField
           id="studydate"
-          name="date"
+          name="startDate"
           label="Start date"
           type="date"
-          value={props.form.studies[0].date}
+          value={props.form.studies[0].startDate}
           onChange={handleChange}
           InputLabelProps={{
           shrink: true,
@@ -44,12 +79,21 @@ const WorkForm = (props) => {
           }}
         />
         </Grid>
+        
+      </Grid>
 
+      <br /><br />
+
+      <Typography variant="h6"  gutterBottom>
+        Work details
+      </Typography>
+
+      <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <TextField 
             id="jobname" 
             name="name"
-            label="Current job" 
+            label="Job description" 
             fullWidth 
             value={props.form.jobs[0].name}
             autoComplete="job" 
@@ -59,25 +103,45 @@ const WorkForm = (props) => {
             }}
           />
         </Grid>
+        
         <Grid item xs={12} md={6}>
-        <TextField
-          id="jobdate"
-          name="date"
-          label="Start date"
-          type="date"
-          value={props.form.jobs[0].date}
-          onChange={handleChange}
-          inputProps={{
-            'data-category':'jobs'
-          }}
-          InputLabelProps={{
-          shrink: true,
-          }}
-        />
+          <TextField 
+            id="jobcompany" 
+            name="companyName"
+            label="Company name" 
+            fullWidth 
+            value={props.form.jobs[0].companyName}
+            autoComplete="job" 
+            onChange={handleChange}
+            inputProps={{
+              'data-category':'jobs'
+            }}
+          />
         </Grid>
-        <Grid item xs={12}>
-          <p>You can always add your study and job history later on your profile page!</p>
+        
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <TextField
+              id="jobdate"
+              name="startDate"
+              label="Start date"
+              type="date"
+              value={props.form.jobs[0].startDate}
+              onChange={handleChange}
+              inputProps={{
+                'data-category':'jobs'
+              }}
+              InputLabelProps={{
+              shrink: true,
+              }}
+            />
         </Grid>
+      </Grid>
+      <br />
+
+      <Grid item xs={12}>
+        <p>You can always add your study and job history later on your profile page!</p>
       </Grid>
     </React.Fragment>
   );

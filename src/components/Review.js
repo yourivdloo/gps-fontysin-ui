@@ -1,5 +1,4 @@
 import React from 'react';
-import InputField from "./inputField"
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -22,7 +21,7 @@ const Review = (props) => {
                 <Grid key={val.index} item md={12}>
                     <TextField 
                       name={val.name} 
-                      id={val.name + "["+ idx +"]"} 
+                      id={val.name + idx} 
                       label={val.label} 
                       data-tpye={val.label} 
                       autoComplete={val.label} 
@@ -62,7 +61,7 @@ const Review = (props) => {
                 <Grid key={val.index} item md={12}>
                     <TextField 
                       name={val.name} 
-                      id={val.name + "["+ idx +"]"} 
+                      id={val.name + idx} 
                       label={val.label} 
                       data-tpye={val.label} 
                       autoComplete={val.label} 

@@ -11,8 +11,8 @@ class Navbar extends React.Component {
           <Button href="/" color="inherit">
             Home
           </Button>
-          <Button href="/profile" color="inherit">
-            Profile
+          <Button href="/guestprofile" color="inherit">
+            Guest Profile
           </Button>
           <Button href="/chat" color="inherit">
             Chat
@@ -22,6 +22,9 @@ class Navbar extends React.Component {
           </Button>
           <Button href="/profile" color="inherit">
             Profile
+          </Button>
+          <Button href="/settings" color="inherit">
+            Settings
           </Button>
         </Toolbar>
       </AppBar>

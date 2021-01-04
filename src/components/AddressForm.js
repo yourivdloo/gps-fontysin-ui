@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import Select from "@material-ui/core/Select";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
 import { MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
@@ -27,7 +26,6 @@ const AddressForm = (props) => {
 
   const handleChange = e => props.onChange(e.target);
   const handleLanguageChange = e => props.onChange(e.target, null, "language_array")
-  var selected = props.form.language
 
   return (
     <React.Fragment>

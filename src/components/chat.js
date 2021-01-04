@@ -1,5 +1,4 @@
 import React from "react";
-import { Navbar } from "../App";
 import Button from "@material-ui/core/Button";
 
 class chat extends React.Component {
@@ -8,7 +7,7 @@ class chat extends React.Component {
       <div>
         <br></br>
         <h1>Chat</h1>
-        <Button variant="contained" color="secondary">
+        <Button variant="contained" color="secondary" name="helloBTN" href="/">
           Hello
         </Button>
       </div>

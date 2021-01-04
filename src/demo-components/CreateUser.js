@@ -23,9 +23,9 @@ class CreateUser extends React.Component {
         const url = new URL("https://fontysin.azurewebsites.net/users/new")
         url.search = new URLSearchParams(this.state).toString();
 
-        const response = fetch(url, {
-            method: 'POST'
-        })
+        // const response = fetch(url, {
+        //     method: 'POST'
+        // })
 
         event.preventDefault();
       }

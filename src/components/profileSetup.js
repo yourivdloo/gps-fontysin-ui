@@ -1,5 +1,4 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -81,8 +80,8 @@ const initialFormData = Object({
   birthday: "",
   birthPlace: "",       ///
   phoneNumber: "",
-  studies: [{ name: "", date: "" }],
-  jobs: [{ name: "", date: "" }],
+  studies: [{ name: "", school: "", city: "", startDate: "" }],
+  jobs: [{ name: "", companyName: "", startDate: "" }],
   hobbies: [{ name: ""}],
   interests: [{ name: ""}],
   languages: []         ///
@@ -157,13 +156,13 @@ class ProfileSetup extends React.Component {
 
   clickOnDelete = (record) => {
     var type = record.label;
+    var array = this.state.formData;
 
     if(type === "interest"){
-      var list = this.state.interestList;
-      var index = list.map(function(e) { return e.index; }).indexOf(record.index);
+      var interestList = this.state.interestList;
+      var interestIndex = interestList.map(function(e) { return e.index; }).indexOf(record.index);
 
-      var array = this.state.formData;
-      array["interests"].splice(index, 1);
+      array["interests"].splice(interestIndex, 1);
 
       this.setState({
         interestList: this.state.interestList.filter(r => r !== record),
@@ -171,11 +170,10 @@ class ProfileSetup extends React.Component {
       });
 
     }else if(type === "hobby"){
-      var list = this.state.hobbyList;
-      var index = list.map(function(e) { return e.index; }).indexOf(record.index);
+      var hobbyList = this.state.hobbyList;
+      var hobbyIndex = hobbyList.map(function(e) { return e.index; }).indexOf(record.index);
 
-      var array = this.state.formData;
-      array["hobbies"].splice(index, 1);
+      array["hobbies"].splice(hobbyIndex, 1);
 
       this.setState({
         hobbyList: this.state.hobbyList.filter(r => r !== record)
@@ -197,21 +195,21 @@ class ProfileSetup extends React.Component {
       var value = e.value;
       
       // console.log(value)
-      if(type == "array"){
+      if(type === "array"){
         var array = formdata[e.name];
         var id = e.id;
-        var number = id.slice(id.length - 2, id.length - 1);
+        var number = id.slice(id.length - 1, id.length);
     
         array[number] = {name: value};
         
         formdata[e.name] = array;
 
-      }else if(type == "language_array"){
+      }else if(type === "language_array"){
 
         formdata[e.name] = value;
 
 
-      }else if(category != null && category != undefined && category != ""){
+      }else if(category !== null && category !== undefined && category.trim() !== ""){
         formdata[category][0][e.name] = value;
       }else{
         formdata[e.name] = value;
@@ -229,7 +227,7 @@ class ProfileSetup extends React.Component {
 
     formdata.address = formdata.street + " " + formdata.addressnumber;
 
-    if(formdata.addressaddition != null && formdata.addressaddition != ""){
+    if(formdata.addressaddition !== null && formdata.addressaddition.trim() !== ""){
       formdata.address = formdata.address + formdata.addressaddition;
     }
 
@@ -289,7 +287,6 @@ class ProfileSetup extends React.Component {
     
     return (
       <React.Fragment>
-        <CssBaseline />
         <main className={classes.layout}>
           <Paper className={classes.paper}>
             <Typography component="h1" variant="h4" align="center">
