@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Review from './Review';
 import UserProfileService from '../services/UserProfileService';
 import $ from 'jquery'
+import {withRouter} from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -126,6 +127,7 @@ const nationalities = Object([
 class ProfileSetup extends React.Component {
   constructor(props) {
     super(props);
+
     this.addNewHobby = this.addNewHobby.bind(this);
     this.addNewinterest = this.addNewinterest.bind(this);
     this.clickOnDelete = this.clickOnDelete.bind(this);
@@ -224,7 +226,6 @@ class ProfileSetup extends React.Component {
   handleSubmit = (e) => {
     // console.log(e);
     // ... submit to API or something
-    
     var formdata = this.state.formData;
 
     formdata.address = formdata.street + " " + formdata.addressnumber;
@@ -259,7 +260,14 @@ class ProfileSetup extends React.Component {
     console.log(formdata);
     var result = UserProfileService.addNewProfile(formdata);
     console.log(result);
+    this.redirectToHome();
+    // this.props.history.push("/");
   };
+
+  redirectToHome = () => {
+    const { history } = this.props;
+    if(history) history.push('/');
+   }
 
   handleNext = () => {
     this.setState({ activeStep: this.state.activeStep + 1 })
@@ -340,4 +348,4 @@ class ProfileSetup extends React.Component {
   }
 }
 
-export default withStyles(styles)(ProfileSetup)
+export default withRouter(withStyles(styles)(ProfileSetup))

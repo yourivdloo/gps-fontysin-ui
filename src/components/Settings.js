@@ -132,7 +132,7 @@ class Settings extends React.Component {
         };
     
         axios
-          .get(baseUrl + "/api/user/410078", { headers: headers })
+          .get(baseUrl + "/api/user/"+ localStorage.getItem("pcn"), { headers: headers })
           .then((result) => {
             this.setState({ formData: result.data, phone: result.data.phoneNumber, city: result.data.city, zipcode: result.data.zipCode, address: result.data.address });
             console.log(result.data);
@@ -222,6 +222,7 @@ class Settings extends React.Component {
                             label="Address"
                             value={this.state.address}
                             onChange={this.handleAddressChange}
+                            InputLabelProps = {{shrink:true}}
                         />
                         <br/>
                         <TextField 
@@ -229,12 +230,14 @@ class Settings extends React.Component {
                             value={this.state.zipcode} 
                             inputProps={{maxLength: 8}}
                             onChange={this.handleZipCodeChange}
+                            InputLabelProps = {{shrink: true}}
                         />
                         <br/>
                         <TextField 
                             label="City"
                             value={this.state.city}
                             onChange={this.handleCityChange}
+                            InputLabelProps = {{shrink: true}}
                         />
                         <br/>
                         <Button variant="contained" color="primary" disabled={this.state.disconnected} onClick={this.handleSubmit}>Save changes</Button>

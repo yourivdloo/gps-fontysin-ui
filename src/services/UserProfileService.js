@@ -11,12 +11,29 @@ class UserProfileService{
         return axios.get(REST_API_URL + "/" + pcn); // returns UserProfile
     }
 
+    async existsByPcn(userPcn){
+        var headers = {
+            'x-ms-client-principal-name': userPcn + '@student.fontys.nl'
+        }
+
+        await axios.get(REST_API_URL + "/" + userPcn, { headers: headers })
+        .then(response => {
+            localStorage.setItem('pcn', userPcn);
+        })
+        .catch((e) => {
+            localStorage.clear();
+        });
+    }
+
     addNewProfile(userProfile){
         var headers = {
             'x-ms-client-principal-name': userProfile.pcn + '@student.fontys.nl'
         } 
 
-        return axios.post(REST_API_URL + "/new", userProfile, { headers: headers }); // returns string
+        return axios.post(REST_API_URL + "/new", userProfile, { headers: headers })
+        .then(response => {
+            localStorage.setItem('pcn', userProfile.pcn);
+        })
     }
 
     updateProfile(userProfile){

@@ -7,24 +7,26 @@ import profileSetup from "./components/profileSetup"
 import page404 from "./components/page404";
 import Settings from './components/Settings';
 import guestprofile from "./components/guestProfile/GuestProfile";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import { BrowserRouter as Router, Route, Switch, withRouter} from "react-router-dom";
 
 function App() {
+
   return (
-    <main>
+    <Router>
       <Navbar/>
       <Switch>
-        <Route path="/" component={home} exact/>
-        <Route path="/profile" component={profile}/>
-        <Route path="/chat" component={chat}/>
+        {/* <Route path="/" component={home} exact/> */}
+        <PrivateRoute exact path="/" component={home}  />
+        <PrivateRoute exact path="/profile" component={profile}/>
+        <PrivateRoute path="/chat" component={chat}/>
         <Route path="/profileSetup" component={profileSetup}/>
-        <Route path="/guestprofile" component={guestprofile}/>
-        <Route path="/settings" component={Settings}/>
+        <PrivateRoute path="/guestprofile" component={guestprofile}/>
+        <PrivateRoute path="/settings" component={Settings}/>
         <Route component={page404}/>
       </Switch>
-    </main>
+    </Router>
   );
 }
-
 
 export {App};

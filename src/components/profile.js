@@ -253,7 +253,7 @@ class profile extends React.Component {
     var newJobIndex = this.state.jobIndex
 
     axios
-      .get(baseUrl + "/api/user/410078", { headers: headers })
+      .get(baseUrl + "/api/user/"+localStorage.getItem('pcn'), { headers: headers })
       .then((result) => {
         this.setState({ formData: result.data });
         console.log(result.data);
@@ -467,14 +467,14 @@ class profile extends React.Component {
       var selectedIndex = skillList.findIndex((x) => x.index == index);
       skillList[selectedIndex] = { index: index, name: value, label: "skill" };
       this.setState({ skillList });
-      this.state.formData.userProperties.skills[index] = { name: value };
+      this.state.formData.userProperties.skills[index].name = value;
     } else if (type === "hobby") {
       var hobbyList = this.state.hobbyList;
       var selectedHobby = hobbyList.find((x) => x.index == index);
       var selectedIndex = hobbyList.findIndex((x) => x.index == index);
       hobbyList[selectedIndex] = { index: index, name: value, label: "hobby" };
       this.setState({ hobbyList });
-      this.state.formData.userProperties.hobbies[index] = { name: value };
+      this.state.formData.userProperties.hobbies[index].name = value;
     } else if (type === "interest") {
       var interestList = this.state.interestList;
       var selectedInterest = interestList.find((x) => x.index == index);
@@ -485,7 +485,7 @@ class profile extends React.Component {
         label: "interest",
       };
       this.setState({ interestList });
-      this.state.formData.userProperties.interests[index] = { name: value };
+      this.state.formData.userProperties.interests[index].name = value;
     } else if (type === "study") {
       var studyList = this.state.studyList;
       var selectedStudy = studyList.find((x) => x.index == index);
