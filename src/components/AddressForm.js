@@ -9,6 +9,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
+import MuiPhoneNumber from "material-ui-phone-number";
 
 const styles = theme => ({
   formControl: {
@@ -156,7 +157,7 @@ const AddressForm = (props) => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField
+          <MuiPhoneNumber
             required
             id="phoneNumber"
             name="phoneNumber"
@@ -165,6 +166,9 @@ const AddressForm = (props) => {
             autoComplete="phoneNumber"
             onChange={handleChange}
             value={props.form.phoneNumber}
+
+            data-cy="user-phone"
+            defaultCountry={"nl"}
           />
         </Grid>
 

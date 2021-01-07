@@ -157,74 +157,49 @@ const personalData = Object({
   privacySettings: 0, ///
   nationality: "NL", ///
   address: "",
-  street: "",
-  addressnumber: "",
-  addressaddition: "",
+  isStudent: true,
+  // street: "",
+  // addressnumber: "",
+  // addressaddition: "",
   city: "",
   zipCode: "",
   birthday: "",
   birthPlace: "", ///
   phoneNumber: "",
-  studies: [
+  userProperties: [
     {
-      name: "",
-      startDate: new Date(),
-      endDate: new Date(),
-      school: "",
-      city: "",
-    },
-  ],
-  jobs: [
-    { name: "", companyName: "", startDate: new Date(), endDate: new Date() },
-  ],
-  skills: [{ name: "" }],
-  hobbies: [{ name: "" }],
-  interests: [{ name: "" }],
-  languages: [], ///
-  projects: [{ name: "", url: "", users: "" }],
+  studies: [],
+  jobs: [],
+  skills: [],
+  hobbies: [],
+  interests: [],
+  // languages: [], ///
+  projects: [],
+    }
+]
 });
 
 class profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      disconnected: false,
       shiValues: [],
       sjValues: [],
-      skillIndex: 1,
-      interestIndex: 1,
-      hobbyIndex: 1,
-      studyIndex: 1,
-      jobIndex: 1,
+      skillIndex: 0,
+      interestIndex: 0,
+      hobbyIndex: 0,
+      studyIndex: 0,
+      jobIndex: 0,
       projectIndex: 3,
       shiValue: 0,
       sjValue: 0,
-      shiActiveStep: 0,
-      sjActiveStep: 0,
       formData: personalData,
-      skillList: [{ index: 0, name: "", label: "skill" }],
-      interestList: [{ index: 0, name: "", label: "interest" }],
-      hobbyList: [{ index: 0, name: "", label: "hobby" }],
-      studyList: [
-        {
-          index: 0,
-          name: "",
-          school: "",
-          city: "",
-          startDate: new Date(),
-          endDate: new Date(),
-          label: "study",
-        },
-      ],
-      jobList: [
-        {
-          index: 0,
-          name: "",
-          companyName: "",
-          startDate: new Date(),
-          endDate: new Date(),
-          label: "job",
-        },
-      ],
+      skillList: [],
+      interestList: [],
+      hobbyList: [],
+      studyList: [],
+      jobList: [],
       // projectList: [{index: 0, name: "", url: "", users: []}]
       projectList: [
         {
@@ -261,14 +236,93 @@ class profile extends React.Component {
       "x-ms-client-principal-name": "410078@student.fontys.nl",
     };
 
+    var newInterests = []
+    var newInterestIndex = this.state.interestIndex
+
+    var newSkills = []
+    var newSkillIndex = this.state.skillIndex
+
+    var newHobbies = []
+    var newHobbyIndex = this.state.hobbyIndex
+
+    var newStudies = []
+    var newStudyIndex = this.state.studyIndex
+
+    var newJobs = []
+    var newJobIndex = this.state.jobIndex
+
     axios
-      .get(baseUrl + "/api/user/410078", { headers: headers })
+      .get(baseUrl + "/api/user/"+localStorage.getItem('pcn'), { headers: headers })
       .then((result) => {
         this.setState({ formData: result.data });
         console.log(result.data);
-      })
-      .catch((e) => console.log(e));
-  }
+
+        result.data.userProperties.skills.forEach(obj => {
+          newSkills.push({index: newSkillIndex, name: obj.name, label: "skill"})
+          newSkillIndex++;
+
+          // this.setState((prevState) => {
+          //   skillList: [...prevState.skillList, {index: this.state.skillIndex, name: value.name, label: "skill"}]
+          //   skillIndex: this.state.skillIndex + 1})
+        })
+        
+        result.data.userProperties.hobbies.forEach(obj => {
+          newHobbies.push({index: newHobbyIndex, name: obj.name, label: "hobby"})
+          newHobbyIndex++;
+            // hobbyList: [...prevState.skillList, {index: this.state.hobbyIndex, name: value.name, label: "hobby"}]
+            // hobbyIndex: this.state.hobbyList + 1
+        })
+
+        result.data.userProperties.interests.forEach(obj => {
+            newInterests.push({index: newInterestIndex, name: obj.name, label: "interest"})
+            newInterestIndex++;
+          // this.setState((prevState) => {
+          //   interestList: [...prevState.interestList, {index: this.state.interestIndex, name: value.name, label:"interest"}]
+          //   interestIndex: this.state.interestIndex + 1})
+        })
+
+        result.data.userProperties.studies.forEach(obj => {
+          newStudies.push({index: newStudyIndex, name: obj.name, school: obj.school, city: obj.city, endDate: obj.endDate, startDate: obj.startDate, label: "study"})
+            newStudyIndex++;
+            // studyList: [...prevState.studyList, {index: this.state.studyIndex, school: value.school, city: value.city, endDate: value.endDate, startDate: value.startDate, name: value.name, label: "study"}]
+            // studyIndex: this.state.studyIndex + 1})
+        })
+
+        result.data.userProperties.jobs.forEach(obj => {
+          newJobs.push({index: newJobIndex, name: obj.name, school: obj.school, city: obj.city, endDate: obj.endDate, startDate: obj.startDate, label: "job"})
+          newJobIndex++;
+            // jobList: [...prevState.jobsList, {index: this.state.jobIndex, name: value.name, companyName: value.companyName, startDate: value.startDate, endDate: value.endDate, label: "job"}]
+            // jobIndex: this.state.jobIndex + 1})
+        })
+
+        newHobbies.forEach(obj => {
+          this.setState((prevState) => ({hobbyList: [...prevState.hobbyList, obj]}))
+        })
+
+        newInterests.forEach(obj => {
+          this.setState((prevState) => ({interestList: [...prevState.interestList, obj]}))
+        })
+
+        newSkills.forEach(obj => {
+          this.setState((prevState) => ({skillList: [...prevState.skillList, obj]}))
+        })
+
+        newStudies.forEach(obj => {
+          this.setState((prevState) => ({studyList: [...prevState.studyList, obj]}))
+        })
+
+        newJobs.forEach(obj => {
+          this.setState((prevState) => ({jobList: [...prevState.jobList, obj]}))
+        })
+
+        this.setState({interestIndex: newInterestIndex, skillIndex: newSkillIndex,
+        hobbyIndex: newHobbyIndex, studyIndex: newStudyIndex, jobIndex: newJobIndex})
+      
+      }).catch((e) => {
+          console.log(e)
+          this.setState({disconnected: true})
+        })
+      }
 
   shiHandleChange = (event, newValue) => {
     // console.log(event);
@@ -276,7 +330,7 @@ class profile extends React.Component {
     // shiValues[0] = event.target.value;
     // this.setState({shiValues});
     this.setState({ shiValue: newValue });
-  };
+  }
 
   sjHandleChange = (event, newValue) => {
     // console.log(event);
@@ -284,7 +338,7 @@ class profile extends React.Component {
     // sjValues[0] = event.target.value;
     // this.setState({sjValues});
     this.setState({ sjValue: newValue });
-  };
+  }
 
   // addClick() {
   //     this.setState(prevState => ({values: [...prevState.values, '']}))
@@ -298,8 +352,11 @@ class profile extends React.Component {
       ],
       skillIndex: this.state.skillIndex + 1,
     }));
-    this.state.formData.skills.push({ name: "" });
-  };
+    console.log(this.state.formData.userProperties);
+
+
+    this.state.formData.userProperties.skills.push({ name: "" });
+  }
 
   addNewHobby = (e) => {
     this.setState((prevState) => ({
@@ -309,8 +366,8 @@ class profile extends React.Component {
       ],
       hobbyIndex: this.state.hobbyIndex + 1,
     }));
-    this.state.formData.hobbies.push({ name: "" });
-  };
+    this.state.formData.userProperties.hobbies.push({ name: "" });
+  }
 
   addNewInterest = (e) => {
     this.setState((prevState) => ({
@@ -321,8 +378,8 @@ class profile extends React.Component {
       interestIndex: this.state.interestIndex + 1,
     }));
 
-    this.state.formData.interests.push({ name: "" });
-  };
+    this.state.formData.userProperties.interests.push({ name: "" });
+  }
 
   addNewStudy = (e) => {
     this.setState((prevState) => ({
@@ -341,14 +398,14 @@ class profile extends React.Component {
       studyIndex: this.state.studyIndex + 1,
     }));
 
-    this.state.formData.studies.push({
+    this.state.formData.userProperties.studies.push({
       name: "",
       school: "",
       city: "",
       startDate: new Date(),
       endDate: new Date(),
     });
-  };
+  }
 
   addNewJob = (e) => {
     this.setState((prevState) => ({
@@ -366,14 +423,14 @@ class profile extends React.Component {
       jobIndex: this.state.jobIndex + 1,
     }));
 
-    this.state.formData.jobs.push({
+    this.state.formData.userProperties.jobs.push({
       name: "",
       city: "",
       companyName: "",
       startDate: new Date(),
       endDate: new Date(),
     });
-  };
+  }
 
   addNewProject = (e) => {
     this.setState((prevState) => ({
@@ -390,12 +447,12 @@ class profile extends React.Component {
       projectIndex: this.state.projectIndex + 1,
     }));
 
-    this.state.formData.jobs.push({
+    this.state.formData.userProperties.jobs.push({
       name: "",
       users: ["piet", "frank", "herman", "ingmar"],
       url: "",
     });
-  };
+  }
 
   changeProperty = (val, e) => {
     var type = val.label;
@@ -409,14 +466,14 @@ class profile extends React.Component {
       var selectedIndex = skillList.findIndex((x) => x.index == index);
       skillList[selectedIndex] = { index: index, name: value, label: "skill" };
       this.setState({ skillList });
-      this.state.formData.skills[index] = { name: value };
+      this.state.formData.userProperties.skills[index].name = value;
     } else if (type === "hobby") {
       var hobbyList = this.state.hobbyList;
       var selectedHobby = hobbyList.find((x) => x.index == index);
       var selectedIndex = hobbyList.findIndex((x) => x.index == index);
       hobbyList[selectedIndex] = { index: index, name: value, label: "hobby" };
       this.setState({ hobbyList });
-      this.state.formData.hobbies[index] = { name: value };
+      this.state.formData.userProperties.hobbies[index].name = value;
     } else if (type === "interest") {
       var interestList = this.state.interestList;
       var selectedInterest = interestList.find((x) => x.index == index);
@@ -427,7 +484,7 @@ class profile extends React.Component {
         label: "interest",
       };
       this.setState({ interestList });
-      this.state.formData.interests[index] = { name: value };
+      this.state.formData.userProperties.interests[index].name = value;
     } else if (type === "study") {
       var studyList = this.state.studyList;
       var selectedStudy = studyList.find((x) => x.index == index);
@@ -435,24 +492,25 @@ class profile extends React.Component {
       if (id.includes("study")) {
         studyList[selectedIndex].name = value;
         this.setState({ studyList });
-        this.state.formData.studies[index].name = value;
+        this.state.formData.userProperties.studies[index].name = value;
       } else if (id.includes("school")) {
         studyList[selectedIndex].school = value;
         this.setState({ studyList });
-        this.state.formData.studies[index].school = value;
+        this.state.formData.userProperties.studies[index].school = value;
       } else if (id.includes("city")) {
         studyList[selectedIndex].city = value;
         this.setState({ studyList });
-        this.state.formData.studies[index].city = value;
+        this.state.formData.userProperties.studies[index].city = value;
       } else if (id.includes("endDate")) {
         studyList[selectedIndex].endDate = value;
         this.setState({ studyList });
-        this.state.formData.studies[index].endDate = value;
+        this.state.formData.userProperties.studies[index].endDate = value;
       } else if (id.includes("startDate")) {
         studyList[selectedIndex].startDate = value;
         this.setState({ studyList });
-        this.state.formData.studies[index].startDate = value;
+        this.state.formData.userProperties.studies[index].startDate = value;
       }
+      console.log(this.state.formData.userProperties.studies[index])
     } else if (type === "job") {
       var jobList = this.state.jobList;
       var selectedJob = jobList.find((x) => x.index == index);
@@ -461,39 +519,39 @@ class profile extends React.Component {
       if (id.includes("job")) {
         jobList[selectedIndex].name = value;
         this.setState({ jobList });
-        this.state.formData.jobs[index].name = value;
+        this.state.formData.userProperties.jobs[index].name = value;
       } else if (id.includes("endDate")) {
         jobList[selectedIndex].endDate = value;
         this.setState({ jobList });
-        this.state.formData.jobs[index].endDate = value;
+        this.state.formData.userProperties.jobs[index].endDate = value;
       } else if (id.includes("startDate")) {
         jobList[selectedIndex].startDate = value;
         this.setState({ jobList });
-        this.state.formData.jobs[index].startDate = value;
+        this.state.formData.userProperties.jobs[index].startDate = value;
       } else if (id.includes("companyName")) {
         jobList[selectedIndex].companyName = value;
         this.setState({ jobList });
-        this.state.formData.jobs[index].companyName = value;
+        this.state.formData.userProperties.jobs[index].companyName = value;
       }
     }
-  };
+  }
 
-  clickOnDelete(record) {
+  clickOnDelete = (record) => {
     var type = record.label;
 
     if (type === "interest") {
-      var interests = this.state.formData.interests.filter((r) => r !== record);
+      var interests = this.state.formData.userProperties.interests.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
-      formData.interests = interests;
+      formData.userProperties.interests = interests;
 
       this.setState({
         interestList: this.state.interestList.filter((r) => r !== record),
         formData: formData,
       });
     } else if (type === "skill") {
-      var skills = this.state.formData.skills.filter((r) => r !== record);
+      var skills = this.state.formData.userProperties.skills.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
-      formData.skills = skills;
+      formData.userProperties.skills = skills;
 
       this.setState({
         skillList: this.state.skillList.filter((r) => r !== record),
@@ -502,30 +560,30 @@ class profile extends React.Component {
 
       console.log("Deleted skill " + record.name);
     } else if (type === "hobby") {
-      var hobbies = this.state.formData.hobbies.filter((r) => r !== record);
+      var hobbies = this.state.formData.userProperties.hobbies.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
-      formData.hobbies = hobbies;
+      formData.userProperties.hobbies = hobbies;
 
       this.setState({
         hobbyList: this.state.hobbyList.filter((r) => r !== record),
         formData: formData,
       });
     } else if (type === "study") {
-      var studies = this.state.formData.studies.filter((r) => r !== record);
+      var studies = this.state.formData.userProperties.studies.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
-      formData.studies = studies;
+      formData.userProperties.studies = studies;
 
       this.setState({
         studyList: this.state.studyList.filter((r) => r !== record),
         formData: formData,
       });
     } else if (type === "job") {
-      var jobs = this.state.formData.jobs.filter((r) => r != record);
+      var jobs = this.state.formData.userProperties.jobs.filter((r) => r.name !== record.name);
       var formData = this.state.formData;
-      formData.jobs = jobs;
+      formData.userProperties.jobs = jobs;
 
       this.setState({
-        jobList: this.state.jobList.filter((r) => r !== record),
+        jobList: this.state.jobList.filter((r) => r.name !== record.name),
         formData: formData,
       });
     }
@@ -538,26 +596,29 @@ class profile extends React.Component {
   // }
 
   handleSubmit = (e) => {
-    var personalData = this.state.personalData;
+    if(!this.state.disconnected){
+    var personalData = this.state.formData;
     console.log(personalData);
 
-    personalData.address =
-      personalData.street + " " + personalData.addressnumber;
+    // personalData.address =
+    //   personalData.street + " " + personalData.addressnumber;
 
-    if (
-      personalData.addressaddition != null &&
-      personalData.addressaddition != ""
-    ) {
-      personalData.address =
-        personalData.address + personalData.addressaddition;
-    }
+    // if (
+    //   personalData.addressaddition != null &&
+    //   personalData.addressaddition != ""
+    // ) {
+    //   personalData.address =
+    //     personalData.address + personalData.addressaddition;
+    // }
 
     /******************************************************
      *     implement a form validation function here      *
      ******************************************************/
 
     var result = UserProfileService.updateProfile(personalData);
+    this.props.history.push("/guestprofile")
     console.log(result);
+    }
   };
   // handleSubmit(event) {
   //     alert('A name was submitted: ' + this.state.values.join(', '));
@@ -567,13 +628,13 @@ class profile extends React.Component {
   // handleChange = (event, newValue) => {
   //     this.state.setState("value",  newValue);
   // };
-  shiHandleTabsDisplay = () => {
-    this.setState({ shiActiveStep: this.state.shiActiveStep + 1 });
-  };
+  // shiHandleTabsDisplay = () => {
+  //   this.setState({ shiActiveStep: this.state.shiActiveStep + 1 });
+  // };
 
-  sjHandleTabsDisplay = () => {
-    this.setState({ sjActiveStep: this.state.sjActiveStep + 1 });
-  };
+  // sjHandleTabsDisplay = () => {
+  //   this.setState({ sjActiveStep: this.state.sjActiveStep + 1 });
+  // };
 
   render() {
     const shiSteps = ["Skills", "Hobbies", "Interests"];
@@ -595,19 +656,21 @@ class profile extends React.Component {
                 className={classes.avatar}
               ></Avatar>
               <Typography gutterBottom variant="h3" component="h2">
-                {this.state.formData.lastName}, {this.state.formData.firstName}{" "}
+                {this.state.formData.lastName}, {this.state.formData.firstName} {" "}
                 {this.state.formData.prefix}
               </Typography>
               <Typography>Information about the user</Typography>
             </CardContent>
             <div className={classes.cardActions}>
               <CheckIcon
-                style={{ color: "#74C365" }}
+                style={{ color: this.state.disconnected ? "white" : "#74C365" }}
                 className={classes.settings}
+                onClick={this.handleSubmit}
               ></CheckIcon>
               <CloseIcon
-                style={{ color: "#E23D28" }}
+                style={{ color: this.state.disconnected ? "white" : "#E23D28" }}
                 className={classes.settings}
+                onClick={() => this.props.history.push("/guestprofile")}
               ></CloseIcon>
               {/* <CancelIcon style={{ color: '#BEBEBE' }} className={classes.settings}></CancelIcon> */}
               {/* <SettingsIcon className={classes.settings} onClick={() => this.props.history.push("/settings")}>
@@ -636,6 +699,7 @@ class profile extends React.Component {
                 data-type="skill"
                 variant="outlined"
                 color="primary"
+                disabled={this.state.disconnected}
               >
                 Add skill
               </Button>
@@ -655,9 +719,9 @@ class profile extends React.Component {
                       value={val.name}
                       onChange={(e) => this.changeProperty(val, e.target)}
                     />
-                    {idx === 0 ? (
+                    {/* {idx === 0 ? (
                       ""
-                    ) : (
+                    ) : ( */}
                       <button
                         style={{
                           padding: "1px 6px",
@@ -669,7 +733,7 @@ class profile extends React.Component {
                       >
                         <i className="fa fa-trash"></i>
                       </button>
-                    )}
+                    {/* )} */}
                   </Grid>
                 );
               })}
@@ -691,6 +755,7 @@ class profile extends React.Component {
                 data-type="hobby"
                 variant="outlined"
                 color="primary"
+                disabled={this.state.disconnected}
               >
                 Add hobby
               </Button>
@@ -708,9 +773,9 @@ class profile extends React.Component {
                       value={val.name}
                       onChange={(e) => this.changeProperty(val, e.target)}
                     />
-                    {idx === 0 ? (
+                    {/* {idx === 0 ? (
                       ""
-                    ) : (
+                    ) : ( */}
                       <button
                         style={{
                           padding: "1px 6px",
@@ -722,7 +787,7 @@ class profile extends React.Component {
                       >
                         <i className="fa fa-trash"></i>
                       </button>
-                    )}
+                    {/* )} */}
                   </Grid>
                 );
               })}
@@ -740,6 +805,7 @@ class profile extends React.Component {
                 data-type="interest"
                 variant="outlined"
                 color="primary"
+                disabled={this.state.disconnected}
               >
                 Add interest
               </Button>
@@ -757,9 +823,9 @@ class profile extends React.Component {
                       value={val.name}
                       onChange={(e) => this.changeProperty(val, e.target)}
                     />
-                    {idx === 0 ? (
+                    {/* {idx === 0 ? (
                       ""
-                    ) : (
+                    ) : ( */}
                       <button
                         style={{
                           padding: "1px 6px",
@@ -771,7 +837,7 @@ class profile extends React.Component {
                       >
                         <i className="fa fa-trash"></i>
                       </button>
-                    )}
+                    {/* )} */}
                   </Grid>
                 );
               })}
@@ -800,6 +866,7 @@ class profile extends React.Component {
                 data-type="study"
                 variant="outlined"
                 color="primary"
+                disabled={this.state.disconnected}
               >
                 Add study
               </Button>
@@ -864,9 +931,9 @@ class profile extends React.Component {
                       onChange={(e) => this.changeProperty(val, e.target)}
                     />
 
-                    {idx === 0 ? (
+                    {/* {idx === 0 ? (
                       ""
-                    ) : (
+                    ) : ( */}
                       <button
                         style={{
                           padding: "1px 6px",
@@ -878,7 +945,7 @@ class profile extends React.Component {
                       >
                         <i className="fa fa-trash"></i>
                       </button>
-                    )}
+                    {/* )} */}
                   </Grid>
                 );
               })}
@@ -900,6 +967,7 @@ class profile extends React.Component {
                 data-type="job"
                 variant="outlined"
                 color="primary"
+                disabled={this.state.disconnected}
               >
                 Add job
               </Button>
@@ -954,9 +1022,9 @@ class profile extends React.Component {
                       onChange={(e) => this.changeProperty(val, e.target)}
                     />
 
-                    {idx === 0 ? (
+                    {/* {idx === 0 ? (
                       ""
-                    ) : (
+                    ) : ( */}
                       <button
                         style={{
                           padding: "1px 6px",
@@ -968,7 +1036,7 @@ class profile extends React.Component {
                       >
                         <i className="fa fa-trash"></i>
                       </button>
-                    )}
+                    {/* )} */}
                   </Grid>
                 );
               })}
@@ -980,7 +1048,7 @@ class profile extends React.Component {
         <Grid item xs={12} md={12}>
           <div className={classes.projectGroup}>
             <Typography variant="h4">Projects</Typography>
-            <Button variant="outlined" color="primary" onClick={this.addNewProject} data-type="project">
+            <Button disabled={this.state.disconnected} variant="outlined" color="primary" onClick={this.addNewProject} data-type="project">
               ADD PROJECT
             </Button><br/><br/>
 
@@ -1008,9 +1076,9 @@ class profile extends React.Component {
                         value={p.url}
                       />
 
-                      {p.index === 0 ? (
+                      {/* {p.index === 0 ? (
                         ""
-                      ) : (
+                      ) : ( */}
                         <div>
                           <br></br>
                           <button
@@ -1024,7 +1092,7 @@ class profile extends React.Component {
                             <i className="fa fa-trash"></i>
                           </button>
                         </div>
-                      )}
+                      {/* )} */}
                     </CardContent>
                   </Card>
               );
