@@ -13,6 +13,7 @@
     "material-ui-phone-number": "^2.2.6",
     "model-react": "^3.0.3",
     "react": "^16.13.1",
+    "react-chatbox-component": "0.0.5",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0"

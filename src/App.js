@@ -19,7 +19,7 @@ function App() {
         {/* <Route path="/" component={home} exact/> */}
         <PrivateRoute exact path="/" component={home}  />
         <PrivateRoute exact path="/profile" component={profile}/>
-        <PrivateRoute path="/chat" component={chat}/>
+        <Route path="/chat" component={chat}/>
         <Route path="/profileSetup" component={profileSetup}/>
         <PrivateRoute path="/guestprofile" component={guestprofile}/>
         <PrivateRoute path="/settings" component={Settings}/>
