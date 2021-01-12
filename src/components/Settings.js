@@ -184,7 +184,7 @@ class Settings extends React.Component {
 
     render() {
         const {classes} = this.props;
-        const tabSteps = ["Account Preferences", "Permissions", "Visibility", "Appearance"];
+        const tabSteps = ["Account Preferences", "Permissions", "Profile visibility", "Appearance"];
         // const classes = styles();
         // const [value, setValue] = React.useState(0);
         return (
@@ -252,10 +252,14 @@ class Settings extends React.Component {
                 <TabPanel value={this.state.tabValue} index={2}>{/*Visibility*/}
                     <FormControl component="fieldset">
                         <FormLabel component="legend">Change profile visibility</FormLabel>
+                        <p>Determines the way profiles will be indexed through the search engine.</p>
                         <RadioGroup aria-label="visibility" name="visibility" value={this.state.value}
                                     onChange={this.handleChange}>
-                            <FormControlLabel value="public" control={<Radio/>} label="Public"/>
-                            <FormControlLabel value="private" control={<Radio/>} label="Private"/>
+                            <FormControlLabel value="X (Private, not indexed in the search engine)" control={<Radio/>}  label="Public"/>
+                            <FormControlLabel value="1 (Can only be found by name)" control={<Radio/>} label="Private"/>
+                            <FormControlLabel value="2 (Can be found by name or study)" control={<Radio/>} label="Private"/>
+                            <FormControlLabel value="3 (Can be found by name, study and skills)" control={<Radio/>} label="Private"/>
+
                         </RadioGroup>
                     </FormControl>
                 </TabPanel>

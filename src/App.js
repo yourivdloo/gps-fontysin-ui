@@ -10,6 +10,7 @@ import SearchResults from './components/SearchResults';
 import guestprofile from "./components/guestProfile/GuestProfile";
 import PrivateRoute from "./components/PrivateRoute";
 import { BrowserRouter as Router, Route, Switch, withRouter} from "react-router-dom";
+import exportCV from './components/exportCV';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
       </Switch>
     </Router>
   );
+                <Route path="/exportCV" component={exportCV}/>
 }
 
 export 

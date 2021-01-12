@@ -162,8 +162,7 @@ class home extends React.Component {
                                 </Typography>
                                 <CardActions>
                                     <Button variant="contained" color={"secondary"} size="large"
-                                            startIcon={<FileCopy/>}>Create
-                                        a CV </Button>
+                                            startIcon={<FileCopy/>} onClick={()=> window.open("/exportCV", "_blank")}>Create a CV </Button>
                                 </CardActions>
                             </CardContent>
                         </Card>
