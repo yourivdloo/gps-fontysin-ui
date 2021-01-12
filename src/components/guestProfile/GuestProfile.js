@@ -8,7 +8,7 @@ import Avatar from "@material-ui/core/Avatar";
 import SettingsIcon from "@material-ui/icons/Settings";
 import EditIcon from "@material-ui/icons/Edit";
 import UserProfileService from "../../services/UserProfileService";
-import UserProfile from "../../entities/UserProfile";
+import UserProfile from "./../../entities/UserProfile";
 
 const styles = (theme) => ({
   appBar: {
