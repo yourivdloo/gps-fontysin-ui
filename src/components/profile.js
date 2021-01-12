@@ -174,9 +174,19 @@ const personalData = Object({
   hobbies: [],
   interests: [],
   // languages: [], ///
-  projects: [],
+  // projects: [],
     }
 ]
+});
+
+const deletedProps = Object({
+  studies: [],
+  jobs: [],
+  skills: [],
+  hobbies: [],
+  interests: [],
+  // languages: [], ///
+  // projects: [],
 });
 
 class profile extends React.Component {
@@ -195,6 +205,7 @@ class profile extends React.Component {
       shiValue: 0,
       sjValue: 0,
       formData: personalData,
+      deletedItems: deletedProps,
       skillList: [],
       interestList: [],
       hobbyList: [],
@@ -232,6 +243,18 @@ class profile extends React.Component {
   }
 
   componentDidMount() {
+    this.setState({deletedItems: Object({
+      studies: [],
+      jobs: [],
+      skills: [],
+      hobbies: [],
+      interests: [],
+      // languages: [], ///
+      // projects: [],
+      })
+    })
+  
+
     var headers = {
       "x-ms-client-principal-name": "410078@student.fontys.nl",
     };
@@ -540,51 +563,81 @@ class profile extends React.Component {
     var type = record.label;
 
     if (type === "interest") {
-      var interests = this.state.formData.userProperties.interests.filter((r) => r.name !== record.name);
-      var formData = this.state.formData;
-      formData.userProperties.interests = interests;
+      var r = this.state.formData.userProperties.interests.find((r) => r.name == record.name);
+
+      if(r.id != 0 && r.id != null){
+        this.state.deletedItems.interests.push(r);
+      }
+
+      // var interests = this.state.formData.userProperties.interests.filter((r) => r.name !== record.name);
+      // var formData = this.state.formData;
+      // formData.userProperties.interests = interests;
 
       this.setState({
         interestList: this.state.interestList.filter((r) => r !== record),
-        formData: formData,
+        // formData: formData,
       });
     } else if (type === "skill") {
-      var skills = this.state.formData.userProperties.skills.filter((r) => r.name !== record.name);
-      var formData = this.state.formData;
-      formData.userProperties.skills = skills;
+      var r = this.state.formData.userProperties.skills.find((r) => r.name == record.name);
+
+      if(r.id != 0 && r.id != null){
+        this.state.deletedItems.skills.push(r);
+      }
+
+      // var skills = this.state.formData.userProperties.skills.filter((r) => r.name !== record.name);
+      // var formData = this.state.formData;
+      // formData.userProperties.skills = skills;
 
       this.setState({
         skillList: this.state.skillList.filter((r) => r !== record),
-        formData: formData,
+        // formData: formData,
       });
 
       console.log("Deleted skill " + record.name);
     } else if (type === "hobby") {
-      var hobbies = this.state.formData.userProperties.hobbies.filter((r) => r.name !== record.name);
-      var formData = this.state.formData;
-      formData.userProperties.hobbies = hobbies;
+      var r = this.state.formData.userProperties.hobbies.find((r) => r.name == record.name);
+
+      if(r.id != 0 && r.id != null){
+         this.state.deletedItems.hobbies.push(r);
+      }
+
+      // var hobbies = this.state.formData.userProperties.hobbies.filter((r) => r.name !== record.name);
+      // var formData = this.state.formData;
+      // formData.userProperties.hobbies = hobbies;
 
       this.setState({
         hobbyList: this.state.hobbyList.filter((r) => r !== record),
-        formData: formData,
+        // formData: formData,
       });
     } else if (type === "study") {
-      var studies = this.state.formData.userProperties.studies.filter((r) => r.name !== record.name);
-      var formData = this.state.formData;
-      formData.userProperties.studies = studies;
+      var r = this.state.formData.userProperties.studies.find((r) => r.name == record.name);
+
+      if(r.id != 0 && r.id != null){
+        this.state.deletedItems.studies.push(r);
+      }
+
+      // var studies = this.state.formData.userProperties.studies.filter((r) => r.name !== record.name);
+      // var formData = this.state.formData;
+      // formData.userProperties.studies = studies;
 
       this.setState({
         studyList: this.state.studyList.filter((r) => r !== record),
-        formData: formData,
+        // formData: formData,
       });
     } else if (type === "job") {
-      var jobs = this.state.formData.userProperties.jobs.filter((r) => r.name !== record.name);
-      var formData = this.state.formData;
-      formData.userProperties.jobs = jobs;
+      var r = this.state.formData.userProperties.jobs.find((r) => r.name == record.name);
+
+      if(r.id != 0 && r.id != null){
+        this.state.deletedItems.jobs.push(r);
+      }
+
+      // var jobs = this.state.formData.userProperties.jobs.filter((r) => r.name !== record.name);
+      // var formData = this.state.formData;
+      // formData.userProperties.jobs = jobs;
 
       this.setState({
         jobList: this.state.jobList.filter((r) => r.name !== record.name),
-        formData: formData,
+        // formData: formData,
       });
     }
   }
@@ -595,10 +648,10 @@ class profile extends React.Component {
   //     this.setState({values});
   // }
 
-  handleSubmit = (e) => {
+  handleSubmit = async(e) => {
     if(!this.state.disconnected){
     var personalData = this.state.formData;
-    console.log(personalData);
+    var deletedProps = this.state.deletedItems;
 
     // personalData.address =
     //   personalData.street + " " + personalData.addressnumber;
@@ -615,9 +668,10 @@ class profile extends React.Component {
      *     implement a form validation function here      *
      ******************************************************/
 
-    var result = UserProfileService.updateProfile(personalData);
+    var result = await UserProfileService.updateProperties(personalData.userProperties);
+    var result2 = await UserProfileService.deleteProperties(deletedProps);
+
     this.props.history.push("/guestprofile")
-    console.log(result);
     }
   };
   // handleSubmit(event) {
