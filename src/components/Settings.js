@@ -17,7 +17,7 @@ import UserProfileService from "../services/UserProfileService";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 
-const baseUrl = "http://localhost:8080";
+const baseUrl = window.location.target == "localhost" ? "http://localhost:8080" : "";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;

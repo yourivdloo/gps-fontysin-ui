@@ -78,7 +78,6 @@ class Navbar extends React.Component {
         <h1>
                 FontysIN
               </h1>
-          {this.state.isRegistered ? 
             <div style={{marginLeft: "30px"}}>
           <Button href="/" color="inherit">
             Home
@@ -108,8 +107,6 @@ class Navbar extends React.Component {
             {/* </form> */}
           </div>
           </div>
-          :
-          <div></div>
         }
         </Toolbar>
       </AppBar>
