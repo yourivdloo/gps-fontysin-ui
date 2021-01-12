@@ -26,11 +26,11 @@ function App() {
         <PrivateRoute path="/guestprofile/:pcn" component={guestprofile}/>
         <PrivateRoute path="/settings" component={Settings}/>
         <PrivateRoute path="/results/:query" component={SearchResults}/>
+        <PrivateRoute path="/exportCV" component={exportCV}/>
         <Route component={page404}/>
       </Switch>
     </Router>
   );
-                <Route path="/exportCV" component={exportCV}/>
 }
 
 export 

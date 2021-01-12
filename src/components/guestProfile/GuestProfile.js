@@ -6,9 +6,6 @@ import { withStyles } from "@material-ui/core/styles";
 import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import SettingsIcon from "@material-ui/icons/Settings";
-import $ from "jquery";
-import { red } from "@material-ui/core/colors";
-import GitHubIcon from "@material-ui/icons/GitHub";
 import EditIcon from "@material-ui/icons/Edit";
 import UserProfileService from "../../services/UserProfileService";
 import UserProfile from "../../entities/UserProfile";
@@ -92,10 +89,6 @@ const styles = (theme) => ({
   },
   proCardContent: {
     border: "2px solid #8D5C97",
-  },
-  cardActions: {
-    float: "left",
-    width: "10%",
   },
   settings: {
     width: "50px",
@@ -193,14 +186,14 @@ class GuestProfile extends React.Component {
     var monthcount = Math.floor(remainingDiff / month);
     var monthsInMiliSeconds = monthcount * month;
 
-    var remainingDiff = remainingDiff - monthsInMiliSeconds;
+    remainingDiff = remainingDiff - monthsInMiliSeconds;
 
     var daycount = Math.floor(remainingDiff / day);
 
-    var years = yearcount == 1 ? yearcount + " year " : yearcount + " years ";
+    var years = yearcount === 1 ? yearcount + " year " : yearcount + " years ";
     var months =
-      monthcount == 1 ? monthcount + " month " : monthcount + " months ";
-    var days = daycount == 1 ? daycount + " day " : daycount + " days ";
+      monthcount === 1 ? monthcount + " month " : monthcount + " months ";
+    var days = daycount === 1 ? daycount + " day " : daycount + " days ";
 
     var response = "";
 
@@ -237,7 +230,7 @@ class GuestProfile extends React.Component {
     })[0];
 
     const nationality =
-      tempNationality == undefined ? "" : tempNationality.language;
+      tempNationality === undefined ? "" : tempNationality.language;
 
     return (
       <Grid container style={{ maxWidth: "1100px", margin: "15px auto" }}>
@@ -259,7 +252,7 @@ class GuestProfile extends React.Component {
                     <Typography>Information about the user</Typography>
                   </CardContent>
                   <div className={classes.cardActions}>
-                    {localStorage.getItem("pcn") == this.state.pcn ? (
+                    {localStorage.getItem("pcn") === this.state.pcn ? (
                       <div>
                         <SettingsIcon
                           className={classes.settings}
@@ -347,12 +340,12 @@ class GuestProfile extends React.Component {
                   console.log(userProfile.studies);
                   var date1 = new Date(val.startDate);
                   var date2 =
-                    val.endDate == null ? new Date() : new Date(val.endDate);
+                    val.endDate === null ? new Date() : new Date(val.endDate);
 
                   var startdate =
                     monthNames[date1.getMonth()] + " " + date1.getFullYear();
                   var enddate =
-                    val.endDate == null
+                    val.endDate === null
                       ? "heden"
                       : monthNames[date2.getMonth()] +
                         " " +
@@ -419,12 +412,12 @@ class GuestProfile extends React.Component {
                 {userProfile.jobs.map((val, idx) => {
                   var date1 = new Date(val.startDate);
                   var date2 =
-                    val.endDate == null ? new Date() : new Date(val.endDate);
+                    val.endDate === null ? new Date() : new Date(val.endDate);
 
                   var startdate =
                     monthNames[date1.getMonth()] + " " + date1.getFullYear();
                   var enddate =
-                    val.endDate == null
+                    val.endDate === null
                       ? "heden"
                       : monthNames[date2.getMonth()] +
                         " " +
@@ -527,7 +520,7 @@ class GuestProfile extends React.Component {
                 <div className={classes.proCardContent}>
                   <div className="row">
                     <div className="col-md-6">
-                      <a href="">
+                      <a href="link">
                         <table>
                           <thead>
                             <tr>
@@ -542,6 +535,7 @@ class GuestProfile extends React.Component {
                                     process.env.PUBLIC_URL +
                                     "/assets/github-small.png"
                                   }
+                                  alt="no alt"
                                   className={classes.projectIcon}
                                 />
                               </td>

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import Grid from '@material-ui/core/Grid';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import './style.css'
+import './../cssStyleSheets/chat.css'
 
 class Chat extends PureComponent {
   constructor(props) {

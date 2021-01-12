@@ -15,7 +15,7 @@ export default function PrivateRoute({component: Component, ...rest}){
       <Route
           {...rest}
           render={(props) =>
-           isRegistered ? <Component {...props} /> : <Component {...props} />
+           isRegistered ? <Component {...props} /> : <ProfileSetup/>
           }
       />
     );

@@ -12,11 +12,13 @@
     "axios": "^0.21.0",
     "jquery": "^3.5.1",
     "material-ui-phone-number": "^2.2.6",
-    "model-react": "^3.0.3",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^4.0.0"
+    "react-scripts": "^4.0.0",
+    "sockjs-client": "^1.4.0",
+    "stompjs": "^2.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,7 +44,6 @@
     ]
   },
   "devDependencies": {
-    "cypress": "^6.0.0",
-    "file-saver": "^2.0.5"
+    "cypress": "^6.0.0"
   }
 }

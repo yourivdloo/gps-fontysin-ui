@@ -13,11 +13,9 @@ import FormLabel from "@material-ui/core/FormLabel";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
-import UserProfileService from "../services/UserProfileService";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-
-const baseUrl = window.location.target == "localhost" ? "http://localhost:8080" : "";
+import baseUrl from "./../globals/globalVariables"
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;

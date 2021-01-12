@@ -1,7 +1,8 @@
 import axios from 'axios';
+import baseUrl from "./../globals/globalVariables"
 
-const USER_BASE_URL = "http://localhost:8080/api/user";
-const PROPERTY_BASE_URL = "http://localhost:8080/api/property";
+const USER_BASE_URL = baseUrl + "/api/user";
+const PROPERTY_BASE_URL = baseUrl + "/api/property";
 const pcn= 438161;
 
 class UserProfileService{
@@ -14,9 +15,7 @@ class UserProfileService{
     }
 
     async searchByName(name){
-        var headers = {
-            'x-ms-client-principal-name': pcn + '@student.fontys.nl'
-        }
+        var headers = this.getHeader();
 
         var obj;
 
@@ -35,9 +34,7 @@ class UserProfileService{
     }
 
     async existsByPcn(userPcn){
-        var headers = {
-            'x-ms-client-principal-name': userPcn + '@student.fontys.nl'
-        }
+        var headers = this.getHeader();
 
         await axios.get(USER_BASE_URL + "/" + userPcn, { headers: headers })
         .then(response => {
@@ -49,9 +46,7 @@ class UserProfileService{
     }
 
     addNewProfile(userProfile){
-        var headers = {
-            'x-ms-client-principal-name': userProfile.pcn + '@student.fontys.nl'
-        } 
+        var headers = this.getHeader();
 
         return axios.post(USER_BASE_URL + "/new", userProfile, { headers: headers })
         .then(response => {
@@ -60,27 +55,33 @@ class UserProfileService{
     }
 
     async updateProperties(userProperties){
-        var headers = {
-            'x-ms-client-principal-name': pcn + '@student.fontys.nl'
-        } 
+        var headers = this.getHeader();
 
         return await axios.put(PROPERTY_BASE_URL + "/update", userProperties, { headers: headers }); 
     }
 
     async deleteProperties(deletedItems){
-        var headers = {
-            'x-ms-client-principal-name': pcn + '@student.fontys.nl'
-        } 
+        var headers = this.getHeader();
 
         return await axios.delete(PROPERTY_BASE_URL + "/delete", { headers: headers , data: deletedItems});
     }
 
     updateSettings(userProfile){
-        var headers = {
-            'x-ms-client-principal-name': userProfile.pcn + '@student.fontys.nl'
-        } 
+        var headers = this.getHeader();
 
         return axios.put(USER_BASE_URL + "/" + userProfile.pcn, userProfile, { headers: headers });
+    }
+
+    getHeader(){
+        var header = "";
+
+        if(baseUrl === "http://localhost:8080"){
+            header = {
+                'x-ms-client-principal-name': pcn + '@student.fontys.nl'
+            }
+        }
+
+        return header;
     }
 }
 

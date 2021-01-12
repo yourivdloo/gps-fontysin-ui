@@ -15,6 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckIcon from "@material-ui/icons/Check";
 import axios from "axios";
+import baseUrl from "./../globals/globalVariables"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -59,8 +60,6 @@ function LinkTab(props) {
     />
   );
 }
-
-const baseUrl = "http://localhost:8080";
 
 const styles = (theme) => ({
   root: {
@@ -485,22 +484,22 @@ class profile extends React.Component {
 
     if (type === "skill") {
       var skillList = this.state.skillList;
-      var selectedSkill = skillList.find((x) => x.index == index);
-      var selectedIndex = skillList.findIndex((x) => x.index == index);
+      var selectedSkill = skillList.find((x) => x.index === index);
+      var selectedIndex = skillList.findIndex((x) => x.index === index);
       skillList[selectedIndex] = { index: index, name: value, label: "skill" };
       this.setState({ skillList });
       this.state.formData.userProperties.skills[index].name = value;
     } else if (type === "hobby") {
       var hobbyList = this.state.hobbyList;
-      var selectedHobby = hobbyList.find((x) => x.index == index);
-      var selectedIndex = hobbyList.findIndex((x) => x.index == index);
+      var selectedHobby = hobbyList.find((x) => x.index === index);
+      var selectedIndex = hobbyList.findIndex((x) => x.index === index);
       hobbyList[selectedIndex] = { index: index, name: value, label: "hobby" };
       this.setState({ hobbyList });
       this.state.formData.userProperties.hobbies[index].name = value;
     } else if (type === "interest") {
       var interestList = this.state.interestList;
-      var selectedInterest = interestList.find((x) => x.index == index);
-      var selectedIndex = interestList.findIndex((x) => x.index == index);
+      var selectedInterest = interestList.find((x) => x.index === index);
+      var selectedIndex = interestList.findIndex((x) => x.index === index);
       interestList[selectedIndex] = {
         index: index,
         name: value,
@@ -510,8 +509,8 @@ class profile extends React.Component {
       this.state.formData.userProperties.interests[index].name = value;
     } else if (type === "study") {
       var studyList = this.state.studyList;
-      var selectedStudy = studyList.find((x) => x.index == index);
-      var selectedIndex = studyList.findIndex((x) => x.index == index);
+      var selectedStudy = studyList.find((x) => x.index === index);
+      var selectedIndex = studyList.findIndex((x) => x.index === index);
       if (id.includes("study")) {
         studyList[selectedIndex].name = value;
         this.setState({ studyList });
@@ -536,8 +535,8 @@ class profile extends React.Component {
       console.log(this.state.formData.userProperties.studies[index])
     } else if (type === "job") {
       var jobList = this.state.jobList;
-      var selectedJob = jobList.find((x) => x.index == index);
-      var selectedIndex = jobList.findIndex((x) => x.index == index);
+      var selectedJob = jobList.find((x) => x.index === index);
+      var selectedIndex = jobList.findIndex((x) => x.index === index);
 
       if (id.includes("job")) {
         jobList[selectedIndex].name = value;
@@ -561,11 +560,12 @@ class profile extends React.Component {
 
   clickOnDelete = (record) => {
     var type = record.label;
+    var r;
 
     if (type === "interest") {
-      var r = this.state.formData.userProperties.interests.find((r) => r.name == record.name);
+      r = this.state.formData.userProperties.interests.find((r) => r.name === record.name);
 
-      if(r.id != 0 && r.id != null){
+      if(r.id !== 0 && r.id !== null){
         this.state.deletedItems.interests.push(r);
       }
 
@@ -574,13 +574,13 @@ class profile extends React.Component {
       // formData.userProperties.interests = interests;
 
       this.setState({
-        interestList: this.state.interestList.filter((r) => r !== record),
+        interestList: this.state.interestList.filter((i) => i !== record),
         // formData: formData,
       });
     } else if (type === "skill") {
-      var r = this.state.formData.userProperties.skills.find((r) => r.name == record.name);
+      r = this.state.formData.userProperties.skills.find((s) => s.name === record.name);
 
-      if(r.id != 0 && r.id != null){
+      if(r.id !== 0 && r.id !== null){
         this.state.deletedItems.skills.push(r);
       }
 
@@ -595,9 +595,9 @@ class profile extends React.Component {
 
       console.log("Deleted skill " + record.name);
     } else if (type === "hobby") {
-      var r = this.state.formData.userProperties.hobbies.find((r) => r.name == record.name);
+      r = this.state.formData.userProperties.hobbies.find((r) => r.name === record.name);
 
-      if(r.id != 0 && r.id != null){
+      if(r.id !== 0 && r.id !== null){
          this.state.deletedItems.hobbies.push(r);
       }
 
@@ -610,9 +610,9 @@ class profile extends React.Component {
         // formData: formData,
       });
     } else if (type === "study") {
-      var r = this.state.formData.userProperties.studies.find((r) => r.name == record.name);
+      r = this.state.formData.userProperties.studies.find((r) => r.name === record.name);
 
-      if(r.id != 0 && r.id != null){
+      if(r.id !== 0 && r.id !== null){
         this.state.deletedItems.studies.push(r);
       }
 
@@ -625,9 +625,9 @@ class profile extends React.Component {
         // formData: formData,
       });
     } else if (type === "job") {
-      var r = this.state.formData.userProperties.jobs.find((r) => r.name == record.name);
+      r = this.state.formData.userProperties.jobs.find((r) => r.name === record.name);
 
-      if(r.id != 0 && r.id != null){
+      if(r.id !== 0 && r.id !== null){
         this.state.deletedItems.jobs.push(r);
       }
 
@@ -657,8 +657,8 @@ class profile extends React.Component {
     //   personalData.street + " " + personalData.addressnumber;
 
     // if (
-    //   personalData.addressaddition != null &&
-    //   personalData.addressaddition != ""
+    //   personalData.addressaddition !== null &&
+    //   personalData.addressaddition !== ""
     // ) {
     //   personalData.address =
     //     personalData.address + personalData.addressaddition;
