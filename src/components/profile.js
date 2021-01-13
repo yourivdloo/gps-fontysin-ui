@@ -273,13 +273,12 @@ class profile extends React.Component {
     var newJobs = []
     var newJobIndex = this.state.jobIndex
 
-    axios
-      .get(baseUrl + "/api/user/"+localStorage.getItem('pcn'), { headers: headers })
+    UserProfileService.whoAmI()
       .then((result) => {
-        this.setState({ formData: result.data });
-        console.log(result.data);
+        this.setState({ formData: result });
+        console.log(result);
 
-        result.data.userProperties.skills.forEach(obj => {
+        result.userProperties.skills.forEach(obj => {
           newSkills.push({index: newSkillIndex, name: obj.name, label: "skill"})
           newSkillIndex++;
 
@@ -288,14 +287,14 @@ class profile extends React.Component {
           //   skillIndex: this.state.skillIndex + 1})
         })
         
-        result.data.userProperties.hobbies.forEach(obj => {
+        result.userProperties.hobbies.forEach(obj => {
           newHobbies.push({index: newHobbyIndex, name: obj.name, label: "hobby"})
           newHobbyIndex++;
             // hobbyList: [...prevState.skillList, {index: this.state.hobbyIndex, name: value.name, label: "hobby"}]
             // hobbyIndex: this.state.hobbyList + 1
         })
 
-        result.data.userProperties.interests.forEach(obj => {
+        result.userProperties.interests.forEach(obj => {
             newInterests.push({index: newInterestIndex, name: obj.name, label: "interest"})
             newInterestIndex++;
           // this.setState((prevState) => {
@@ -303,14 +302,14 @@ class profile extends React.Component {
           //   interestIndex: this.state.interestIndex + 1})
         })
 
-        result.data.userProperties.studies.forEach(obj => {
+        result.userProperties.studies.forEach(obj => {
           newStudies.push({index: newStudyIndex, name: obj.name, school: obj.school, city: obj.city, endDate: obj.endDate, startDate: obj.startDate, label: "study"})
             newStudyIndex++;
             // studyList: [...prevState.studyList, {index: this.state.studyIndex, school: value.school, city: value.city, endDate: value.endDate, startDate: value.startDate, name: value.name, label: "study"}]
             // studyIndex: this.state.studyIndex + 1})
         })
 
-        result.data.userProperties.jobs.forEach(obj => {
+        result.userProperties.jobs.forEach(obj => {
           newJobs.push({index: newJobIndex, name: obj.name, school: obj.school, city: obj.city, endDate: obj.endDate, startDate: obj.startDate, label: "job"})
           newJobIndex++;
             // jobList: [...prevState.jobsList, {index: this.state.jobIndex, name: value.name, companyName: value.companyName, startDate: value.startDate, endDate: value.endDate, label: "job"}]
@@ -1106,9 +1105,9 @@ class profile extends React.Component {
               ADD PROJECT
             </Button><br/><br/>
 
-            {this.state.projectList.map((p) => {
+            {this.state.projectList.map((p, pidx) => {
               return (
-                  <Card className={classes.projectCard}>
+                  <Card key={pidx} className={classes.projectCard}>
                     <CardContent >
                       <TextField
                         name={""}
@@ -1118,8 +1117,8 @@ class profile extends React.Component {
                         autoComplete={""}
                         value={p.name}
                       />
-                      {p.users.map((u) => (
-                        <Typography variant="h6">{u}</Typography>
+                      {p.users.map((u, uidx) => (
+                        <Typography key={pidx + "." + uidx} variant="h6">{u}</Typography>
                       ))}
                       <TextField
                         name={""}

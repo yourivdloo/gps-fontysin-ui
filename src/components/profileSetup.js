@@ -12,7 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Review from './Review';
 import UserProfileService from '../services/UserProfileService';
 import $ from 'jquery'
-import {withRouter} from 'react-router-dom';
+import {withRouter, Redirect} from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -127,10 +127,8 @@ class ProfileSetup extends React.Component {
   constructor(props) {
     super(props);
 
-    this.addNewHobby = this.addNewHobby.bind(this);
-    this.addNewinterest = this.addNewinterest.bind(this);
-    this.clickOnDelete = this.clickOnDelete.bind(this);
     this.state = {
+      redirect: false,
       activeStep: 0,
       languageList: languages,
       nationalityList: nationalities,
@@ -138,6 +136,24 @@ class ProfileSetup extends React.Component {
       interestList: [{ index: Math.random(), name: "interests", label: "interest" }],
       hobbyList: [{ index: Math.random(), name: "hobbies", label: "hobby" }]
     };
+    
+    this.addNewHobby = this.addNewHobby.bind(this);
+    this.addNewinterest = this.addNewinterest.bind(this);
+    this.clickOnDelete = this.clickOnDelete.bind(this);
+  }
+
+  // check if user already has an account
+  componentDidMount() {
+    const fetchData = async () => {
+      var user = await UserProfileService.whoAmI();
+
+      var redirect = user !== null;
+      if(redirect){
+        return window.location.replace("/");
+      }
+    };
+
+    fetchData();
   }
 
   addNewinterest = (e) => {
