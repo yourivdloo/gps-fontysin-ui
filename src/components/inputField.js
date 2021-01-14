@@ -1,8 +1,6 @@
 import React from "react";
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Icon from '@material-ui/icons/Delete';
-import IconButton from '@material-ui/core/IconButton';
 
 
 const InputField = (props) => {
@@ -17,7 +15,7 @@ const InputField = (props) => {
           }
       </Grid>
     })
-  )
+  );
 }
 
 export default InputField

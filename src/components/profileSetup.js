@@ -1,5 +1,4 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -13,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Review from './Review';
 import UserProfileService from '../services/UserProfileService';
 import $ from 'jquery'
+import {withRouter, Redirect} from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -81,8 +81,8 @@ const initialFormData = Object({
   birthday: "",
   birthPlace: "",       ///
   phoneNumber: "",
-  studies: [{ name: "", startDate: "" }],
-  jobs: [{ name: "", startDate: "" }],
+  studies: [{ name: "", school: "", city: "", startDate: "" }],
+  jobs: [{ name: "", companyName: "", startDate: "" }],
   hobbies: [{ name: ""}],
   interests: [{ name: ""}],
   languages: []         ///
@@ -126,10 +126,9 @@ const nationalities = Object([
 class ProfileSetup extends React.Component {
   constructor(props) {
     super(props);
-    this.addNewHobby = this.addNewHobby.bind(this);
-    this.addNewinterest = this.addNewinterest.bind(this);
-    this.clickOnDelete = this.clickOnDelete.bind(this);
+
     this.state = {
+      redirect: false,
       activeStep: 0,
       languageList: languages,
       nationalityList: nationalities,
@@ -137,6 +136,24 @@ class ProfileSetup extends React.Component {
       interestList: [{ index: Math.random(), name: "interests", label: "interest" }],
       hobbyList: [{ index: Math.random(), name: "hobbies", label: "hobby" }]
     };
+    
+    this.addNewHobby = this.addNewHobby.bind(this);
+    this.addNewinterest = this.addNewinterest.bind(this);
+    this.clickOnDelete = this.clickOnDelete.bind(this);
+  }
+
+  // check if user already has an account
+  componentDidMount() {
+    const fetchData = async () => {
+      var user = await UserProfileService.whoAmI();
+
+      var redirect = user !== null;
+      if(redirect){
+        return window.location.replace("/");
+      }
+    };
+
+    fetchData();
   }
 
   addNewinterest = (e) => {
@@ -157,13 +174,13 @@ class ProfileSetup extends React.Component {
 
   clickOnDelete = (record) => {
     var type = record.label;
+    var array = this.state.formData;
 
     if(type === "interest"){
-      var list = this.state.interestList;
-      var index = list.map(function(e) { return e.index; }).indexOf(record.index);
+      var interestList = this.state.interestList;
+      var interestIndex = interestList.map(function(e) { return e.index; }).indexOf(record.index);
 
-      var array = this.state.formData;
-      array["interests"].splice(index, 1);
+      array["interests"].splice(interestIndex, 1);
 
       this.setState({
         interestList: this.state.interestList.filter(r => r !== record),
@@ -171,11 +188,10 @@ class ProfileSetup extends React.Component {
       });
 
     }else if(type === "hobby"){
-      var list = this.state.hobbyList;
-      var index = list.map(function(e) { return e.index; }).indexOf(record.index);
+      var hobbyList = this.state.hobbyList;
+      var hobbyIndex = hobbyList.map(function(e) { return e.index; }).indexOf(record.index);
 
-      var array = this.state.formData;
-      array["hobbies"].splice(index, 1);
+      array["hobbies"].splice(hobbyIndex, 1);
 
       this.setState({
         hobbyList: this.state.hobbyList.filter(r => r !== record)
@@ -197,7 +213,7 @@ class ProfileSetup extends React.Component {
       var value = e.value;
       
       // console.log(value)
-      if(type == "array"){
+      if(type === "array"){
         var array = formdata[e.name];
         var id = e.id;
         var number = id.slice(id.length - 1, id.length);
@@ -206,12 +222,12 @@ class ProfileSetup extends React.Component {
         
         formdata[e.name] = array;
 
-      }else if(type == "language_array"){
+      }else if(type === "language_array"){
 
         formdata[e.name] = value;
 
 
-      }else if(category != null && category != undefined && category != ""){
+      }else if(category !== null && category !== undefined && category.trim() !== ""){
         formdata[category][0][e.name] = value;
       }else{
         formdata[e.name] = value;
@@ -224,12 +240,11 @@ class ProfileSetup extends React.Component {
   handleSubmit = (e) => {
     // console.log(e);
     // ... submit to API or something
-    
     var formdata = this.state.formData;
 
     formdata.address = formdata.street + " " + formdata.addressnumber;
 
-    if(formdata.addressaddition != null && formdata.addressaddition != ""){
+    if(formdata.addressaddition !== null && formdata.addressaddition.trim() !== ""){
       formdata.address = formdata.address + formdata.addressaddition;
     }
 
@@ -259,7 +274,14 @@ class ProfileSetup extends React.Component {
     console.log(formdata);
     var result = UserProfileService.addNewProfile(formdata);
     console.log(result);
+    this.redirectToHome();
+    // this.props.history.push("/");
   };
+
+  redirectToHome = () => {
+    const { history } = this.props;
+    if(history) history.push('/');
+   }
 
   handleNext = () => {
     this.setState({ activeStep: this.state.activeStep + 1 })
@@ -340,4 +362,4 @@ class ProfileSetup extends React.Component {
   }
 }
 
-export default withStyles(styles)(ProfileSetup)
+export default withRouter(withStyles(styles)(ProfileSetup))
