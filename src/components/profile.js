@@ -252,11 +252,6 @@ class profile extends React.Component {
       // projects: [],
       })
     })
-  
-
-    var headers = {
-      "x-ms-client-principal-name": "410078@student.fontys.nl",
-    };
 
     var newInterests = []
     var newInterestIndex = this.state.interestIndex
@@ -670,7 +665,7 @@ class profile extends React.Component {
     var result = await UserProfileService.updateProperties(personalData.userProperties);
     var result2 = await UserProfileService.deleteProperties(deletedProps);
 
-    this.props.history.push("/guestprofile")
+    window.location.replace("/guestprofile")
     }
   };
   // handleSubmit(event) {
@@ -723,10 +718,10 @@ class profile extends React.Component {
               <CloseIcon
                 style={{ color: this.state.disconnected ? "white" : "#E23D28" }}
                 className={classes.settings}
-                onClick={() => this.props.history.push("/guestprofile")}
+                onClick={() => window.location.replace("/guestprofile")}
               ></CloseIcon>
               {/* <CancelIcon style={{ color: '#BEBEBE' }} className={classes.settings}></CancelIcon> */}
-              {/* <SettingsIcon className={classes.settings} onClick={() => this.props.history.push("/settings")}>
+              {/* <SettingsIcon className={classes.settings} onClick={() => window.location.replace("/settings")}>
               </SettingsIcon> */}
             </div>
           </Card>

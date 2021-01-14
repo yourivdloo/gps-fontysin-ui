@@ -133,21 +133,27 @@ class GuestProfile extends React.Component {
     super(props);
 
     this.state = {
-      pcn: props.computedMatch.params.pcn,
+      pcn: this.props.computedMatch.params.pcn,
       userProfile: new UserProfile(),
       username: "",
     };
-
+    // this.state.pcn === null || this.state.pcn === undefined ?
+    //   this.getUserData():
+    //   this.getUserDataByPcn();
+    this.getUserDataByPcn = this.getUserDataByPcn.bind(this);
+  }
+  
+  componentDidMount(){
     this.state.pcn === null || this.state.pcn === undefined ?
       this.getUserData():
       this.getUserDataByPcn();
   }
-  
-  getUserDataByPcn() {
+
+  getUserDataByPcn(){
     UserProfileService.findByPcn(this.state.pcn)
       .then((response) => {
         var Profile = new UserProfile();
-        Profile.loadFromObject(response.data);
+        Profile.loadFromObject(response);
 
         this.setState({ userProfile: Profile });
 

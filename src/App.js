@@ -25,6 +25,7 @@ function App() {
         <Route path="/profileSetup" component={profileSetup}/>
         <PrivateRoute path="/guestprofile/:pcn" component={guestprofile}/>
         <PrivateRoute path="/guestprofile" component={guestprofile}/>
+        <PrivateRoute path="/settings/:index" component={Settings}/>
         <PrivateRoute path="/settings" component={Settings}/>
         <PrivateRoute path="/results/:query" component={SearchResults}/>
         <PrivateRoute path="/exportCV" component={exportCV}/>

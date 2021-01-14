@@ -60,7 +60,6 @@ class Navbar extends React.Component {
   search = (e) => {
     if(e.key === 'Enter'){
       var value = document.getElementById('input').value
-      // this.props.history.push('/results/' + value.toString())
       window.location.replace('/results/' + value.toString())
     }
   }
@@ -68,7 +67,7 @@ class Navbar extends React.Component {
   render(){
     const { classes } = this.props;
     return (
-      <AppBar position="static" style={{ background: "#663366" }}>
+      <AppBar position="static" style={{ background: "#663366", height: "65px" }}>
         <Toolbar>
         <h1>
                 FontysIN
@@ -90,7 +89,7 @@ class Navbar extends React.Component {
                 </div>
                 {/* <form onSubmit={this.search}> */}
                 <InputBase
-                  placeholder="Search by first name..."
+                  placeholder="Search..."
                   id="input"
                   //type="submit"
                   onKeyUp={this.search}

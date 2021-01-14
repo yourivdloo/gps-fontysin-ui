@@ -4,18 +4,27 @@ import baseUrl from "./../globals/globalVariables"
 const USER_BASE_URL = baseUrl + "/api/user";
 const PROPERTY_BASE_URL = baseUrl + "/api/property";
 // const pcn = 123456; //non existent
-const pcn = 427540; // pcn jack
+// const pcn = 427540; // pcn jack
 // const pcn = 410078; //nynke
 // const pcn = 439772; //youri
+const pcn = localStorage.getItem('pcn');
 
 class UserProfileService{
     findAll(){
         return axios.get(USER_BASE_URL + "/all"); // returns UserProfile list
     }
 
-    findByPcn(userPcn){
-        console.log(userPcn);
-        return axios.get(USER_BASE_URL + "/" + userPcn); // returns UserProfile
+    async findByPcn(userPcn){
+        var obj;
+        await axios.get(USER_BASE_URL + "/" + userPcn).then(response =>{
+            obj = response.data
+            console.log(obj) 
+        }).catch((e)=>{
+            obj = null;
+            console.log(e)
+        }); // returns UserProfile
+
+        return obj
     }
 
     async searchByName(name){
@@ -88,10 +97,10 @@ class UserProfileService{
         return await axios.delete(PROPERTY_BASE_URL + "/delete", { headers: headers , data: deletedItems});
     }
 
-    updateSettings(userProfile){
+    async updateSettings(userProfile){
         var headers = this.getHeader();
 
-        return axios.put(USER_BASE_URL + "/" + userProfile.pcn, userProfile, { headers: headers });
+        return await axios.put(USER_BASE_URL + "/" + userProfile.pcn, userProfile, { headers: headers });
     }
 
     getHeader(userPcn = false){
