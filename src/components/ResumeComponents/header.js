@@ -1,10 +1,7 @@
 import React from 'react';
 
 import {Link, Text, View, StyleSheet} from "@react-pdf/renderer";
-import List, {Item} from "./list";
-import {func} from "prop-types";
-import UserProfileService from "../../services/UserProfileService";
-import profile from "../profile";
+
 
 const styles = StyleSheet.create({
     container: {
@@ -65,7 +62,7 @@ class header extends React.Component {
                     <Text style={styles.subtitle}>{""}</Text>
                 </View>
                 <View style={styles.linkColumn}>
-                    <Link style={styles.link}>{profile.email}</Link>
+                    <Link style={styles.link}>{this.props.email}</Link>
                 </View>
             </View>
         )

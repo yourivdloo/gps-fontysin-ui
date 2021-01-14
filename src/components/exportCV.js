@@ -76,6 +76,7 @@ class ExportCV extends React.Component {
         this.state = {
             userProfile: new UserProfile(),
             username: "",
+            email: "",
         };
         this.getUserData = this.getUserData.bind(this);
         this.getUserData();
@@ -89,6 +90,7 @@ class ExportCV extends React.Component {
                 Profile.loadFromObject(response);
 
                 this.setState({userProfile: Profile});
+
                 var name = "";
                 if (this.state.userProfile.prefix.trim() !== "") {
                     name =
@@ -104,7 +106,16 @@ class ExportCV extends React.Component {
                         this.state.userProfile.lastName;
                 }
 
-                this.setState({username: name});
+
+                var email_address = "";
+                email_address = this.state.userProfile.emailAddress;
+
+                this.setState({username: name, email: email_address});
+
+                console.log(this.state.email_Address);
+                console.log(this.state.email);
+
+
             })
             .catch((error) => {
                 console.log("error 3 " + error);
@@ -115,14 +126,14 @@ class ExportCV extends React.Component {
         return (
             <Document>
                 DOWNLOAD PDF in A4 format:
-                <PDFDownloadLink document={<OutputA4 username={this.state.username}/>} fileName="CVA4.pdf">
+                <PDFDownloadLink document={<OutputA4 username={this.state.username} email={this.state.email}/>} fileName="CVA4.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
                 </PDFDownloadLink>
                 <p></p>
                 DOWNLOAD PDF in landscape format:
-                <PDFDownloadLink document={<OutputLandscape username={this.state.username}/>} fileName="CVLandscape.pdf">
+                <PDFDownloadLink document={<OutputLandscape username={this.state.username} email={this.state.email}/>} fileName="CVLandscape.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -130,7 +141,7 @@ class ExportCV extends React.Component {
                 <p></p>
 
                 DOWNLOAD PDF in 380 by 1250 format:
-                <PDFDownloadLink document={<Output380by1250 username={this.state.username}/>} fileName="CV380by1250.pdf">
+                <PDFDownloadLink document={<Output380by1250 username={this.state.username} email={this.state.email}/>} fileName="CV380by1250.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -143,7 +154,7 @@ class ExportCV extends React.Component {
     const Resume = (props) => (
 
         <Page {...props} style={styles.page}>
-            <Header username={props.username}/>
+            <Header username={props.username} email={props.email}/>
 
             <View style={styles.container}>
                 <View style={styles.leftColumn}>
@@ -170,7 +181,7 @@ class ExportCV extends React.Component {
             subject="The resume of the Dude"
             title="Resume"
         >
-            <Resume size="A4" username={props.username}/>
+            <Resume size="A4" username={props.username} email={props.email}/>
         </Document>
     );
     const OutputLandscape = (props) => (
@@ -180,7 +191,7 @@ class ExportCV extends React.Component {
             subject="The resume of the Dude"
             title="Resume"
         >
-            <Resume orientation="landscape" size="A4" username={props.username}/>
+            <Resume orientation="landscape" size="A4" username={props.username} email={props.email}/>
         </Document>
     );
     const Output380by1250 = (props) => (
@@ -190,7 +201,7 @@ class ExportCV extends React.Component {
             subject="The resume of the Dude"
             title="Resume"
         >
-            <Resume size={[380, 1250]} username={props.username}/>
+            <Resume size={[380, 1250]} username={props.username} email={props.email}/>
         </Document>
     );
 

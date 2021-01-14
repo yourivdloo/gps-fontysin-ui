@@ -28,7 +28,6 @@
     <list default="true" id="2ede3fab-7c29-448c-9690-22b40ec4e4fe" name="Default Changelist" comment="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/skills.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/skills.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/exportCV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/exportCV.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -108,7 +107,7 @@
       <workItem from="1610365812685" duration="10957000" />
       <workItem from="1610525806481" duration="3103000" />
       <workItem from="1610528983907" duration="2861000" />
-      <workItem from="1610612372265" duration="22337000" />
+      <workItem from="1610612372265" duration="23936000" />
     </task>
     <task id="LOCAL-00001" summary="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
       <created>1605703648342</created>
