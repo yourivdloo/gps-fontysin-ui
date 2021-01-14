@@ -51,14 +51,9 @@ const styles = theme => ({
 class Navbar extends React.Component {
   constructor(props){
     super(props);
+    
     this.state = {
-      isRegistered: false
-    }
-  }
-
-  componentDidMount(){
-    if(localStorage.getItem('pcn') != null){
-      this.setState({isRegistered: true})
+      isSetup: !props.location.pathname.includes('profileSetup')
     }
   }
 
@@ -78,7 +73,7 @@ class Navbar extends React.Component {
         <h1>
                 FontysIN
               </h1>
-          {this.state.isRegistered ?
+          {this.state.isSetup ?
             <div style={{marginLeft: "30px"}}>
               <Button href="/" color="inherit">
                 Home
@@ -86,7 +81,7 @@ class Navbar extends React.Component {
               <Button href="/chat" color="inherit">
                 Chat
               </Button>
-              <Button href={"/guestprofile/" + localStorage.getItem('pcn')} color="inherit">
+              <Button href={"/guestprofile"} color="inherit">
                 Profile
               </Button>
               <div className={classes.search}>

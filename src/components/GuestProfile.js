@@ -7,8 +7,9 @@ import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import SettingsIcon from "@material-ui/icons/Settings";
 import EditIcon from "@material-ui/icons/Edit";
-import UserProfileService from "../../services/UserProfileService";
-import UserProfile from "./../../entities/UserProfile";
+import UserProfileService from "./../services/UserProfileService";
+import UserProfile from "./../entities/UserProfile";
+import {Redirect} from "react-router-dom";
 
 const styles = (theme) => ({
   appBar: {
@@ -132,19 +133,51 @@ class GuestProfile extends React.Component {
     super(props);
 
     this.state = {
-      pcn: this.props.match.params.pcn,
+      pcn: props.computedMatch.params.pcn,
       userProfile: new UserProfile(),
       username: "",
     };
 
-    this.getUserData();
+    this.state.pcn === null || this.state.pcn === undefined ?
+      this.getUserData():
+      this.getUserDataByPcn();
   }
-
-  getUserData() {
+  
+  getUserDataByPcn() {
     UserProfileService.findByPcn(this.state.pcn)
       .then((response) => {
         var Profile = new UserProfile();
         Profile.loadFromObject(response.data);
+
+        this.setState({ userProfile: Profile });
+
+        var name = "";
+        if (this.state.userProfile.prefix.trim() !== "") {
+          name =
+            this.state.userProfile.firstName +
+            " " +
+            this.state.userProfile.prefix +
+            " " +
+            this.state.userProfile.lastName;
+        } else {
+          name =
+            this.state.userProfile.firstName +
+            " " +
+            this.state.userProfile.lastName;
+        }
+
+        this.setState({ username: name });
+      })
+      .catch((error) => {
+        console.log("error 3 " + error);
+      });
+  }
+
+  getUserData() {
+    UserProfileService.whoAmI()
+      .then((response) => {
+        var Profile = new UserProfile();
+        Profile.loadFromObject(response);
 
         this.setState({ userProfile: Profile });
 
@@ -252,16 +285,14 @@ class GuestProfile extends React.Component {
                     <Typography>Information about the user</Typography>
                   </CardContent>
                   <div className={classes.cardActions}>
-                    {localStorage.getItem("pcn") === this.state.pcn ? (
+                    {this.state.pcn === null || this.state.pcn === undefined ? (
                       <div>
-                        <SettingsIcon
-                          className={classes.settings}
-                          onClick={() => this.props.history.push("/settings")}
-                        />
-                        <EditIcon
-                          className={classes.settings}
-                          onClick={() => this.props.history.push("/profile")}
-                        />
+                        <a href="/settings">
+                          <SettingsIcon className={classes.settings} />
+                        </a>
+                        <a href="/profile">
+                          <EditIcon className={classes.settings} />
+                        </a>
                       </div>
                     ) : (
                       <div></div>
@@ -337,7 +368,7 @@ class GuestProfile extends React.Component {
                 </Typography>
 
                 {userProfile.studies.map((val, idx) => {
-                  console.log(userProfile.studies);
+                  // console.log(userProfile.studies);
                   var date1 = new Date(val.startDate);
                   var date2 =
                     val.endDate === null ? new Date() : new Date(val.endDate);
