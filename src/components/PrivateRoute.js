@@ -1,22 +1,54 @@
-import ProfileSetup from "./profileSetup";
 import UserProfileService from "../services/UserProfileService";
-import {Route} from "react-router-dom";
+import {Route, Redirect} from "react-router-dom";
+import {React, useState, useEffect} from "react";
 
-export default function PrivateRoute({component: Component, ...rest}){
-    UserProfileService.existsByPcn(410078);//nynke
-    // UserProfileService.existsByPcn(123456);//non existent
-    // UserProfileService.existsByPcn(439772);//youri
-    // UserProfileService.existsByPcn(438161);//pim
-    
-    const isRegistered = localStorage.hasOwnProperty('pcn')
+const PrivateRoute = (props) => {
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    
-    return(
+  const { component: Component, ...rest } = props;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if(!localStorage.hasOwnProperty('pcn')){
+        var user = await UserProfileService.whoAmI();
+        console.log(user);
+        if(user !== null && user !== undefined){
+          localStorage.setItem('pcn', user.pcn);
+        }
+      }
+        
+      var isRegistered = localStorage.hasOwnProperty('pcn')
+
+      if(!isRegistered && !loading){
+        localStorage.clear();
+      }
+
+      setIsAuthenticated(isRegistered);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
+
+  return (
       <Route
           {...rest}
-          render={(props) =>
-           isRegistered ? <Component {...props} /> : <ProfileSetup/>
+          render={() =>
+              isAuthenticated ? (
+                <Component {...props} />
+              ) : loading ? (
+                  <div>LOADING...</div>
+              ) : (
+                <Redirect
+                    to={{
+                        pathname: "/profileSetup",
+                        state: { from: props.location },
+                    }}
+                />
+              )
           }
       />
-    );
-  }
+  );
+};
+
+export default PrivateRoute;

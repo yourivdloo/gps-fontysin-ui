@@ -42,7 +42,7 @@ class Chat extends PureComponent {
       classObj.setConnected(classObj, true);
 
       console.log('Connected: ' + frame);
-      classObj.stompClient.subscribe('/topic/public', function (message) {
+      classObj.stompClient.subscribe('/api/topic/public', function (message) {
         console.log(message);
         classObj.showMessage(JSON.parse(message.body));
       });
@@ -70,7 +70,7 @@ class Chat extends PureComponent {
       type: 'CHAT'
     };
 
-    this.stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+    this.stompClient.send("/api/app/chat", {}, JSON.stringify(chatMessage));
     this.setState({
       "message": ""
     })
