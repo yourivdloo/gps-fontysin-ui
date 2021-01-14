@@ -26,14 +26,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ede3fab-7c29-448c-9690-22b40ec4e4fe" name="Default Changelist" comment="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
-      <change afterPath="$PROJECT_DIR$/src/components/ResumeComponents/description.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/ResumeComponents/projects.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/education.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/education.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/experience.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/experience.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/skills.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/skills.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/exportCV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/exportCV.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,7 +108,7 @@
       <workItem from="1610365812685" duration="10957000" />
       <workItem from="1610525806481" duration="3103000" />
       <workItem from="1610528983907" duration="2861000" />
-      <workItem from="1610612372265" duration="982000" />
+      <workItem from="1610612372265" duration="22337000" />
     </task>
     <task id="LOCAL-00001" summary="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
       <created>1605703648342</created>
@@ -193,17 +188,25 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605697464229" />
-    <state x="976" y="123" width="585" height="801" key="find.popup" timestamp="1610526211221">
+    <state x="-783" y="309" width="1698" height="1027" key="dock-window-1" timestamp="1610634884554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="976" y="123" width="585" height="801" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610526211221" />
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1610378372340">
+    <state x="-783" y="309" width="1698" height="1027" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610634884554" />
+    <state x="-7" y="0" width="974" height="1047" key="dock-window-2" timestamp="1610634884554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610378372340" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1610526227012">
+    <state x="-7" y="0" width="974" height="1047" key="dock-window-2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610634884554" />
+    <state x="976" y="123" width="585" height="801" key="find.popup" timestamp="1610633769715">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610526227012" />
+    <state x="976" y="123" width="585" height="801" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610633769715" />
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1610639644732">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610639644732" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1610617011552">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610617011552" />
   </component>
 </project>

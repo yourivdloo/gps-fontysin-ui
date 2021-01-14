@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { Link, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {Link, Text, View, StyleSheet} from "@react-pdf/renderer";
+import List, {Item} from "./list";
+import {func} from "prop-types";
+import UserProfileService from "../../services/UserProfileService";
+import profile from "../profile";
 
 const styles = StyleSheet.create({
     container: {
@@ -40,14 +44,32 @@ const styles = StyleSheet.create({
     },
 });
 
-export default () => (
-    <View style={styles.container}>
-        <View style={styles.detailColumn}>
-            <Text style={styles.name}>The Dude Lebowski</Text>
-            <Text style={styles.subtitle}>Full Stack Engineer</Text>
-        </View>
-        <View style={styles.linkColumn}>
-            <Link style={styles.link}>TheDude@fontys.nl</Link>
-        </View>
-    </View>
-);
+// function getData(name, subtitle, email) => (
+//     this.name = name,
+//     this.subtitle = subtitle
+// )
+class header extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+        console.log(props);
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.detailColumn}>
+                    <Text style={styles.name}>{this.props.username}</Text>
+                    <Text style={styles.subtitle}>{""}</Text>
+                </View>
+                <View style={styles.linkColumn}>
+                    <Link style={styles.link}>{profile.email}</Link>
+                </View>
+            </View>
+        )
+    }
+}
+
+export default header

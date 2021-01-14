@@ -3,6 +3,7 @@ import React from 'react';
 import Title from './title';
 import List, { Item } from './list';
 import {Text, View, StyleSheet, Font} from "@react-pdf/renderer";
+import UserProfileService from "../../services/UserProfileService";
 
 const styles = StyleSheet.create({
     title: {
@@ -37,6 +38,7 @@ const SkillEntry = ({ name, skills }) => (
     </View>
 );
 
+
 const Skills = () => (
     <View>
         <Title style={styles.bold}>Skills</Title>
@@ -45,7 +47,6 @@ const Skills = () => (
             skills={[
                 'Can do 55 googles per minute',
                 'High accuracy',
-
             ]}
         />
     </View>
