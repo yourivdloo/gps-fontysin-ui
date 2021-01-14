@@ -51,10 +51,6 @@ const styles = theme => ({
 class Navbar extends React.Component {
   constructor(props){
     super(props);
-    
-    this.state = {
-      isSetup: !props.location.pathname.includes('profileSetup')
-    }
   }
 
   search = (e) => {
@@ -70,42 +66,38 @@ class Navbar extends React.Component {
     return (
       <AppBar position="static" style={{ background: "#663366" }}>
         <Toolbar>
-        <h1>
-                FontysIN
-              </h1>
-          {this.state.isSetup ?
-            <div style={{marginLeft: "30px"}}>
-              <Button href="/" color="inherit">
-                Home
-              </Button>
-              <Button href="/chat" color="inherit">
-                Chat
-              </Button>
-              <Button href={"/guestprofile"} color="inherit">
-                Profile
-              </Button>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon style={{pointer: 'cursor'}}/>
-                </div>
-                {/* <form onSubmit={this.search}> */}
-                <InputBase
-                  placeholder="Search by first name..."
-                  id="input"
-                  //type="submit"
-                  onKeyUp={this.search}
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-                {/* </form> */}
+          <h1>
+            FontysIN
+          </h1>
+          <div style={{marginLeft: "30px"}}>
+            <Button href="/" color="inherit">
+              Home
+            </Button>
+            <Button href="/chat" color="inherit">
+              Chat
+            </Button>
+            <Button href={"/guestprofile"} color="inherit">
+              Profile
+            </Button>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon style={{pointer: 'cursor'}}/>
               </div>
+              {/* <form onSubmit={this.search}> */}
+              <InputBase
+                placeholder="Search by first name..."
+                id="input"
+                //type="submit"
+                onKeyUp={this.search}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+              {/* </form> */}
             </div>
-          :
-            <div></div>
-        }
+          </div>
         </Toolbar>
       </AppBar>
     );

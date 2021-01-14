@@ -2,6 +2,8 @@ import UserProfileService from "../services/UserProfileService";
 import {Route, Redirect} from "react-router-dom";
 import {React, useState, useEffect} from "react";
 
+var isRegistered = localStorage.hasOwnProperty('pcn')
+
 const PrivateRoute = (props) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -20,34 +22,40 @@ const PrivateRoute = (props) => {
         
       var isRegistered = localStorage.hasOwnProperty('pcn')
 
-      if(!isRegistered && !loading){
+      if(!isRegistered){
         localStorage.clear();
       }
 
-      setIsAuthenticated(isRegistered);
-      setLoading(false);
+      return isRegistered;
     };
-    fetchData();
+    
+    if(!isRegistered){
+      console.log("get")
+      fetchData().then(response => {
+        setIsAuthenticated(response);
+        setLoading(false);
+      });
+    }
   }, []);
 
   return (
-      <Route
-          {...rest}
-          render={() =>
-              isAuthenticated ? (
-                <Component {...props} />
-              ) : loading ? (
-                  <div>LOADING...</div>
-              ) : (
-                <Redirect
-                    to={{
-                        pathname: "/profileSetup",
-                        state: { from: props.location },
-                    }}
-                />
-              )
-          }
-      />
+    <Route
+        {...rest}
+        render={() =>
+            isRegistered || isAuthenticated ? (
+              <Component {...props} />
+            ) : loading ? (
+                <div>LOADING...</div>
+            ) : (
+              <Redirect
+                  to={{
+                      pathname: "/profileSetup",
+                      state: { from: props.location },
+                  }}
+              />
+            )
+        }
+    />
   );
 };
 
