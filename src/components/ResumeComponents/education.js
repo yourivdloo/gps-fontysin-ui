@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 import Title from "./title";
 
@@ -23,9 +22,9 @@ const styles = StyleSheet.create({
 
 export default () => (
     <View style={styles.container}>
-        <Title>Education</Title>
-        <Text style={styles.school}>Jedi Academy</Text>
-        <Text style={styles.degree}>Jedi Master</Text>
-        <Text style={styles.candidate}>A long, long time ago</Text>
+        <Title fontweight={'bold'}>Education</Title>
+        <Text style={styles.school}>Fontys ICT</Text>
+        <Text style={styles.degree}>Software stream</Text>
+        <Text style={styles.candidate}>01.08.2023</Text>
     </View>
 );

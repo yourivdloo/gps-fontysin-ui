@@ -5,7 +5,12 @@ import Header from "./ResumeComponents/header"
 import Education from "./ResumeComponents/education"
 import Experience from "./ResumeComponents/experience"
 import Skills from "./ResumeComponents/skills"
+import Description from "./ResumeComponents/description"
+import Projects from "./ResumeComponents/projects"
 import {withStyles} from "@material-ui/core/styles";
+import UserProfile from "./../entities/UserProfile";
+import UserProfileService from "../services/UserProfileService";
+
 
 const styles = StyleSheet.create({
     page: {
@@ -75,15 +80,19 @@ const Resume = props => (
                     src="https://www.indiewire.com/wp-content/uploads/2017/07/the-big-lebowski-e1520362797168.jpg"
                     style={styles.image}
                 />
+                <Description/>
                 <Education />
                 <Skills />
+                <Projects/>
+
             </View>
             <Experience />
         </View>
         <Text style={styles.footer}>This IS the candidate you are looking for</Text>
     </Page>
 );
-const Output = () => (
+// Page output in different formats
+const OutputA4 = () => (
     <Document
         author="Dude"
         keywords="Cool resume bro, resume"
@@ -91,25 +100,60 @@ const Output = () => (
         title="Resume"
     >
         <Resume size="A4" />
+    </Document>
+);
+const OutputLandscape = () => (
+    <Document
+        author="Dude"
+        keywords="Cool resume bro, resume"
+        subject="The resume of the Dude"
+        title="Resume"
+    >
         <Resume orientation="landscape" size="A4" />
+    </Document>
+);const Output380by1250 = () => (
+    <Document
+        author="Dude"
+        keywords="Cool resume bro, resume"
+        subject="The resume of the Dude"
+        title="Resume"
+    >
         <Resume size={[380, 1250]} />
     </Document>
 );
-class Component extends React.Component {
-
+class ExportCV extends React.Component {
+constructor(props) {
+    super(props);
+    this.state = {
+       profile: UserProfileService.whoAmI(),
+    }
+}
     render() {
-
-
         return (
             <Document>
-                DOWNLOAD PDF:
-                    <PDFDownloadLink document={<Output/>} fileName="somename.pdf">
+                DOWNLOAD PDF in A4 format:
+                    <PDFDownloadLink document={<OutputA4/>} fileName="NameA4.pdf">
                         {({ blob, url, loading, error }) =>
                             loading ? "Loading document..." : "Download now!"
                         }
                     </PDFDownloadLink>
+                <p></p>
+                DOWNLOAD PDF in landscape format:
+                <PDFDownloadLink document={<OutputLandscape/>} fileName="NameLandscape.pdf">
+                    {({ blob, url, loading, error }) =>
+                        loading ? "Loading document..." : "Download now!"
+                    }
+                </PDFDownloadLink>
+                <p></p>
+
+                DOWNLOAD PDF in 380 by 1250 format:
+                <PDFDownloadLink document={<Output380by1250/>} fileName="NameOutput380by1250.pdf">
+                    {({ blob, url, loading, error }) =>
+                        loading ? "Loading document..." : "Download now!"
+                    }
+                </PDFDownloadLink>
     </Document>
     );
     }
 }
-export default withStyles(styles)(Component)
+export default withStyles(styles)(ExportCV)

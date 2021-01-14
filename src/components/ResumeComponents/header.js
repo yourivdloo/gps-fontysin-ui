@@ -43,11 +43,11 @@ const styles = StyleSheet.create({
 export default () => (
     <View style={styles.container}>
         <View style={styles.detailColumn}>
-            <Text style={styles.name}>Luke Skywalker</Text>
-            <Text style={styles.subtitle}>Jedi Master</Text>
+            <Text style={styles.name}>The Dude Lebowski</Text>
+            <Text style={styles.subtitle}>Full Stack Engineer</Text>
         </View>
         <View style={styles.linkColumn}>
-            <Link style={styles.link}>luke@theforce.com</Link>
+            <Link style={styles.link}>TheDude@fontys.nl</Link>
         </View>
     </View>
 );
