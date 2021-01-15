@@ -95,7 +95,7 @@ class UserProfileService{
     }
 
     getHeader(userPcn = false){
-        var header = "";
+        var header = {};
 
         var currentPcn = userPcn ? userPcn : pcn;
 
