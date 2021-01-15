@@ -3,6 +3,8 @@ import Grid from '@material-ui/core/Grid';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import './../cssStyleSheets/chat.css'
+import baseUrl from "./../globals/globalVariables"
+import UserProfileService from '../services/UserProfileService';
 
 class Chat extends PureComponent {
   constructor(props) {
@@ -10,10 +12,12 @@ class Chat extends PureComponent {
     this.stompClient = null;
 
     this.state = {
+      pcn: 0,
       message: "",
       connected: false,
       message_content: [],
-      messageIndex: 1
+      messageIndex: 1,
+      onBottom: true
     };
 
     this.connect = this.connect.bind(this);
@@ -22,7 +26,21 @@ class Chat extends PureComponent {
     this.showMessage = this.showMessage.bind(this);
     this.onChange = this.onChange.bind(this);
 
-    this.connect();
+  }
+  
+  componentDidMount() {
+    const fetchData = async () => {
+        var user = await UserProfileService.whoAmI();
+        return user.pcn;
+    };
+    
+    fetchData().then(pcn => {
+      this.setState({
+        pcn: pcn
+      });
+      
+      this.connect();
+    });
   }
 
   setConnected(classObj, connected) {
@@ -35,15 +53,15 @@ class Chat extends PureComponent {
   connect(){
     var classObj = this;
 
-    var sock = new SockJS('/api/websocket');
+    var sock = new SockJS(baseUrl+'/api/websocket');
     this.stompClient = Stomp.over(sock);
     this.stompClient.connect({}, function (frame) {
-
+      
       classObj.setConnected(classObj, true);
+      classObj.sendJoinMessage();
 
       console.log('Connected: ' + frame);
       classObj.stompClient.subscribe('/api/topic/public', function (message) {
-        console.log(message);
         classObj.showMessage(JSON.parse(message.body));
       });
     });
@@ -58,6 +76,18 @@ class Chat extends PureComponent {
 
     console.log("Disconnected");
   }
+
+  sendJoinMessage(){
+    if(this.state.pcn != 0){
+      var joinMessage = {
+        sender: this.state.pcn,
+        content: "",
+        type: 'JOIN'
+      };
+
+      this.stompClient.send("/api/app/chat", {}, JSON.stringify(joinMessage));
+    }
+  }
   
   sendMessage() {
     if(this.state.message === "" || this.state.message === null){
@@ -65,7 +95,7 @@ class Chat extends PureComponent {
     }
 
     var chatMessage = {
-      sender: null,
+      sender: this.state.pcn,
       content: this.state.message,
       type: 'CHAT'
     };
@@ -84,10 +114,30 @@ class Chat extends PureComponent {
       ],
       messageIndex: this.state.messageIndex + 1,
     }));
+
+    if(this.state.onBottom)
+    {
+      this.messagesEnd.scrollIntoView(true);
+    }
+  }
+
+  onScroll = (e) => {
+    console.log("scrol");
+    var obj = e.target;
+    var onBottom = false;
+    
+    if( obj.scrollTop === (obj.scrollHeight - obj.offsetHeight))
+    {
+      onBottom = true
+    }
+    
+    this.setState({
+      onBottom: onBottom
+    });
   }
 
   onChange = (e) => {
-    var message = e.value;
+    var message = e.target.value;
     this.setState({
       "message": message
     })
@@ -101,11 +151,17 @@ class Chat extends PureComponent {
 
     var hash = 0;
     for (var i = 0; i < messageSender.length; i++) {
-        hash = 31 * hash + messageSender.charCodeAt(i);
+        hash = 7 * hash + messageSender.charCodeAt(i);
     }
 
     var index = Math.abs(hash % colors.length);
     return colors[index];
+  }
+
+  onKeyDown = (e) =>{
+    if(e.key === 'Enter'){
+      this.sendMessage();
+    }
   }
 
   render() {
@@ -132,7 +188,7 @@ class Chat extends PureComponent {
 
                 <div className="row" style={{display: this.state.connected ? "flex" : "none"}}>
                   <div className="col-md-12">
-                    <ul id="message-box">
+                    <ul id="message-box" onScroll={(e) => this.onScroll(e)}>
                       {
                         this.state.message_content.map((message, idx) => {
                           if(message.type === "JOIN"){
@@ -154,6 +210,7 @@ class Chat extends PureComponent {
                           }
                         })
                       }
+                      <li style={{ float:"left", clear: "both" }} ref={(el) => { this.messagesEnd = el; }}></li>
                     </ul>
                   </div>
                 </div>
@@ -162,7 +219,7 @@ class Chat extends PureComponent {
                   <div className="col-md-12">
                       <div className="form-group">
                         <div className="input-group clearfix">
-                          <input type="text" id="message" placeholder="Type a message..." onChange={(e) => this.onChange(e.target)} value={this.state.message} className="form-control" />
+                          <input type="text" onKeyDown={(e) => this.onKeyDown(e)} onChange={(e) => this.onChange(e)} id="message" placeholder="Type a message..." value={this.state.message} className="form-control" />
                           <button type="submit" onClick={this.sendMessage} className="btn btn-primary">Send</button>
                         </div>
                       </div>
