@@ -6,10 +6,12 @@ import './../cssStyleSheets/chat.css'
 import baseUrl from "./../globals/globalVariables"
 import UserProfileService from '../services/UserProfileService';
 
-
-const listFloor = React.forwardRef((props, ref) => {
-  return <div ref={ref}>Child1</div> 
-});
+const ConnectionStates = {
+  connecting: "Connecting...",
+  connected: "Connected",
+  lostconnection: "Lost connection",
+  disconnected: "Disconnected"
+};
 
 class Chat extends PureComponent {
   constructor(props) {
@@ -19,7 +21,7 @@ class Chat extends PureComponent {
     this.state = {
       pcn: 0,
       message: "",
-      connected: false,
+      connected: ConnectionStates.connecting,
       message_content: [],
       messageIndex: 1,
       onBottom: true
@@ -64,13 +66,15 @@ class Chat extends PureComponent {
     this.stompClient = Stomp.over(sock);
     this.stompClient.connect({}, function (frame) {
       
-      classObj.setConnected(classObj, true);
+      classObj.setConnected(classObj, ConnectionStates.connected);
       classObj.sendNotificationMessage("JOIN");
 
       console.log('Connected: ' + frame);
       classObj.stompClient.subscribe('/api/topic/public', function (message) {
         classObj.showMessage(JSON.parse(message.body));
       });
+    }, function(){
+      classObj.setConnected(classObj, ConnectionStates.lostconnection)
     });
   }
   
@@ -80,7 +84,7 @@ class Chat extends PureComponent {
       this.stompClient.disconnect();
     }
 
-    this.setConnected(this, false);
+    this.setConnected(this, ConnectionStates.disconnected);
 
     console.log("Disconnected");
     return undefined;
@@ -196,7 +200,7 @@ class Chat extends PureComponent {
 
                 <div className="row">
                   <div className="col-md-12">
-                    <div id={this.state.connected? "status-connected" : "status-connecting"}>Connection: {this.state.connected? "Connected" : "Connecting..."}</div>
+                    <div id={"status-connecting"}>Connection: {this.state.connected}</div>
                   </div>
                 </div>
 
