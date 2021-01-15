@@ -6,6 +6,11 @@ import './../cssStyleSheets/chat.css'
 import baseUrl from "./../globals/globalVariables"
 import UserProfileService from '../services/UserProfileService';
 
+
+const listFloor = React.forwardRef((props, ref) => {
+  return <div ref={ref}>Child1</div> 
+});
+
 class Chat extends PureComponent {
   constructor(props) {
     super(props);
@@ -26,7 +31,9 @@ class Chat extends PureComponent {
     this.showMessage = this.showMessage.bind(this);
     this.onChange = this.onChange.bind(this);
 
+    window.onbeforeunload = () => this.disconnect();
   }
+  
   
   componentDidMount() {
     const fetchData = async () => {
@@ -58,7 +65,7 @@ class Chat extends PureComponent {
     this.stompClient.connect({}, function (frame) {
       
       classObj.setConnected(classObj, true);
-      classObj.sendJoinMessage();
+      classObj.sendNotificationMessage("JOIN");
 
       console.log('Connected: ' + frame);
       classObj.stompClient.subscribe('/api/topic/public', function (message) {
@@ -69,20 +76,22 @@ class Chat extends PureComponent {
   
   disconnect() {
     if (this.stompClient !== null) {
+      this.sendNotificationMessage("LEAVE");
       this.stompClient.disconnect();
     }
 
     this.setConnected(this, false);
 
     console.log("Disconnected");
+    return undefined;
   }
 
-  sendJoinMessage(){
+  sendNotificationMessage(type = "JOIN"){
     if(this.state.pcn != 0){
       var joinMessage = {
         sender: this.state.pcn,
         content: "",
-        type: 'JOIN'
+        type: type
       };
 
       this.stompClient.send("/api/app/chat", {}, JSON.stringify(joinMessage));
@@ -122,11 +131,12 @@ class Chat extends PureComponent {
   }
 
   onScroll = (e) => {
-    console.log("scrol");
     var obj = e.target;
     var onBottom = false;
     
-    if( obj.scrollTop === (obj.scrollHeight - obj.offsetHeight))
+    var scrollAmount = obj.scrollHeight - obj.offsetHeight;
+    var difference = function (a, b) { return Math.abs(a - b); }
+    if(difference(obj.scrollTop, scrollAmount) <= 100)
     {
       onBottom = true
     }
@@ -146,12 +156,15 @@ class Chat extends PureComponent {
   getAvatarColor(messageSender) {
     var colors = [
       '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-      '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
+      '#ffc107', '#ff85af', '#FF9800', '#39bbb0',
+      '#21130d', '#009900', '#ff3300', '#a57e00',
+      '#009160', '#000291', '#6f0091', '#e6cf00',
+      '#ac0078', '#cf004f', '#64cf00', '#925300'
     ];
 
     var hash = 0;
     for (var i = 0; i < messageSender.length; i++) {
-        hash = 7 * hash + messageSender.charCodeAt(i);
+        hash += 63 * 255 + messageSender.charCodeAt(i);
     }
 
     var index = Math.abs(hash % colors.length);
@@ -163,6 +176,7 @@ class Chat extends PureComponent {
       this.sendMessage();
     }
   }
+
 
   render() {
     return (
