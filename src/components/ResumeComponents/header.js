@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Link, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {Link, Text, View, StyleSheet} from "@react-pdf/renderer";
+
 
 const styles = StyleSheet.create({
     container: {
@@ -40,14 +41,32 @@ const styles = StyleSheet.create({
     },
 });
 
-export default () => (
-    <View style={styles.container}>
-        <View style={styles.detailColumn}>
-            <Text style={styles.name}>Luke Skywalker</Text>
-            <Text style={styles.subtitle}>Jedi Master</Text>
-        </View>
-        <View style={styles.linkColumn}>
-            <Link style={styles.link}>luke@theforce.com</Link>
-        </View>
-    </View>
-);
+// function getData(name, subtitle, email) => (
+//     this.name = name,
+//     this.subtitle = subtitle
+// )
+class header extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        }
+        console.log(props);
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.detailColumn}>
+                    <Text style={styles.name}>{this.props.username}</Text>
+                    <Text style={styles.subtitle}>{""}</Text>
+                </View>
+                <View style={styles.linkColumn}>
+                    <Link style={styles.link}>{this.props.email}</Link>
+                </View>
+            </View>
+        )
+    }
+}
+
+export default header

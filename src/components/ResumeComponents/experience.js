@@ -3,6 +3,7 @@ import React from "react";
 import Title from "./title";
 import List, { Item } from "./list";
 import { Text, View, StyleSheet } from  "@react-pdf/renderer";
+import {withStyles} from "@material-ui/core/styles";
 
 const styles = StyleSheet.create({
     container: {
@@ -87,44 +88,21 @@ const ExperienceEntry = ({ company, details, position, date }) => {
 
 const experienceData = [
     {
-        company: 'Jedi Temple, Coruseant',
-        date: 'A long time ago...',
+        company: 'Philips',
+        date: '04.04.2019',
         details: [
-            'Started a new Jedi Temple in order to train the next generation of Jedi Masters',
-            'Discovered and trained a new generation of Jedi Knights, which he recruited from within the New Republic',
-            'Communicates with decesased Jedi Masters such as Anakin Skywalker, Yoda, Obi-Wan Kenobi in order to learn the secrets of the Jedi Order',
+            'First internship at Philips doing machine learning',
+            'Working with data set validation',
         ],
-        position: 'Head Jedi Master',
+        position: 'Intern',
     },
     {
-        company: 'Rebel Alliance',
-        date: 'A long time ago...',
+        company: 'VDL',
+        date: '01.06.2017',
         details: [
-            'Lead legions of troops into battle while demonstrating bravery, competence and honor',
-            'Created complicated battle plans in conjunction with other Rebel leaders in order to ensure the greatest chance of success',
-            'Defeated Darth Vader in single-combat, and convinced him to betray his mentor, the Emperor',
+            'Blue collar summer job at VDL as an electrician',
         ],
-        position: 'General',
-    },
-    {
-        company: 'Rebel Alliance',
-        date: 'A long time ago...',
-        details: [
-            'Destroyed the Death Star by using the force to find its only weakness and delivering a torpedo into the center of the ship',
-            'Commanded of squadron of X-Wings into battle',
-            'Defeated an enemy AT-AT single handedly after his ship was destroyed',
-            'Awarded a medal for valor and bravery in battle for his successful destruction of the Death Star',
-        ],
-        position: 'Lieutenant Commander',
-    },
-    {
-        company: 'Tatooine Moisture Refinery',
-        date: 'A long time ago...',
-        details: [
-            'Replaced damaged power converters',
-            'Performed menial labor thoughout the farm in order to ensure its continued operation',
-        ],
-        position: 'Moisture Farmer',
+        position: 'Vehicle technician',
     },
 ];
 
@@ -143,4 +121,4 @@ const Experience = () => (
     </View>
 );
 
-export default Experience;
+export default withStyles(styles)(Experience);
