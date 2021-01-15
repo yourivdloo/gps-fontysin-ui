@@ -55,10 +55,22 @@ function SearchResults(props) {
 
   useEffect(() =>{
       async function getResults(){
-        var r = await UserProfileService.searchByName(props.match.params.query);
+        var query = parseInt(props.match.params.query)
+        var r;
+        if(isNaN(query)){
+          r = await UserProfileService.searchByName(props.match.params.query);
+          setResults(r);
+        } else {
+          r = await UserProfileService.findByPcn(query);
+          var arr = []
+          arr.push(r);
+          setResults(arr);
+        }
+
         console.log(r);
-        setResults(r);
+        
       }
+
       getResults();
   }, []);
 
@@ -75,7 +87,7 @@ function SearchResults(props) {
             <div>
             Found {results.length} result for '{props.match.params.query}'
             </div>
-            : 
+            :
             <div>
             Found {results.length} results for '{props.match.params.query}'
             </div>
