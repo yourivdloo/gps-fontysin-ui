@@ -123,7 +123,7 @@ class Chat extends PureComponent {
     this.setState((prevState) => ({
       message_content: [
         ...prevState.message_content,
-        { index: this.state.messageIndex, content: message.content, sender: message.sender, type: message.type },
+        { index: this.state.messageIndex, content: message.content, sender: message.sender, time: message.time, type: message.type },
       ],
       messageIndex: this.state.messageIndex + 1,
     }));
@@ -221,7 +221,7 @@ class Chat extends PureComponent {
                             return(
                               <li key={message.index} className="chat-message">
                                 <i style={{backgroundColor: this.getAvatarColor(message.sender)}}>{message.sender[0]}</i>
-                                <span>{message.sender}</span>
+                                <span>{message.sender}</span> &nbsp; - &nbsp; {message.time}
                                 <p>{message.content}</p>
                               </li>
                             )
