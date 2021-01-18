@@ -33,8 +33,8 @@ function App() {
         <PrivateRoute exact path="/" component={home}  />
         <PrivateRoute exact path="/profile" component={profile}/>
         <PrivateRoute path="/chat" component={chat}/>
-        <PrivateRoute path="/guestprofile" component={guestprofile}/>
         <PrivateRoute path="/guestprofile/:pcn" component={guestprofile}/>
+        <PrivateRoute path="/guestprofile" component={guestprofile}/>
         <PrivateRoute path="/settings/:index" component={Settings}/>
         <PrivateRoute path="/settings" component={Settings}/>
         <PrivateRoute path="/results/:query" component={SearchResults}/>

@@ -9,7 +9,6 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import EditIcon from "@material-ui/icons/Edit";
 import UserProfileService from "./../services/UserProfileService";
 import UserProfile from "./../entities/UserProfile";
-import {Redirect} from "react-router-dom";
 
 const styles = (theme) => ({
   appBar: {

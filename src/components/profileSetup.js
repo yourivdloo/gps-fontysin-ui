@@ -12,7 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Review from './Review';
 import UserProfileService from '../services/UserProfileService';
 import $ from 'jquery'
-import {withRouter, Redirect} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 function Copyright() {
   return (

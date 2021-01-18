@@ -14,8 +14,6 @@ import UserProfileService from "../services/UserProfileService";
 import TextField from "@material-ui/core/TextField";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckIcon from "@material-ui/icons/Check";
-import axios from "axios";
-import baseUrl from "./../globals/globalVariables"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
