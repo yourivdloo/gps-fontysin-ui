@@ -4,8 +4,8 @@ import baseUrl from "./../globals/globalVariables"
 const USER_BASE_URL = baseUrl + "/api/user";
 const PROPERTY_BASE_URL = baseUrl + "/api/property";
 // const pcn = 123456; //non existent
-// const pcn = 427540; // pcn jack
-const pcn = 410078; //nynke
+const pcn = 427540; // pcn jack
+// const pcn = 410078; //nynke
 // const pcn = 439772; //youri
 // const pcn = 414973; //olivier
 // const pcn = 438161; //pim

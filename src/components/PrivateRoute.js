@@ -47,12 +47,7 @@ const PrivateRoute = (props) => {
             ) : loading ? (
                 <div>LOADING...</div>
             ) : (
-              <Redirect
-                  to={{
-                      pathname: "/profileSetup",
-                      state: { from: props.location },
-                  }}
-              />
+              window.location.href='/profileSetup'
             )
         }
     />

@@ -149,7 +149,7 @@ class ProfileSetup extends React.Component {
 
       var redirect = user !== null;
       if(redirect){
-        return window.location.replace("/");
+        return window.location.href='/';
       }
     };
 
@@ -274,13 +274,12 @@ class ProfileSetup extends React.Component {
     console.log(formdata);
     var result = UserProfileService.addNewProfile(formdata);
     console.log(result);
-    this.redirectToHome();
+    return this.redirectToHome();
     // this.props.history.push("/");
   };
 
   redirectToHome = () => {
-    const { history } = this.props;
-    if(history) history.push('/');
+    return window.location.href='/profileSetup';
    }
 
   handleNext = () => {
