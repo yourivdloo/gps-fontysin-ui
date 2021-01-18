@@ -41,10 +41,6 @@ const styles = StyleSheet.create({
     },
 });
 
-// function getData(name, subtitle, email) => (
-//     this.name = name,
-//     this.subtitle = subtitle
-// )
 class header extends React.Component {
     constructor(props) {
         super(props);

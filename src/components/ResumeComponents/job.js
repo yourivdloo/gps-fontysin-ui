@@ -64,10 +64,6 @@ const styles = StyleSheet.create({
     },
 });
 
-function name(props){
-render()
-return("test")
-}
 const JobEntry = ({ company, position, date }) => {
     const title = `${company} | ${position}`;
     return (
@@ -95,12 +91,12 @@ class Jobs extends React.Component {
         return (
             <View style={styles.container}>
         <Title>Experience</Title>
-        {this.props.experience.map(experience => (
+        {this.props.job.map(job => (
             <JobEntry
-                company={experience.companyName}
-                date={experience.startDate}
-                key={experience.companyName + experience.name}
-                position={experience.name}
+                company={job.companyName}
+                date={job.startDate}
+                key={job.companyName + job.name}
+                position={job.name}
             />
         ))}
     </View>

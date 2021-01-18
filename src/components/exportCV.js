@@ -79,7 +79,7 @@ class ExportCV extends React.Component {
             email: "",
             phoneNo: "",
             education:[],
-            experience:[],
+            job:[],
         };
         this.getUserData = this.getUserData.bind(this);
         this.getUserData();
@@ -99,12 +99,12 @@ class ExportCV extends React.Component {
                 var email_address =Profile.emailAddress;
                 var phone_address = Profile.phoneNumber;
                 var studies = Profile.studies;
-                var experiences = Profile.jobs;
+                var jobs = Profile.jobs;
 
                 // putting everything in the state
-                this.setState({username: name, email: email_address, phoneNumber: phone_address, education: studies, experience: experiences,});
+                this.setState({username: name, email: email_address, phoneNumber: phone_address, education: studies, job: jobs,});
 
-                // console.log(this.state.userProfile);
+                console.log(this.state.userProfile);
             })
             .catch((error) => {
                 console.log("error 3 " + error);
@@ -120,7 +120,7 @@ class ExportCV extends React.Component {
                 email={this.state.email}
                 phoneNo={this.state.phoneNo}
                 education={this.state.education}
-                experience={this.state.experience}
+                job={this.state.job}
                 />} fileName="CVA4.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
@@ -128,7 +128,7 @@ class ExportCV extends React.Component {
                 </PDFDownloadLink>
                 <p></p>
                 DOWNLOAD PDF in landscape format:
-                <PDFDownloadLink document={<OutputLandscape username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} experience={this.state.experience}/>} fileName="CVLandscape.pdf">
+                <PDFDownloadLink document={<OutputLandscape username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job}/>} fileName="CVLandscape.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -136,7 +136,7 @@ class ExportCV extends React.Component {
                 <p></p>
 
                 DOWNLOAD PDF in 380 by 1250 format:
-                <PDFDownloadLink document={<Output380by1250 username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} experience={this.state.experience}/>} fileName="CV380by1250.pdf">
+                <PDFDownloadLink document={<Output380by1250 username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job}/>} fileName="CV380by1250.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -158,13 +158,14 @@ const Resume = (props) => (
                     src="https://www.indiewire.com/wp-content/uploads/2017/07/the-big-lebowski-e1520362797168.jpg" //TODO image doesn't work
                     style={styles.image}
                 />
+                {console.log("education " + props.education.school)}
                 <Education education={props.education}/>
                 <Skills/>
                 <Projects/>
 
             </View>
             {/*<Description/>*/}
-            <Job experience={props.experience}/>
+            <Job job={props.job}/>
             
         </View>
         <Text style={styles.footer}>footer</Text>
@@ -178,7 +179,7 @@ const OutputA4 = (props) => (
         subject="The resume of the Dude"
         title="Resume"
     >
-        <Resume size="A4" username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} experience={props.experience}/>
+        <Resume size="A4" username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job}/>
     </Document>
 );
 const OutputLandscape = (props) => (
@@ -189,7 +190,7 @@ const OutputLandscape = (props) => (
         title="Resume"
     >
         <Resume orientation="landscape" size="A4" username={props.username} email={props.email}
-                phoneNo={props.phoneNo} education={props.education} experience={props.experience}/>
+                phoneNo={props.phoneNo} education={props.education} job={props.job}/>
     </Document>
 );
 const Output380by1250 = (props) => (
@@ -199,7 +200,7 @@ const Output380by1250 = (props) => (
         subject="The resume of the Dude"
         title="Resume"
     >
-        <Resume size={[380, 1250]} username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} experience={props.experience}/>
+        <Resume size={[380, 1250]} username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job}/>
     </Document>
 );
 
