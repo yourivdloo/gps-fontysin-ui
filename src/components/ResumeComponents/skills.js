@@ -38,7 +38,6 @@ const SkillEntry = ({ name, skills }) => (
     </View>
 );
 
-
 const Skills = () => (
     <View>
         <Title style={styles.bold}>Skills</Title>

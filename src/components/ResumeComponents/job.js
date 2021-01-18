@@ -4,6 +4,7 @@ import Title from "./title";
 import List, { Item } from "./list";
 import { Text, View, StyleSheet } from  "@react-pdf/renderer";
 import {withStyles} from "@material-ui/core/styles";
+import { render } from "@testing-library/react";
 
 const styles = StyleSheet.create({
     container: {
@@ -63,7 +64,11 @@ const styles = StyleSheet.create({
     },
 });
 
-const ExperienceEntry = ({ company, details, position, date }) => {
+function name(props){
+render()
+return("test")
+}
+const JobEntry = ({ company, position, date }) => {
     const title = `${company} | ${position}`;
     return (
         <View style={styles.entryContainer}>
@@ -75,50 +80,32 @@ const ExperienceEntry = ({ company, details, position, date }) => {
                     <Text style={styles.date}>{date}</Text>
                 </View>
             </View>
-            <List>
-                {details.map((detail, i) => (
-                    <Item key={i} style={styles.detailContainer}>
-                        {detail}
-                    </Item>
-                ))}
-            </List>
         </View>
     );
 };
+class Jobs extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            styles: styles,
+        }
+    }
 
-const experienceData = [
-    {
-        company: 'Philips',
-        date: '04.04.2019',
-        details: [
-            'First internship at Philips doing machine learning',
-            'Working with data set validation',
-        ],
-        position: 'Intern',
-    },
-    {
-        company: 'VDL',
-        date: '01.06.2017',
-        details: [
-            'Blue collar summer job at VDL as an electrician',
-        ],
-        position: 'Vehicle technician',
-    },
-];
-
-const Experience = () => (
-    <View style={styles.container}>
+    render() {
+        return (
+            <View style={styles.container}>
         <Title>Experience</Title>
-        {experienceData.map(({ company, date, details, position }) => (
-            <ExperienceEntry
-                company={company}
-                date={date}
-                details={details}
-                key={company + position}
-                position={position}
+        {this.props.experience.map(experience => (
+            <JobEntry
+                company={experience.companyName}
+                date={experience.startDate}
+                key={experience.companyName + experience.name}
+                position={experience.name}
             />
         ))}
     </View>
-);
+        );
+    }
+}
 
-export default withStyles(styles)(Experience);
+export default Jobs;

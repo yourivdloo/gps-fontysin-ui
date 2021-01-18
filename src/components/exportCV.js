@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ReactPDF, {PDFDownloadLink, Text, Document, Font, Page, StyleSheet, Image, View,} from "@react-pdf/renderer"
+import ReactPDF,  {PDFDownloadLink, Text, Document, Font, Page, StyleSheet, Image, View,} from "@react-pdf/renderer"
 import Header from "./ResumeComponents/header"
 import Education from "./ResumeComponents/education"
-import Experience from "./ResumeComponents/experience"
+import Job from "./ResumeComponents/job"
 import Skills from "./ResumeComponents/skills"
 import Description from "./ResumeComponents/description"
 import Projects from "./ResumeComponents/projects"
@@ -74,13 +74,16 @@ class ExportCV extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userProfile: new UserProfile(),
+            userProfile: null,
             username: "",
             email: "",
+            phoneNo: "",
+            education:[],
+            experience:[],
         };
         this.getUserData = this.getUserData.bind(this);
         this.getUserData();
-        console.log(this.state.username);
+        // console.log(this.state.username);
     }
 
     getUserData() {
@@ -88,52 +91,44 @@ class ExportCV extends React.Component {
             .then((response) => {
                 var Profile = new UserProfile();
                 Profile.loadFromObject(response);
-
                 this.setState({userProfile: Profile});
+                // setting up local variables containing the data from the back-end
+                
+                var name = Profile.fullName;
+// From User
+                var email_address =Profile.emailAddress;
+                var phone_address = Profile.phoneNumber;
+                var studies = Profile.studies;
+                var experiences = Profile.jobs;
 
-                var name = "";
-                if (this.state.userProfile.prefix.trim() !== "") {
-                    name =
-                        this.state.userProfile.firstName +
-                        " " +
-                        this.state.userProfile.prefix +
-                        " " +
-                        this.state.userProfile.lastName;
-                } else {
-                    name =
-                        this.state.userProfile.firstName +
-                        " " +
-                        this.state.userProfile.lastName;
-                }
+                // putting everything in the state
+                this.setState({username: name, email: email_address, phoneNumber: phone_address, education: studies, experience: experiences,});
 
-
-                var email_address = "";
-                email_address = this.state.userProfile.emailAddress;
-
-                this.setState({username: name, email: email_address});
-
-                console.log(this.state.email_Address);
-                console.log(this.state.email);
-
-
+                // console.log(this.state.userProfile);
             })
             .catch((error) => {
                 console.log("error 3 " + error);
             });
     }
-
+// make a variable to contain one instance of the details passed to the PDFDownloadLink
     render() {
         return (
             <Document>
                 DOWNLOAD PDF in A4 format:
-                <PDFDownloadLink document={<OutputA4 username={this.state.username} email={this.state.email}/>} fileName="CVA4.pdf">
+                <PDFDownloadLink document={<OutputA4 
+                username={this.state.username} 
+                email={this.state.email}
+                phoneNo={this.state.phoneNo}
+                education={this.state.education}
+                experience={this.state.experience}
+                />} fileName="CVA4.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
                 </PDFDownloadLink>
                 <p></p>
                 DOWNLOAD PDF in landscape format:
-                <PDFDownloadLink document={<OutputLandscape username={this.state.username} email={this.state.email}/>} fileName="CVLandscape.pdf">
+                <PDFDownloadLink document={<OutputLandscape username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} experience={this.state.experience}/>} fileName="CVLandscape.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -141,7 +136,7 @@ class ExportCV extends React.Component {
                 <p></p>
 
                 DOWNLOAD PDF in 380 by 1250 format:
-                <PDFDownloadLink document={<Output380by1250 username={this.state.username} email={this.state.email}/>} fileName="CV380by1250.pdf">
+                <PDFDownloadLink document={<Output380by1250 username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} experience={this.state.experience}/>} fileName="CV380by1250.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -151,60 +146,62 @@ class ExportCV extends React.Component {
     }
 }
 
-    const Resume = (props) => (
+const Resume = (props) => (
 
-        <Page {...props} style={styles.page}>
-            <Header username={props.username} email={props.email}/>
+    <Page style={styles.page}>
+        {/* {console.log(props)} */}
+        <Header username={props.username} email={props.email} phoneNo={props.phoneNo}/>
 
-            <View style={styles.container}>
-                <View style={styles.leftColumn}>
-                    <Image
-                        src="https://www.indiewire.com/wp-content/uploads/2017/07/the-big-lebowski-e1520362797168.jpg" //Not showing up
-                        style={styles.image}
-                    />
-                    <Description/>
-                    <Education/>
-                    <Skills/>
-                    <Projects/>
+        <View style={styles.container}>
+            <View style={styles.leftColumn}>
+                <Image
+                    src="https://www.indiewire.com/wp-content/uploads/2017/07/the-big-lebowski-e1520362797168.jpg" //TODO image doesn't work
+                    style={styles.image}
+                />
+                <Education education={props.education}/>
+                <Skills/>
+                <Projects/>
 
-                </View>
-                <Experience/>
             </View>
-            <Text style={styles.footer}>footer</Text>
-        </Page>
-    );
+            {/*<Description/>*/}
+            <Job experience={props.experience}/>
+            
+        </View>
+        <Text style={styles.footer}>footer</Text>
+    </Page>
+);
 // Page output in different formats
-    const OutputA4 = (props) => (
-        <Document
-            author="Dude"
-            keywords="Cool resume bro, resume"
-            subject="The resume of the Dude"
-            title="Resume"
-        >
-            <Resume size="A4" username={props.username} email={props.email}/>
-        </Document>
-    );
-    const OutputLandscape = (props) => (
-        <Document
-            author="Dude"
-            keywords="Cool resume bro, resume"
-            subject="The resume of the Dude"
-            title="Resume"
-        >
-            <Resume orientation="landscape" size="A4" username={props.username} email={props.email}/>
-        </Document>
-    );
-    const Output380by1250 = (props) => (
-        <Document
-            author="Dude"
-            keywords="Cool resume bro, resume"
-            subject="The resume of the Dude"
-            title="Resume"
-        >
-            <Resume size={[380, 1250]} username={props.username} email={props.email}/>
-        </Document>
-    );
-
+const OutputA4 = (props) => (
+    <Document
+        author="Dude"
+        keywords="Cool resume bro, resume"
+        subject="The resume of the Dude"
+        title="Resume"
+    >
+        <Resume size="A4" username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} experience={props.experience}/>
+    </Document>
+);
+const OutputLandscape = (props) => (
+    <Document
+        author="Dude"
+        keywords="Cool resume bro, resume"
+        subject="The resume of the Dude"
+        title="Resume"
+    >
+        <Resume orientation="landscape" size="A4" username={props.username} email={props.email}
+                phoneNo={props.phoneNo} education={props.education} experience={props.experience}/>
+    </Document>
+);
+const Output380by1250 = (props) => (
+    <Document
+        author="Dude"
+        keywords="Cool resume bro, resume"
+        subject="The resume of the Dude"
+        title="Resume"
+    >
+        <Resume size={[380, 1250]} username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} experience={props.experience}/>
+    </Document>
+);
 
 
 export default withStyles(styles)(ExportCV)

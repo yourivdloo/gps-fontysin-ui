@@ -19,12 +19,25 @@ const styles = StyleSheet.create({
         fontSize: 10,
     },
 });
+class education extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            styles: styles
+        }
+        console.log(props);
+    }
 
-export default () => (
-    <View style={styles.container}>
-        <Title fontweight={'bold'}>Education</Title>
-        <Text style={styles.school}>Fontys ICT</Text>
-        <Text style={styles.degree}>Software stream</Text>
-        <Text style={styles.candidate}>01.08.2023</Text>
-    </View>
-);
+    render() {
+        return (
+            <View style={styles.container}>
+                <Title fontweight={'bold'}>Education</Title>
+                <Text style={styles.school}>{education.school}</Text>
+                {/* <Text style={styles.degree}>{education.name}</Text> */}
+                <Text style={styles.degree}>{education.city}</Text>
+                <Text style={styles.candidate}>{education.startDate}</Text>
+            </View>
+        );
+    }
+}
+export default education

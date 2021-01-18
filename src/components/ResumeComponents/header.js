@@ -49,7 +49,7 @@ class header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-
+        styles: styles
         }
         console.log(props);
     }
@@ -63,6 +63,8 @@ class header extends React.Component {
                 </View>
                 <View style={styles.linkColumn}>
                     <Link style={styles.link}>{this.props.email}</Link>
+                    <Link style={styles.link}>{this.props.phoneNo}</Link>
+
                 </View>
             </View>
         )
