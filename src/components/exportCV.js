@@ -40,11 +40,12 @@ const styles = StyleSheet.create({
         },
     },
     footer: {
-        fontSize: 12,
+        fontSize: 8,
         textAlign: 'center',
         marginTop: 25,
         paddingTop: 10,
-        borderWidth: 3,
+        paddingBottom: 10,
+        borderWidth: 1,
         borderColor: 'gray',
         borderStyle: 'dashed',
         '@media orientation: landscape': {
@@ -73,6 +74,7 @@ Font.register({
 class ExportCV extends React.Component {
     constructor(props) {
         super(props);
+        // ! Any new entry made in the state needs to be passed in the state below, then into getUserData(), then into the PDFDownloader section, then into the component where it will exist in the Resume(), and then in all the Output options 
         this.state = {
             userProfile: null,
             username: "",
@@ -80,6 +82,8 @@ class ExportCV extends React.Component {
             phoneNo: "",
             education:[],
             job:[],
+            projects:[],
+            skills: [],
         };
         this.getUserData = this.getUserData.bind(this);
         this.getUserData();
@@ -100,9 +104,11 @@ class ExportCV extends React.Component {
                 var phone_address = Profile.phoneNumber;
                 var studies = Profile.studies;
                 var jobs = Profile.jobs;
+                var projects = Profile.projects;
+                var skillss = Profile.skills;
 
                 // putting everything in the state
-                this.setState({username: name, email: email_address, phoneNumber: phone_address, education: studies, job: jobs,});
+                this.setState({username: name, email: email_address, phoneNumber: phone_address, education: studies, job: jobs, projects: projects, skills: skillss});
 
                 console.log(this.state.userProfile);
             })
@@ -120,7 +126,7 @@ class ExportCV extends React.Component {
                 email={this.state.email}
                 phoneNo={this.state.phoneNo}
                 education={this.state.education}
-                job={this.state.job}
+                job={this.state.job} projects={this.state.projects} skills={this.state.skills}
                 />} fileName="CVA4.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
@@ -128,7 +134,7 @@ class ExportCV extends React.Component {
                 </PDFDownloadLink>
                 <p></p>
                 DOWNLOAD PDF in landscape format:
-                <PDFDownloadLink document={<OutputLandscape username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job}/>} fileName="CVLandscape.pdf">
+                <PDFDownloadLink document={<OutputLandscape username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job} projects={this.state.projects} skills={this.state.skills}/>} fileName="CVLandscape.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -136,7 +142,7 @@ class ExportCV extends React.Component {
                 <p></p>
 
                 DOWNLOAD PDF in 380 by 1250 format:
-                <PDFDownloadLink document={<Output380by1250 username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job}/>} fileName="CV380by1250.pdf">
+                <PDFDownloadLink document={<Output380by1250 username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job} projects={this.state.projects} skills={this.state.skills}/>} fileName="CV380by1250.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -160,15 +166,15 @@ const Resume = (props) => (
                 />
                 {console.log("education " + props.education.school)}
                 <Education education={props.education}/>
-                <Skills/>
-                <Projects/>
+                <Skills skills={props.skills}/>
+                {/* <Projects projects={props.projects}/> */}
 
             </View>
             {/*<Description/>*/}
             <Job job={props.job}/>
             
         </View>
-        <Text style={styles.footer}>footer</Text>
+        <Text style={styles.footer}>Made with FontysIn</Text>
     </Page>
 );
 // Page output in different formats
@@ -179,7 +185,7 @@ const OutputA4 = (props) => (
         subject="The resume of the Dude"
         title="Resume"
     >
-        <Resume size="A4" username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job}/>
+        <Resume size="A4" username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job} projects={props.projects} skills={props.skills}/>
     </Document>
 );
 const OutputLandscape = (props) => (
@@ -190,7 +196,7 @@ const OutputLandscape = (props) => (
         title="Resume"
     >
         <Resume orientation="landscape" size="A4" username={props.username} email={props.email}
-                phoneNo={props.phoneNo} education={props.education} job={props.job}/>
+                phoneNo={props.phoneNo} education={props.education} job={props.job} projects={props.projects} skills={props.skills}/>
     </Document>
 );
 const Output380by1250 = (props) => (
@@ -200,7 +206,7 @@ const Output380by1250 = (props) => (
         subject="The resume of the Dude"
         title="Resume"
     >
-        <Resume size={[380, 1250]} username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job}/>
+        <Resume size={[380, 1250]} username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job} projects={props.projects} skills={props.skills}/>
     </Document>
 );
 

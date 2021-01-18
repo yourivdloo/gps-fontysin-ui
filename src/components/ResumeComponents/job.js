@@ -2,8 +2,8 @@ import React from "react";
 
 import Title from "./title";
 import List, { Item } from "./list";
-import { Text, View, StyleSheet } from  "@react-pdf/renderer";
-import {withStyles} from "@material-ui/core/styles";
+import { Text, View, StyleSheet } from "@react-pdf/renderer";
+import { withStyles } from "@material-ui/core/styles";
 import { render } from "@testing-library/react";
 
 const styles = StyleSheet.create({
@@ -90,16 +90,16 @@ class Jobs extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-        <Title>Experience</Title>
-        {this.props.job.map(job => (
-            <JobEntry
-                company={job.companyName}
-                date={job.startDate}
-                key={job.companyName + job.name}
-                position={job.name}
-            />
-        ))}
-    </View>
+                <Title>Experience</Title>
+                {this.props.job.map(job => (
+                    <JobEntry
+                        company={job.companyName}
+                        date={job.startDate}
+                        key={job.companyName + job.name}
+                        position={job.name}
+                    />
+                ))}
+            </View>
         );
     }
 }
