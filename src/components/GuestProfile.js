@@ -136,9 +136,9 @@ class GuestProfile extends React.Component {
       userProfile: new UserProfile(),
       username: "",
     };
-    // this.state.pcn === null || this.state.pcn === undefined ?
-    //   this.getUserData():
-    //   this.getUserDataByPcn();
+    this.state.pcn === null || this.state.pcn === undefined ?
+      this.getUserData():
+      this.getUserDataByPcn();
     this.getUserDataByPcn = this.getUserDataByPcn.bind(this);
   }
   
