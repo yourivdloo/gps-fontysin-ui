@@ -238,13 +238,11 @@ class Chat extends PureComponent {
                       <div className="form-group">
                         <div className="input-group clearfix">
                           <input type="text" onKeyDown={(e) => this.onKeyDown(e)} onChange={(e) => this.onChange(e)} id="message" placeholder="Type a message..." value={this.state.message} className="form-control" />
-                          <Button color={"secondary"} type="submit" onClick={this.sendMessage} className="btn btn-primary">Send</Button>
-                          {/* <button type="submit" onClick={this.sendMessage} className="btn btn-primary">Send</button> */}
+                          <Button color={"secondary"} variant="contained" type="submit" onClick={this.sendMessage}>Send</Button>
                         </div>
                       </div>
                   </div>
                 </div>
-
               </div>
             </Grid>
          </Grid>

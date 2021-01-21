@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import {FileCopy, AddCircle, People} from "@material-ui/icons";
 import { withRouter } from "react-router-dom";
 import ChatIcon from '@material-ui/icons/Chat';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const styles = (theme) => ({
     root: {
@@ -119,7 +120,7 @@ class home extends React.Component {
                             </CardContent>
                             <CardActions className={classes.cardActions}>
                                 <Button size="large" color={"secondary"} variant="contained"
-                                    startIcon={<ChatIcon/>} onClick={()=> window.location.href="/settings"}>Change personal settings </Button>
+                                    startIcon={<SettingsIcon/>} onClick={()=> window.location.href="/settings"}>Change personal settings </Button>
                             </CardActions>
                         </Card>
                     </div>
@@ -136,7 +137,7 @@ class home extends React.Component {
                             </CardContent>
                             <CardActions className={classes.cardActions}>
                                 <Button size="large" color={"secondary"} variant={"contained"}
-                                    startIcon={<People/>} onClick={()=> window.location.href="/chat"}> go to chat</Button>
+                                    startIcon={<ChatIcon/>} onClick={()=> window.location.href="/chat"}> go to chat</Button>
                             </CardActions>
                         </Card>
                     </div>

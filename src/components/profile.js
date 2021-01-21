@@ -629,7 +629,6 @@ class profile extends React.Component {
                 {this.state.formData.lastName}, {this.state.formData.firstName} {" "}
                 {this.state.formData.prefix}
               </Typography>
-              <Typography>Information about the user</Typography>
             </CardContent>
             <div className={classes.cardActions}>
               <SaveIcon
