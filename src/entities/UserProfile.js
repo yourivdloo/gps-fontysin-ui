@@ -2,6 +2,7 @@
 class UserProfile {
     pcn = 0;
     firstName = "";
+    fullName="";
     prefix = "";
     lastName = "";
     emailAddress = "";
@@ -40,6 +41,7 @@ class UserProfile {
     loadFromObject(object){
         this.pcn = object.pcn;
         this.firstName = object.firstName;
+        this.fullName = object.fullName;
         this.prefix = object.prefix;
         this.lastName = object.lastName;
         this.emailAddress = object.emailAddress;

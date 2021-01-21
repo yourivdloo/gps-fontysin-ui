@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         bold: { fontWeight: 'bold' },
     },
-    skills: {
+    hobbies: {
         // fontFamily: 'Lato',
         fontSize: 10,
         marginBottom: 10,
@@ -26,7 +26,7 @@ Font.register({
     family: 'Lato Bold',
     src: `${__dirname}/fonts/Lato/Lato-Bold.ttf`,
 });
-const SkillEntry = ({ name, details }) => (
+const HobbyEntry = ({ name, details }) => (
     <View>
         <Text style={styles.title}>{name}</Text>
         <List>
@@ -37,7 +37,8 @@ const SkillEntry = ({ name, details }) => (
     </View>
 );
 
-class Skills extends React.Component {
+
+class Hobbies extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,16 +48,16 @@ class Skills extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Title style={styles.bold} fontweight={'bold'}>Skills</Title>
-                {this.props.skills.map(skills => (
-                    <SkillEntry
-                        name={skills.name}
-                        details={skills.details}
-                        key={skills.name}
+                <Title style={styles.bold} fontweight={'bold'}>Hobbies</Title>
+                {this.props.hobbies.map(hobbies => (
+                    <HobbyEntry
+                        name={hobbies.name}
+                        details={hobbies.details}
+                        key={hobbies.name}
                     />
                 ))}
             </View>
         );
     }
 }
-export default Skills;
+export default Hobbies;

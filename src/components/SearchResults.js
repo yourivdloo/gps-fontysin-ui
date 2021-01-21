@@ -78,13 +78,13 @@ function SearchResults(props) {
           <Typography component="h1" variant="h4" className={classes.firstName} align="center" color="textPrimary" gutterBottom>
         
             {results.length === 1 ? 
-            <div>
+            <span>
             Found {results.length} result for '{props.match.params.query}'
-            </div>
+            </span>
             :
-            <div>
+            <span>
             Found {results.length} results for '{props.match.params.query}'
-            </div>
+            </span>
             }
 
             </Typography>
@@ -107,12 +107,12 @@ function SearchResults(props) {
                     </Typography>
                     <Typography>
                       {card.isStudent ? 
-                    <div>
+                    <span>
                         Student
-                    </div>  :
-                    <div>
+                    </span>  :
+                    <span>
                         Teacher
-                    </div>
+                    </span>
                     }
                     </Typography>
                   </CardContent>

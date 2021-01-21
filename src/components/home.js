@@ -5,9 +5,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import {FileCopy, AddCircle, People, EmojiPeople} from "@material-ui/icons";
+import {FileCopy, AddCircle, People} from "@material-ui/icons";
 import { withRouter } from "react-router-dom";
-
+import ChatIcon from '@material-ui/icons/Chat';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const styles = (theme) => ({
     root: {
@@ -28,34 +29,19 @@ const styles = (theme) => ({
         paddingBottom: theme.spacing(8),
     },
     card: {
-        // height: '100%',
-        // display: 'flex',
-        // flexDirection: 'column',
-        // raised: true,
-        // outlineStyle: "bold",
-        // boxShadow: theme,
         height: 260,
         textAlign: 'center',
         marginTop: 10,
         marginBottom: 10,
     },
     cardActions: {
-        // height: '100%',
-        // display: 'flex',
-        // flexDirection: 'column',
-        // raised: true,
-        // outlineStyle: "bold",
-        // boxShadow: theme,
         display: 'block',
     },
     cardMedia: {
-        paddingTop: '56.25%', // 16:9
+        paddingTop: '56.25%', 
     },
     cardContent: {
-        // flexGrow: 1,
-        // backgroundColor: red,
         minHeight: 175,
-        // height: "75%"
     },
     title: {
         fontSize: 14,
@@ -71,10 +57,7 @@ const styles = (theme) => ({
     },
 
 });
-// function autoGrid=() =>{
-//     const classes = useStyles();
-//
-// }
+
 
 class home extends React.Component {
     constructor(props){
@@ -84,7 +67,7 @@ class home extends React.Component {
     render() {
         const{history} = this.props;
         const {classes} = this.props;
-        // const cardContentColour = '#f0f' (#rgb);
+
         return (
             <div className={classes.root, "container"}>
                 <div className="row" >
@@ -92,13 +75,13 @@ class home extends React.Component {
                         <Card className={classes.card} variant="outlined" style={{backgroundColor: '#8D5C97', color: "#ffffff", height: "unset"}}>
                             <CardContent className={classes.cardContent}>
                                 <Typography variant="h3" component="h2">
-                                    Welcome to FontysIn
+                                    Welcome to FontysIN
                                 </Typography>
                                 <Typography variant="h4" className={classes.pos} >
                                     The place where you can get to know each other
                                 </Typography>
                                 <Typography variant="body2" component="p">
-                                    FontysIn is a LinkedIn-like platform, only for Fontys students and teachers! It provides a safe environment to show your skills to the Fontys world.
+                                    FontysIN is a LinkedIn-like platform, only for Fontys students and teachers! It provides a safe environment to show your skills to the Fontys world.
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -137,7 +120,7 @@ class home extends React.Component {
                             </CardContent>
                             <CardActions className={classes.cardActions}>
                                 <Button size="large" color={"secondary"} variant="contained"
-                                    startIcon={<EmojiPeople/>} onClick={()=> window.location.href="/settings"}>Change personal settings </Button>
+                                    startIcon={<SettingsIcon/>} onClick={()=> window.location.href="/settings"}>Change personal settings </Button>
                             </CardActions>
                         </Card>
                     </div>
@@ -154,7 +137,7 @@ class home extends React.Component {
                             </CardContent>
                             <CardActions className={classes.cardActions}>
                                 <Button size="large" color={"secondary"} variant={"contained"}
-                                    startIcon={<People/>} onClick={()=> window.location.href="/chat"}> go to chat</Button>
+                                    startIcon={<ChatIcon/>} onClick={()=> window.location.href="/chat"}> go to chat</Button>
                             </CardActions>
                         </Card>
                     </div>
