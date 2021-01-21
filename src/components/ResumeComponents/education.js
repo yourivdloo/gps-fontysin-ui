@@ -53,14 +53,14 @@ class Education extends React.Component {
             <View style={styles.container}>
                 <Title fontweight={'bold'}>Education</Title>
                 {this.props.education.map(education => (
-            <EducationEntry
-                school={education.school}
-                startDate={education.startDate}
-                key={education.school + education.name}
-                city={education.city}
-                name={education.name}
-            />
-        ))}
+                    <EducationEntry
+                        school={education.school}
+                        startDate={education.startDate}
+                        key={education.school + education.name}
+                        city={education.city}
+                        name={education.name}
+                    />
+                ))}
             </View>
         );
     }

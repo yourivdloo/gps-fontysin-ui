@@ -3,7 +3,6 @@ import React from 'react';
 import Title from './title';
 import List, { Item } from './list';
 import { Text, View, StyleSheet, Font } from "@react-pdf/renderer";
-import UserProfileService from "../../services/UserProfileService";
 
 const styles = StyleSheet.create({
     title: {
@@ -41,7 +40,8 @@ class Projects extends React.Component {
         super(props);
         this.state = {
             styles: styles
-        }    }
+        }
+    }
     render() {
         return (
             <View style={styles.container}>

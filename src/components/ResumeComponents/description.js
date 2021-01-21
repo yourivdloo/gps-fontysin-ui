@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Title from './title';
-import List, {Item} from './list';
-import {Text, View, StyleSheet, Font, Link} from "@react-pdf/renderer";
+import List, { Item } from './list';
+import { Text, View, StyleSheet, Font, Link } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
     container: {

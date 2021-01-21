@@ -3,8 +3,6 @@ import React from "react";
 import Title from "./title";
 import List, { Item } from "./list";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
-import { withStyles } from "@material-ui/core/styles";
-import { render } from "@testing-library/react";
 
 const styles = StyleSheet.create({
     container: {

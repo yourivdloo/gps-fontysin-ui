@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Link, Text, View, StyleSheet} from "@react-pdf/renderer";
+import { Link, Text, View, StyleSheet } from "@react-pdf/renderer";
 
 
 const styles = StyleSheet.create({
@@ -45,7 +45,7 @@ class header extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        styles: styles
+            styles: styles
         }
         console.log(props);
     }
