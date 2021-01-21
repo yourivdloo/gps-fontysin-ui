@@ -25,15 +25,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ede3fab-7c29-448c-9690-22b40ec4e4fe" name="Default Changelist" comment="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/description.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/description.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/education.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/education.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/experience.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/experience.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/skills.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/skills.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/exportCV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/exportCV.js" afterDir="false" />
-    </list>
+    <list default="true" id="2ede3fab-7c29-448c-9690-22b40ec4e4fe" name="Default Changelist" comment="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -117,6 +109,7 @@
       <workItem from="1610877230604" duration="692000" />
       <workItem from="1610880519991" duration="647000" />
       <workItem from="1610957145595" duration="3775000" />
+      <workItem from="1611217239187" duration="214000" />
     </task>
     <task id="LOCAL-00001" summary="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
       <created>1605703648342</created>

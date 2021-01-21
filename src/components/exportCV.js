@@ -5,11 +5,14 @@ import Header from "./ResumeComponents/header"
 import Education from "./ResumeComponents/education"
 import Job from "./ResumeComponents/job"
 import Skills from "./ResumeComponents/skills"
+import Interests from "./ResumeComponents/interests"
+import Hobbies from "./ResumeComponents/hobbies"
 import Description from "./ResumeComponents/description"
 import Projects from "./ResumeComponents/projects"
 import {withStyles} from "@material-ui/core/styles";
 import UserProfile from "./../entities/UserProfile";
 import UserProfileService from "../services/UserProfileService";
+
 
 
 const styles = StyleSheet.create({
@@ -84,6 +87,8 @@ class ExportCV extends React.Component {
             job:[],
             projects:[],
             skills: [],
+            interests: [],
+            hobbies: [],
         };
         this.getUserData = this.getUserData.bind(this);
         this.getUserData();
@@ -105,10 +110,12 @@ class ExportCV extends React.Component {
                 var studies = Profile.studies;
                 var jobs = Profile.jobs;
                 var projects = Profile.projects;
-                var skillss = Profile.skills;
+                var skills = Profile.skills;
+                var interests = Profile.interests;
+                var hobbies = Profile.hobbies;
 
                 // putting everything in the state
-                this.setState({username: name, email: email_address, phoneNumber: phone_address, education: studies, job: jobs, projects: projects, skills: skillss});
+                this.setState({username: name, email: email_address, phoneNumber: phone_address, education: studies, job: jobs, projects: projects, skills: skills, interests: interests, hobbies: hobbies});
 
                 console.log(this.state.userProfile);
             })
@@ -127,6 +134,9 @@ class ExportCV extends React.Component {
                 phoneNo={this.state.phoneNo}
                 education={this.state.education}
                 job={this.state.job} projects={this.state.projects} skills={this.state.skills}
+                interests = {this.state.interests}
+                hobbies = {this.state.hobbies}
+
                 />} fileName="CVA4.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
@@ -134,7 +144,7 @@ class ExportCV extends React.Component {
                 </PDFDownloadLink>
                 <p></p>
                 DOWNLOAD PDF in landscape format:
-                <PDFDownloadLink document={<OutputLandscape username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job} projects={this.state.projects} skills={this.state.skills}/>} fileName="CVLandscape.pdf">
+                <PDFDownloadLink document={<OutputLandscape username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job} projects={this.state.projects} skills={this.state.skills} interests = {this.state.interests} hobbies = {this.state.hobbies}/>} fileName="CVLandscape.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -142,7 +152,7 @@ class ExportCV extends React.Component {
                 <p></p>
 
                 DOWNLOAD PDF in 380 by 1250 format:
-                <PDFDownloadLink document={<Output380by1250 username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job} projects={this.state.projects} skills={this.state.skills}/>} fileName="CV380by1250.pdf">
+                <PDFDownloadLink document={<Output380by1250 username={this.state.username} email={this.state.email} phoneNo={this.state.phoneNo} education={this.state.education} job={this.state.job} projects={this.state.projects} skills={this.state.skills} interests = {this.state.interests} hobbies = {this.state.hobbies}/>} fileName="CV380by1250.pdf">
                     {({blob, url, loading, error}) =>
                         loading ? "Loading document..." : "Download now!"
                     }
@@ -168,6 +178,8 @@ const Resume = (props) => (
                 <Education education={props.education}/>
                 <Skills skills={props.skills}/>
                 {/* <Projects projects={props.projects}/> */}
+                <Interests interests={props.interests}/>
+                <Hobbies hobbies={props.hobbies}/>
 
             </View>
             {/*<Description/>*/}
@@ -180,33 +192,33 @@ const Resume = (props) => (
 // Page output in different formats
 const OutputA4 = (props) => (
     <Document
-        author="Dude"
-        keywords="Cool resume bro, resume"
-        subject="The resume of the Dude"
+        author={props.username}
+        keywords="Resume"
+        subject="Resume"
         title="Resume"
     >
-        <Resume size="A4" username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job} projects={props.projects} skills={props.skills}/>
+        <Resume size="A4" username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job} projects={props.projects} skills={props.skills} interests = {props.interests} hobbies = {props.hobbies}/>
     </Document>
 );
 const OutputLandscape = (props) => (
     <Document
-        author="Dude"
-        keywords="Cool resume bro, resume"
-        subject="The resume of the Dude"
+        author={props.username}
+        keywords="Resume"
+        subject="Resume"
         title="Resume"
     >
         <Resume orientation="landscape" size="A4" username={props.username} email={props.email}
-                phoneNo={props.phoneNo} education={props.education} job={props.job} projects={props.projects} skills={props.skills}/>
+                phoneNo={props.phoneNo} education={props.education} job={props.job} projects={props.projects} skills={props.skills} interests = {props.interests} hobbies = {props.hobbies}/>
     </Document>
 );
 const Output380by1250 = (props) => (
     <Document
-        author="Dude"
-        keywords="Cool resume bro, resume"
-        subject="The resume of the Dude"
+        author={props.username}
+        keywords="Resume"
+        subject="Resume"
         title="Resume"
     >
-        <Resume size={[380, 1250]} username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job} projects={props.projects} skills={props.skills}/>
+        <Resume size={[380, 1250]} username={props.username} email={props.email} phoneNo={props.phoneNo} education={props.education} job={props.job} projects={props.projects} skills={props.skills} interests = {props.interests} hobbies = {props.hobbies}/>
     </Document>
 );
 
