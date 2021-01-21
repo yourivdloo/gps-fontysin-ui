@@ -1,22 +1,14 @@
 import axios from 'axios';
-import baseUrl from "./../globals/globalVariables"
+import baseUrl, {getHeader} from "./../globals/globalVariables"
 
 const USER_BASE_URL = baseUrl + "/api/user";
 const PROPERTY_BASE_URL = baseUrl + "/api/property";
-// const pcn = 123456; //non existent
-const pcn = 427540; // pcn jack
-// const pcn = 410078; //nynke
-// const pcn = 439772; //youri
-// const pcn = 414973; //olivier
-// const pcn = 438161; //pim
-// const pcn = 422773; //jayson
-// const pcn = localStorage.getItem('pcn');
 
 class UserProfileService{
     findAll(){
         return axios.get(USER_BASE_URL + "/all"); // returns UserProfile list
     }
-
+    
     async findByPcn(userPcn){
         var obj;
         await axios.get(USER_BASE_URL + "/" + userPcn).then(response =>{
@@ -31,26 +23,24 @@ class UserProfileService{
     }
 
     async searchByName(name){
-        var headers = this.getHeader();
+        var headers = getHeader();
 
         var obj;
 
-        await axios.get(USER_BASE_URL + "/search/" + name, {headers: headers})
+        return await axios.get(USER_BASE_URL + "/search/" + name, {headers: headers})
         .then(response => {
             console.log(response.data);
-            obj = response.data
+            var obj = response.data;
             console.log(obj);
             return obj;
         }).catch((e)=>{
             obj = [];
             console.log(obj);
         })
-
-        return obj;
     }
 
     async whoAmI(){
-        var headers = this.getHeader();
+        var headers = getHeader();
 
         return await axios.get(USER_BASE_URL + "/", { headers: headers })
         .then(response => {
@@ -68,7 +58,7 @@ class UserProfileService{
     }
 
     async existsByPcn(userPcn){
-        var headers = this.getHeader(userPcn);
+        var headers = getHeader(userPcn);
 
         await axios.get(USER_BASE_URL + "/" + userPcn, { headers: headers })
         .then(response => {
@@ -80,7 +70,7 @@ class UserProfileService{
     }
 
     addNewProfile(userProfile){
-        var headers = this.getHeader();
+        var headers = getHeader();
 
         return axios.post(USER_BASE_URL + "/new", userProfile, { headers: headers })
         .then(response => {
@@ -89,35 +79,21 @@ class UserProfileService{
     }
 
     async updateProperties(userProperties){
-        var headers = this.getHeader();
+        var headers = getHeader();
 
         return await axios.put(PROPERTY_BASE_URL + "/update", userProperties, { headers: headers }); 
     }
 
     async deleteProperties(deletedItems){
-        var headers = this.getHeader();
+        var headers = getHeader();
 
         return await axios.delete(PROPERTY_BASE_URL + "/delete", { headers: headers , data: deletedItems});
     }
 
     async updateSettings(userProfile){
-        var headers = this.getHeader();
+        var headers = getHeader();
 
         return await axios.put(USER_BASE_URL + "/" + userProfile.pcn, userProfile, { headers: headers });
-    }
-
-    getHeader(userPcn = false){
-        var header = {};
-
-        var currentPcn = userPcn ? userPcn : pcn;
-
-        if(baseUrl === "http://localhost:8080"){
-            header = {
-                'x-ms-client-principal-name': currentPcn + '@student.fontys.nl'
-            }
-        }
-
-        return header;
     }
 
 }

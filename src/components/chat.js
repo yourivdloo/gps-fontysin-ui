@@ -5,6 +5,7 @@ import Stomp from 'stompjs';
 import './../cssStyleSheets/chat.css'
 import baseUrl from "./../globals/globalVariables"
 import UserProfileService from '../services/UserProfileService';
+import Button from "@material-ui/core/Button";
 
 const ConnectionStates = {
   connecting: "Connecting...",
@@ -35,7 +36,6 @@ class Chat extends PureComponent {
 
     window.onbeforeunload = () => this.disconnect();
   }
-  
   
   componentDidMount() {
     const fetchData = async () => {
@@ -238,7 +238,8 @@ class Chat extends PureComponent {
                       <div className="form-group">
                         <div className="input-group clearfix">
                           <input type="text" onKeyDown={(e) => this.onKeyDown(e)} onChange={(e) => this.onChange(e)} id="message" placeholder="Type a message..." value={this.state.message} className="form-control" />
-                          <button type="submit" onClick={this.sendMessage} className="btn btn-primary">Send</button>
+                          <Button color={"secondary"} type="submit" onClick={this.sendMessage} className="btn btn-primary">Send</Button>
+                          {/* <button type="submit" onClick={this.sendMessage} className="btn btn-primary">Send</button> */}
                         </div>
                       </div>
                   </div>

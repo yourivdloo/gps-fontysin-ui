@@ -280,7 +280,7 @@ class ProfileSetup extends React.Component {
 
   redirectToHome = () => {
     return window.location.href='/profileSetup';
-   }
+  }
 
   handleNext = () => {
     this.setState({ activeStep: this.state.activeStep + 1 })

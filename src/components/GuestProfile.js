@@ -9,6 +9,8 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import EditIcon from "@material-ui/icons/Edit";
 import UserProfileService from "./../services/UserProfileService";
 import UserProfile from "./../entities/UserProfile";
+import ProjectService from "./../services/ProjectService";
+import CancelIcon from '@material-ui/icons/Cancel';
 
 const styles = (theme) => ({
   appBar: {
@@ -78,7 +80,6 @@ const styles = (theme) => ({
     height: "60px",
   },
   projectIcon: {
-    // width: '100%',
     height: "115px",
   },
   imgContainer: {
@@ -97,7 +98,6 @@ const styles = (theme) => ({
     float: "left",
     color: "#D0D0D0",
   },
-    // border: "2px solid #8D5C97",
     boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
     padding: "15px"
   }
@@ -134,6 +134,7 @@ class GuestProfile extends React.Component {
     this.state = {
       pcn: this.props.computedMatch.params.pcn,
       userProfile: new UserProfile(),
+      projects: [],
       username: "",
     };
     this.state.pcn === null || this.state.pcn === undefined ?
@@ -146,6 +147,22 @@ class GuestProfile extends React.Component {
     this.state.pcn === null || this.state.pcn === undefined ?
       this.getUserData():
       this.getUserDataByPcn();
+
+    const fetchData = async (pcn) => {
+
+      var projects = [];
+      if(pcn === null || pcn === undefined){
+        projects = await ProjectService.findMyProjects();
+      }else{
+        projects = await ProjectService.findUserProjects(this.state.pcn);
+      }
+
+      return projects;
+    };
+
+    fetchData(this.state.pcn).then(response => {
+      this.setState({ projects: response });
+    });
   }
 
   getUserDataByPcn(){
@@ -249,6 +266,7 @@ class GuestProfile extends React.Component {
   render() {
     const { classes } = this.props;
     const userProfile = this.state.userProfile;
+    const projects = this.state.projects;
     const monthNames = [
       "Jan",
       "Feb",
@@ -287,7 +305,6 @@ class GuestProfile extends React.Component {
                     <Typography gutterBottom variant="h5" component="h4">
                       {this.state.username}
                     </Typography>
-                    <Typography>Information about the user</Typography>
                   </CardContent>
                   <div className={classes.cardActions}>
                     {this.state.pcn === null || this.state.pcn === undefined ? (
@@ -373,7 +390,6 @@ class GuestProfile extends React.Component {
                 </Typography>
 
                 {userProfile.studies.map((val, idx) => {
-                  // console.log(userProfile.studies);
                   var date1 = new Date(val.startDate);
                   var date2 =
                     val.endDate === null ? new Date() : new Date(val.endDate);
@@ -544,106 +560,64 @@ class GuestProfile extends React.Component {
           </Card>
 
           {/* projects */}
-          <Card className={classes.card}>
+          <Card className={classes.card} style={{ display: this.state.projects.length == 0 ? "None" : "block" }}>
             <Typography variant="h6" gutterBottom>
               Projects
             </Typography>
 
             <div className="row">
-              <div className="col-md-6" style={{ padding: "15px" }}>
-                {" "}
-                {/* add border */}
-                <div className={classes.proCardContent}>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <a href="link">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>project name</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className={classes.imgContainer}>
-                                <img
-                                  src={
-                                    process.env.PUBLIC_URL +
-                                    "/assets/github-small.png"
-                                  }
-                                  alt="no alt"
-                                  className={classes.projectIcon}
-                                />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </a>
-                    </div>
+              {projects.map((val, idx) => {
+                return (
+                  <div key={val.projectId + idx} className="col-md-6" style={{ padding: "15px" }}>
+                    {/* add border */}
+                    <div className={classes.proCardContent}>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <a href={val.url} target="_blank">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th>{val.name}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td className={classes.imgContainer}>
+                                    <img
+                                      src={
+                                        process.env.PUBLIC_URL +
+                                        "/assets/github-small.png"
+                                      }
+                                      alt="no alt"
+                                      className={classes.projectIcon}
+                                    />
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </a>
+                        </div>
 
-                    <div className="col-md-6">
-                      <Grid item md={12}>
-                        Collaberators
-                      </Grid>
-                      <Grid>
-                        <ul>
-                          <li>colaberator 1</li>
-                          <li>colaberator 2</li>
-                          <li>colaberator 3</li>
-                          <li>colaberator 4</li>
-                        </ul>
-                      </Grid>
+                        <div className="col-md-6">
+                          <Grid item md={12}>
+                            Collaberators
+                          </Grid>
+                          <Grid>
+                            <ul>
+                              {console.log(val)}
+                              {val.users.map((user, index) => {
+                                return (<li key={user.pcn}>{user.name}</li>);
+                              })}
+                            </ul>
+                          </Grid>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              <div className="col-md-6" style={{ padding: "15px" }}>
-                {" "}
-                {/* add border */}
-                <div className={classes.proCardContent}>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <a href="">
-                        <table>
-                          <thead>
-                            <tr>
-                              <th>project name</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className={classes.imgContainer}>
-                                <img
-                                  src={
-                                    process.env.PUBLIC_URL +
-                                    "/assets/github-small.png"
-                                  }
-                                  className={classes.projectIcon}
-                                />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </a>
-                    </div>
+                )
+              })}
 
-                    <div className="col-md-6">
-                      <Grid item md={12}>
-                        Collaberators
-                      </Grid>
-                      <Grid>
-                        <ul>
-                          <li>colaberator 1</li>
-                          <li>colaberator 2</li>
-                          <li>colaberator 3</li>
-                          <li>colaberator 4</li>
-                        </ul>
-                      </Grid>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </Card>
         </Grid>

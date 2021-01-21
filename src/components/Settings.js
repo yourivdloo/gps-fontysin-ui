@@ -67,9 +67,6 @@ const styles = (theme) => ({
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
         minHeight: "300px",
-        // color: green[400], //radio button
-        // '&$checked': {
-        //     color: green[600],
     },
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
@@ -110,13 +107,7 @@ const styles = (theme) => ({
         marginRight: '10px',
     }
 });
-// export default function VerticalTabs() {
-//     const classes = useStyles();
-//     const [value, setValue] = React.useState(0);
-//
-//     const handleChange = (event, newValue) => {
-//         setValue(newValue);
-//     };
+
 const personalData = Object({
         description: "",
         address: "",
@@ -134,7 +125,7 @@ class Settings extends React.Component {
         super(props);
         this.state = {
                 value: 0,
-                tabValue: this.props.computedMatch.params.index, //TODO issue with the first load of the page, page is blank and the tab has to be selected
+                tabValue: this.props.computedMatch.params.index, 
                 phone: "",
                 adress: "",
                 zipcode: "",
@@ -218,8 +209,6 @@ class Settings extends React.Component {
     render() {
         const {classes} = this.props;
         const tabSteps = ["Personal Details", "Profile visibility"];
-        // const classes = styles();
-        // const [value, setValue] = React.useState(0);
         return (
             <main className={classes.layout}>
             <Paper className={classes.paper}>
@@ -236,12 +225,8 @@ class Settings extends React.Component {
                     <LinkTab label={tabSteps[1]} {...a11yProps(1)} />
                 </Tabs>
 
-                <TabPanel value={this.state.tabValue} index={0}> {/* Account preferences tab*/}
+                <TabPanel value={this.state.tabValue} index={0}> 
                     <Grid item xs={12} md={12} style={{textAlign: "left"}}>
-                        {/* <h2>Edit your profile description</h2> */}
-                        {/* <TextField id="descriptionField" placeholder={"Write a description"} variant="filled"
-                                   multiline inputProps={{rowsMax: 15, maxLength: 200}}/> Description */}
-                        {/* <br/> */}
                         <MuiPhoneNumber
                             name="phone"
                             label="Phone number"
@@ -284,7 +269,7 @@ class Settings extends React.Component {
                     </Grid>
                 </TabPanel>
 
-                <TabPanel value={this.state.tabValue} index={1}>{/*Visibility*/}
+                <TabPanel value={this.state.tabValue} index={1}>
                     <FormControl component="fieldset">
                         <FormLabel component="legend">Change profile visibility</FormLabel>
                         <p>Determines the way profiles will be indexed through the search engine.</p>
@@ -292,17 +277,14 @@ class Settings extends React.Component {
                                     onChange={this.handleChange}>
                             <FormControlLabel value={0} control={<Radio/>} label="Public" checked={this.state.privacySettings == 0 ? true : false} onChange={this.handlePrivacyChange}/>
                             <FormControlLabel value={1} control={<Radio/>} label="Private" checked={this.state.privacySettings == 1 ? true : false} onChange={this.handlePrivacyChange}/>
-                            {/* <FormControlLabel value="2 (Can be found by name or study)" control={<Radio/>} label="Private"/>
-                            <FormControlLabel value="3 (Can be found by name, study and skills)" control={<Radio/>} label="Private"/> */}
-
                         </RadioGroup>
                     </FormControl>
                 </TabPanel>
                 </div>
             </Paper>
             <center>
-            <Button variant="contained" className={classes.button} color="primary" disabled={this.state.disconnected} onClick={this.handleSubmit}>Save changes</Button>
             <Button variant="contained" className={classes.button} color="secondary" onClick={() => window.location.replace("/guestprofile")}>Cancel</Button>
+            <Button variant="contained" className={classes.button} color="primary" disabled={this.state.disconnected} onClick={this.handleSubmit}>Save changes</Button>
             </center>
             </main>
             
