@@ -25,11 +25,7 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ede3fab-7c29-448c-9690-22b40ec4e4fe" name="Default Changelist" comment="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ResumeComponents/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ResumeComponents/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/exportCV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/exportCV.js" afterDir="false" />
-    </list>
+    <list default="true" id="2ede3fab-7c29-448c-9690-22b40ec4e4fe" name="Default Changelist" comment="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -107,7 +103,13 @@
       <workItem from="1610365812685" duration="10957000" />
       <workItem from="1610525806481" duration="3103000" />
       <workItem from="1610528983907" duration="2861000" />
-      <workItem from="1610612372265" duration="23936000" />
+      <workItem from="1610612372265" duration="29262000" />
+      <workItem from="1610796154392" duration="6873000" />
+      <workItem from="1610826543401" duration="13000" />
+      <workItem from="1610877230604" duration="692000" />
+      <workItem from="1610880519991" duration="647000" />
+      <workItem from="1610957145595" duration="3775000" />
+      <workItem from="1611217239187" duration="214000" />
     </task>
     <task id="LOCAL-00001" summary="Skills now has input fields that should be able to be removed, can and will be extended to the two other tabs, however navigation between those tabs is still not functioning.">
       <created>1605703648342</created>
@@ -155,10 +157,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="704" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610375574580" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1610529840424">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1610957549069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610529840424" />
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610957549069" />
     <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1604938958901">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -175,10 +177,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1604938958900" />
-    <state x="922" y="165" key="SettingsEditor" timestamp="1605874562324">
+    <state x="922" y="165" key="SettingsEditor" timestamp="1610644678881">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="922" y="165" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605874562324" />
+    <state x="922" y="165" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610644678881" />
     <state x="552" y="240" key="Vcs.Push.Dialog.v2" timestamp="1605703764477">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -187,14 +189,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1605697464229" />
-    <state x="-783" y="309" width="1698" height="1027" key="dock-window-1" timestamp="1610634884554">
+    <state x="355" y="323" width="1698" height="1027" key="dock-window-1" timestamp="1610643839671">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="-783" y="309" width="1698" height="1027" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610634884554" />
-    <state x="-7" y="0" width="974" height="1047" key="dock-window-2" timestamp="1610634884554">
+    <state x="355" y="323" width="1698" height="1027" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610643839671" />
+    <state x="1265" y="55" width="735" height="1026" key="dock-window-2" timestamp="1610643839671">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="-7" y="0" width="974" height="1047" key="dock-window-2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610634884554" />
+    <state x="1265" y="55" width="735" height="1026" key="dock-window-2/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610643839671" />
+    <state x="954" y="0" width="982" height="1026" key="dock-window-3" timestamp="1610644121445">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="954" y="0" width="982" height="1026" key="dock-window-3/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610644121445" />
     <state x="976" y="123" width="585" height="801" key="find.popup" timestamp="1610633769715">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -203,9 +209,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610639644732" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1610617011552">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1610644672915">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610617011552" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1610644672915" />
   </component>
 </project>
